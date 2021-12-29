@@ -1,0 +1,242 @@
+
+
+.create-classrom-form {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 1rem 2rem;
+    @media (max-width:650px) {
+        grid-template-columns: repeat(1,1fr);
+    }
+    .create-classroom-field {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        .lable-classroom {
+            min-width: 95px;
+            label {
+                font-size: 18px;
+                font-weight: 500;
+                color: #7A7A7A;
+                @media (max-width:450px) {
+                    font-size: 16px;
+                }
+            }
+        }
+        .input-field-classroom {
+            width: 100%;
+            input {
+                width: 100%;
+                background-color: #F4F4F4;
+                border: none;
+                padding: 0.6rem;
+            }
+        }
+        .datepicker-input {
+            position: relative;
+            &::before{
+                content: "";
+                position: absolute;
+                background-image: url("../../images/date.svg");
+                background-size: contain;
+                width: 22px;
+                height: 22px;
+                z-index: 1;
+                top: 7px;
+                right: 7px;
+                background-repeat: no-repeat;
+            }
+            input {
+                position: relative;
+                &[value] {
+                    font-style: italic;
+                    font-size: 14px;
+                    color: #7A7A7A;
+                }
+            }
+        }
+        .teacher-select-input {
+            &> div{
+                &> div {
+                    border: none;
+                    background-color: #f4f4f4;
+                    .css-1okebmr-indicatorSeparator {
+                        width: 0px;
+                    }
+                }
+            }
+        }
+    }
+}
+.create-classrom-form-grid {
+    .grid-- {
+        @media (max-width:1250px) {
+            grid-column: span 3;
+        }
+    }
+}
+.crete-classroom-grid {
+    justify-self: center;
+    align-self: end;
+    @media (max-width:1250px) {
+        grid-column: span 3;
+        justify-self: center;
+        align-self: center;
+    }
+    .crete-classroom-btn-container {
+        .btn-create {
+            background: #FFFFFF;
+            border: 1px solid $orange;
+            font-size: 14px;
+            font-weight: 500;
+            color: $orange;
+            border-radius: 25px;
+            width: auto;
+            padding: 0.6rem 1.5rem;
+            transition: all 0.4s ease;
+            &:hover {
+                background-color: $orange;
+                color: $white;
+            }
+        }
+    }
+}
+
+.current-classrom-tab-header {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    @media (max-width:600px) {
+       flex-direction: column;
+    }
+    .classroom-tabs {
+        width: 100%;
+        ul {
+            display: flex;
+            li {
+                padding: 0.5rem 1rem;
+                font-size: 14px;
+                font-weight: 600;
+                border-bottom: 2px solid transparent;
+                cursor: pointer;
+                @media (max-width:450px) {
+                    padding: 0.5rem 0.5rem;
+                 }
+            }
+            li.active-tab {
+                border-bottom: 3px solid $orange;
+            }
+        }
+    }
+    .current-classrom-filter {
+        @media (max-width:600px) {
+            width: max-content;
+         }
+        .shorting-btn {
+           @extend %card_shadow ; 
+           border-radius: 5px;
+            padding: 0.8rem 1rem;
+            font-size: 14px;
+            font-weight: 400;
+            white-space: nowrap;
+            cursor: pointer;
+            @media (max-width:450px) {
+                padding: 0.5rem 0.7rem;
+                font-size: 12px;
+             }
+        }
+    }
+}
+.Current-classrooms {
+    margin-top: 6rem;
+    @media (max-width:600px) {
+        margin-top: 3rem;
+     }
+}
+.current-classrom-tab-content {
+    display: none;
+}
+.table-wrapper {
+    overflow-x: auto;
+    table {
+        width: 100%;
+        min-width: 800px;
+        border-collapse: collapse;
+        thead {
+            background-color: #F5F5F5;
+            .sort-th {
+                display: flex;
+                gap: 0.5rem;
+            }
+            th {
+                font-size: 12px;
+                font-weight: 400;
+                text-align: left;
+                .sort-icon {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.3rem;
+                    img {
+                        width: 7px;
+
+                    }
+                    .up-arrow {
+                        transform: rotate(-180deg);
+                    }
+                }
+            }
+           
+            th:last-child {
+                text-align: right;
+            }
+        }
+        th, td {
+            padding: 1rem;
+        }
+        tbody {
+            tr {
+                border-bottom: 1px solid rgba(0,0,0,0.2);
+            
+            td {
+                font-size: 12px;
+                font-weight: 400;
+                .btn-remove {
+                    padding: 0.3rem 1rem;
+                    border-radius: 10px;
+                    background-color: transparent;
+                    color: #FF0000;
+                    border: 1px solid #FF0000;
+                    font-size: 12px;
+                    font-weight: 400;
+                    width: auto;
+                    margin: auto;
+                    cursor: pointer;
+                }
+            }
+            td:first-child {
+                img {
+                    margin-left: 5px;
+                }
+            }
+            td:last-child {
+                text-align: right;
+            }
+        }
+        tr:last-child {
+            border-bottom: none;
+        }
+        }
+    }
+}
+.active-tab {
+    display: block;
+}
+
+
+// teaching
+
+.teaching-assignment-section {
+    margin-top: 4rem;
+    @media (max-width:767px) {
+        margin-top: 2rem;
+     }
+}

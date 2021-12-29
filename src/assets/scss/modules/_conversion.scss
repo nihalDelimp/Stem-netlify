@@ -1,0 +1,161 @@
+.conversion{
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    > div{
+        width: 100%;
+    }
+    .file--upload {
+        width: 100%;
+        margin: auto;
+        border: 1px dashed #BCBABA;
+        border-radius: 10px;
+        min-height: 230px;
+        background-color: #F9F9F9;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        input {
+            display: block;
+            min-height: 230px;
+            width: 100%;
+            opacity: 0;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+        .add-video-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            img {
+                width: 24px;
+                opacity: 0.3;
+            }
+            span {
+                color: #BFBFBF;
+                font-size: 18px;
+                font-weight: 500;
+                @media (max-width:450px) {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+    .add--conversion--form{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        .form{
+            &--item{
+                ul{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.75rem;
+                    counter-reset: conversionList;
+                    max-height: 250px;
+                    overflow: auto;
+                    li{
+                        width: 100%;
+                        color: #313131;
+                        font-size: 0.9rem;
+                        line-height: 1.25rem;
+                        padding: 0.25rem 0;
+                        position: relative;
+                        padding-left: 1.5rem;
+                        &::after{
+                            content: counter(conversionList) " : ";
+                            counter-increment: conversionList;
+                            position: absolute;
+                            top: 5px;
+                            font-weight: 600;
+                            left: 0;
+                        }
+                        &::before{
+                            content: "";
+                            position: absolute;
+                            bottom: -.45rem;
+                            left: 0;
+                            width: 100%;
+                            height: 1px;
+                            background-color: #ebebeb;
+                        }
+                        &:last-child{
+                            &::before{
+                                display: none;
+                            }
+                        }
+                        span{
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 2;
+                            overflow: hidden;
+                        }
+                    }
+                }
+                textarea{
+                    width: 100%;
+                    height: 100px;
+                    resize: none;
+                    border: 1px solid #BCBABA;
+                    border-radius: 8px;
+                    padding: 0.75rem;
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: #313131;
+                    background-color: #F9F9F9;
+                    &:focus{
+                        outline: none;
+                    }
+                }
+            }
+           
+        }
+        .action{
+            &--group{
+                display: flex;
+                justify-content: flex-end;
+                gap: 0.5rem;
+                margin-top: 0.25rem;
+                padding-right: 0.5rem;
+            }
+            &--item{
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                border: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                transition: all 0.3s ease-out;
+                svg{
+                    width: 14px;
+                    height: 14px;
+                    min-width: 14px;
+                }
+                &:hover{
+                    &:last-child{
+                        background-color: #ef5b2c;
+                        svg{
+                            path{
+                                fill: #fff;
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+    
+}

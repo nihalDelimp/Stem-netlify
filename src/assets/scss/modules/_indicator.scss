@@ -1,0 +1,70 @@
+.step{
+    &--indicator{
+        display: flex;
+        align-items: center;
+        width: 50%;
+        .indicator{
+            &--item{
+                display: block;
+                position: relative;
+                width: 90px;
+                height: 5px;
+                cursor: pointer;
+                background-color: lighten($dark-gray, 20);
+                &:first-child{
+                    &::before{
+                        background-color: $yellow !important;
+                    }
+                    // &:nth-child(2){
+                    //     &::before{
+                    //         background-color: $yellow !important;
+                    //     }
+                    // } 
+                }
+                &:last-child{
+                    width: 0;
+                }
+                &::before{
+                    content: '';
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    background-color: lighten($dark-gray, 20);
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+                &.fill{
+                    background-color: $yellow !important;
+                    &::before{
+                        background-color: $yellow !important;
+                    }
+                    &.step1{
+                        ~ .step2{
+                            &::before{
+                                background-color: $yellow !important;
+                            }
+                        }
+                    }
+                    &.step2{
+                        ~ .step3{
+                            &::before{
+                                background-color: $yellow !important;
+                            }
+                        }
+                    }
+                     &.step3{
+                        ~ .step4{
+                            &::before{
+                                background-color: $yellow !important;
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+        
+    }
+}

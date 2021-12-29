@@ -1,0 +1,442 @@
+.page--title {
+    background-color: $white;
+    h2 {
+        font-weight: 900;
+        font-size: 36px;
+        letter-spacing: -1.47px;
+        padding: 0 ;
+        @media (max-width:767px) {
+            font-size: 28px;
+            padding: 0;
+        }
+    }
+}
+.page--title-sub {
+    background-color: $white;
+    h2 {
+        font-weight: 600;
+        font-size: 30px;
+        letter-spacing: -1.47px;
+        padding: 0 ;
+        @media (max-width:767px) {
+            font-size: 24px;
+            padding: 0;
+        }
+    }
+}
+.page--sub-title {
+    ul {
+        display: flex;
+        gap: 60px;
+        @media (max-width:767px) {
+            gap: 40px;
+        }
+        li {
+            font-weight: 600;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            @media (max-width:767px) {
+               font-size: 14px ;
+               gap:5px ;
+            }
+            &:not(li:first-child)::before {
+                content: url(../../images/arrow_right.svg);
+                position: absolute;
+                left: -30px;
+                top: 50%;
+                transform: translateY(-50%);
+                @media (max-width:767px) {
+                    transform: translateY(-50%) scale(0.6);
+                 }
+            }
+            .edit-class {
+                cursor: pointer;
+            }
+            img {
+                @media (max-width:767px) {
+                    width: 15px !important;
+                 }
+            }
+        }
+    }
+    .btn-edit{
+        width: 30px;
+        height: 30px;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        border-radius: 4px;
+        &:hover{
+            background-color: rgb(248, 248, 248);
+        }
+    }
+    .save-btn{
+        background-color: #07bc0c;
+        &:hover{
+            background-color: #0aad0d !important;
+        }
+        svg{
+            path{
+                fill: #fff;
+            }
+        }
+    }
+}
+
+.lesson--week-container {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px 40px;
+    padding: 1rem 2rem;
+    @media (max-width:1200px) {
+        grid-template-columns: repeat(3,1fr);
+    }
+    @media (max-width:992px) {
+        padding: 1rem 0rem;
+    }
+    @media (max-width:767px) {
+        grid-template-columns: repeat(2,1fr);
+        padding: 0rem 0rem 1rem;
+    }
+    @media (max-width:450px) {
+        grid-template-columns: repeat(1,1fr);
+    }
+    .lesson-week-wrapper {
+        .week-counter {
+            text-align: center;
+            padding: 1.2rem 0rem;
+            margin-bottom: 1.5rem;
+            h4 {
+                font-size: 24px;
+                font-weight: 600;
+                color: $block;
+                display: inline-block;
+                padding: 0 1rem;
+                border-bottom: 2px solid $block;
+                @media (max-width:767px) {
+                    font-size: 20px;
+                }
+            }
+            h5 {
+                color: $block;
+                font-size: 12px;
+                font-weight: 600;
+                padding: 0.3rem;
+            }
+        }
+        .lesson--week-contant {
+            display: block;
+            background-color: $white;
+            border-radius: 7px;
+            position: relative;
+            border: 1px solid rgba(0,0,0,.20);
+            height: 120px;
+            .add-lesson-content {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                img {
+                    opacity: 0.3;
+                    width: 24px;
+                }
+                h4 {
+                    color: #BFBFBF;
+                    font-size: 14px;
+                    font-weight: 500;
+                    margin-top: 0.2rem;
+                }
+            }
+            .week-bg {
+                height: 90px;
+                border-radius: 7px 7px 0 0;
+                border-bottom: 1px solid rgba(0,0,0,.20);
+            }
+            .slide--no {
+                position: absolute;
+                bottom: 0;
+                background: #fff;
+                width: 100%;
+                border-radius: 0 0 7px 7px;
+                padding: 0.7rem 1rem;
+                font-size: 14px;
+                font-weight: 700;
+                color: $block;
+            }
+            .slide-delete-icon {
+                position: absolute;
+                right: -15px;
+                top: -15px;
+                width: 25px;
+                height: 25px;
+                @include flexCenter;
+                background-color: #C4C4C4;
+                border-radius: 50%;
+                cursor: pointer;
+                img {
+                    width: auto;
+                    height: auto;
+                 object-fit: contain;
+                }
+            }
+        }
+    }
+    
+}
+
+
+// add lesson week
+
+.lesson--add---week {
+    .add-lesson-week-counter {
+        padding: 1.2rem 0rem;
+        display: inline-block;
+        text-align: center;
+        @media (max-width:767px) {
+            padding: 0;
+        }
+        h4 {
+            font-size: 24px;
+            font-weight: 600;
+            color: $block;
+            display: inline-block;
+            padding: 0 1rem;
+            border-bottom: 2px solid $orange;
+            @media (max-width:767px) {
+                font-size: 20px;
+            }
+        }
+        h5 {
+            color: $block;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 0.3rem;
+           
+        }
+    }
+    .lesson-add-content_week {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap:0.5rem 1.2rem;
+        @media (max-width:767px) {
+            grid-template-columns: repeat(1,1fr);
+        }
+        @media (max-width:450px) {
+            gap:1.8rem 1.2rem;
+        }
+        .lesson-add-content-header {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+            span {
+                width: 50px;
+                height: 50px;
+                border: 2px solid black;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 24px;
+                font-weight: 400;
+                @media (max-width:450px) {
+                    width: 35px;
+                    height: 35px;
+                    font-size: 18px;
+                }
+            }
+            h3 {
+                font-size: 24px;
+                font-weight: 400;
+                @media (max-width:1150px) {
+                    font-size: 20px;
+                }
+                @media (max-width:450px) {
+                    font-size: 18px;
+                }
+            }
+        }
+        .upload-video-text {
+            .upload-video-text-container {
+                padding: 0.5rem 0rem 0.5rem 4.3rem;
+                display: grid;
+                grid-template-columns: repeat(2,1fr);
+                gap:0.5rem 1.2rem;
+                @media (max-width:450px) {
+                    padding: 0.5rem 0rem 0.5rem 0rem;
+                }
+                h3 {
+                    font-size: 18px;
+                    font-weight: 400;
+                    padding: 0.7rem 0;
+                    @media (max-width:450px) {
+                        font-size: 16px;
+                    }
+                }
+                a {
+                    display: block;
+                }
+                .file--upload {
+                    width: 100%;
+                    margin: auto;
+                    border: 1px dashed #BCBABA;
+                    border-radius: 10px;
+                    min-height: 100px;
+                    background-color: #F9F9F9;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: relative;
+                    
+                    
+                    input {
+                        display: block;
+                        min-height: 90px;
+                        width: 100%;
+                        opacity: 0;
+                        cursor: pointer;
+                        position: relative;
+                        z-index: 1;
+                    }
+                    .add-video-icon {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 10px;
+                        width: 100%;
+                        img {
+                            width: 24px;
+                            opacity: 0.3;
+                        }
+                        span {
+                            color: #BFBFBF;
+                            font-size: 18px;
+                            font-weight: 500;
+                            @media (max-width:450px) {
+                                font-size: 16px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .upload-quiz-question {
+            .quiz-question-wrapper {
+                padding: 0.5rem 0rem 0rem 4.3rem;
+                @media (max-width:450px) {
+                    padding: 0.5rem 0rem 0rem 0rem;
+                }
+                .quiz-question-container {
+                    margin-bottom: 0.5rem;
+                    .quiz-qustion-header {
+                        h3 {
+                            font-size: 18px;
+                            font-weight: 400;
+                            padding: 0.7rem 0;
+                            @media (max-width:450px) {
+                                font-size: 16px;
+                            }
+                        }
+                    }
+                    .quiz-question-counter {
+                        display: grid;
+                        grid-template-columns: repeat(5,1fr);
+                        gap: 1.2rem;
+                        .quiz-count {
+                            background-color: #F9F9F9;
+                            border-radius: 10px;
+                            border: 1px solid rgba(0,0,0,.20);
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            color: $block;
+                            text-decoration: none;
+                            font-size: 18px;
+                            font-weight: 400;
+                            padding: 0.5rem;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.create-lesson-button {
+    display: flex;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+
+
+
+.proceed-btn-container {
+    padding: 0.5rem 2rem 1.5rem;
+    .proceed-btn-group {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        @media (max-width:550px) {
+            gap: 25px;
+        }
+    }
+    .btn-common {
+        border: none;
+        padding: 0.6rem 2rem;
+        border-radius: 25px;
+        font-size: 18px;
+        font-weight: 400;
+        cursor: pointer;
+        @media (max-width:550px) {
+            font-size: 14px;
+        }
+    }
+    .btn-proceed {
+        background-color: #079A04;
+        color: $white;
+    }
+    .btn-cancel {
+        background-color: #C4C4C4;
+        color: $block;
+    }
+}
+
+.modal-quiz-qustion {
+    .add-answer-wrapper {
+        padding-right: 0rem !important;
+        gap: 1rem !important;
+        .select-question-option {
+            min-width: 120px;
+            position: relative;
+            .question-quiz-title {
+                padding: 0rem 0 0.5rem;
+            }
+        }
+    }
+}
+
+
+.modal-question-for-quiz {
+        padding: 0.4rem 0;
+        position: relative;
+        top: 5px;
+    label {
+        font-size: 12px;
+        font-weight: 300;
+        font-style: italic;
+    }
+}
+
