@@ -14,6 +14,9 @@ const CreateNewClassroom = ( props ) => {
     const [deleteData, setDeleteData] = useState( {} )
     const [deletePopUp, setDeletePopUp] = useState( false )
 
+
+    console.log( "classroomn h yr", classrooms )
+
     const ClassromTab = ( index ) => {
         setCurrentTab( index )
     }
@@ -164,7 +167,17 @@ const CreateNewClassroom = ( props ) => {
                                                 </td>
                                                 <td>
                                                     <Link
-                                                        to={`/classroom/${classroom.teacher_id.user_id}`}
+                                                      //  to={`/classroom/${classroom.teacher_id.user_id}`}
+                                                        to={{
+                                                            pathname: `/classroom/${classroom.teacher_id.user_id}`,
+                                                            state: {
+                                                                classCode: classroom.class_code,
+                                                                classname: classroom.class_name,
+                                                                size: classroom.student_count,
+                                                                progress: classroom.course_name,
+                                                                assginedteacher: classroom.teacher_name.name
+                                                            }
+                                                        }}
                                                         style={{
                                                             color: "#000",
                                                             fontWeight: "normal"
@@ -176,6 +189,7 @@ const CreateNewClassroom = ( props ) => {
                                                             setDeletePopUp( true )
                                                             setDeleteData( {
                                                                 classCode: classroom.class_code,
+                                                               
                                                             } )
                                                         }}>Remove</button>
                                                     </span>

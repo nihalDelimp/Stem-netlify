@@ -180,3 +180,16 @@ export const getStudentCharacter = () => async () => {
             )
     } )
 }
+
+export const getAllStudentScore = (data) => async () => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().post( "student-dashboard/get-all-student-score" ,data )
+            .then(
+                response => resolve( response.data ),
+                error => reject( error )
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}

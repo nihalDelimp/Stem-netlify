@@ -9,7 +9,7 @@ import { store } from '../Redux/store';
 export const authAxios = () => {
   let token = store.getState( 'state' ).auth.token;
   return axios.create( {
-    baseURL: "https://api.delimp.world",
+    baseURL: process.env.REACT_APP_BASEURL,
     headers: {
       Authorization: `${token ? `${token}` : null}`,
     },
@@ -18,7 +18,7 @@ export const authAxios = () => {
 
 export const withoutAuthAxios = () => {
   return axios.create( {
-    baseURL: "https://api.delimp.world",
+    baseURL: process.env.REACT_APP_BASEURL,
   } );
 };
 

@@ -1,0 +1,136 @@
+import React, { useState, useEffect } from 'react'
+import ArrowDownImg from "../../assets/images/arrow_down.svg"
+
+import plusIcon from "../../assets/images/plus.svg"
+import checkRight from "../../assets/images/check_right.svg"
+import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllClassroom } from '../../Redux/action/Classroom'
+import IsLoadingHOC from '../../Components/IsLoadingHOC'
+import { getTeacherClassrooms } from '../../Redux/action/Teacher'
+import {getTeacherList } from '../../Redux/action/SchoolAdmin'
+import CreateClassroom from '../School/Classroom/Create'
+import DeleteClassroom from '../School/Classroom/Delete'
+
+const SchoolAdminClassroom = ( props ) => {
+    const { setLoading } = props;
+    const role = useSelector( state => state.auth.user.user_type )
+    const [isActive, setIsActive] = useState( false )
+    const [isDotsActive, setDotIsActive] = useState( false )
+    const [dropdownState, setdropdownState] = useState( 1 );
+    const [deletePopUp, setDeletePopUp] = useState( false )
+    const [createPopUp, setCreatePopUp] = useState( false )
+
+    const [teacherListData, setTeacherListData] = useState( [] )
+    const [deleteData, setDeleteData] = useState( {} )
+
+    const toggleDropdownList = ( index ) => {
+        setdropdownState( index );
+    }
+
+    const dispatch = useDispatch()
+
+    const getTeachersList = async () => {
+        setLoading( true )
+        await dispatch( getTeacherList() )
+            .then(
+                response => {
+                    setLoading( false )
+                    setTeacherListData( response.data )
+                },
+                () =>
+                    setLoading( false )
+            )
+            .catch(
+                error => console.log( error )
+            )
+    }
+
+    useEffect( () => {
+        getTeachersList();
+    }, [] )
+
+
+    return (
+        <>
+            <div className="container">
+                <div className="grid">
+                    <div className="grid---">
+                        <div className="page--title">
+                            <h2>Dashboard</h2>
+                        </div>
+                    </div>
+                </div>
+                <section className="body--inner-wrapper">
+                    <div className="grid addclass-header">
+                        <div className="grid-">
+                            <div className="page--sub-title">
+                                <ul>
+                                    <li><span>Teachers</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="grid--">
+                            <div className="addclass--ct">
+                                {role === "SCHOOL_ADMIN" && (
+                                    <div className="addclass--room-button">
+                                        <Link to= "/addTeacher"  style={{ color: "#000", textDecoration: "none" }}  >
+                                        <button className="addclasroom--btn" onClick={() => setCreatePopUp( true )}>
+                                            <span>Add Teacher/School Admin</span> <span className="button--icon">
+                                                <img src={plusIcon} alt="" /></span>
+                                            </button>
+                                        </Link>
+                                       
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="grid">
+                        <div className="grid---">
+                            <div className="classrooms">
+                                {
+                                    teacherListData && (
+                                        teacherListData.map( ( item, index ) => (
+                                            <div className="class--name--wrapper" key={index}>
+                                                <div className="class--name">
+                                                    <Link to = "#" className="class--number" >
+                                                        <img src={require( "../../assets/images/polygon_green.svg" ).default} alt="" />
+                                                        <h3>{item.name}</h3>
+                                                    </Link>
+                                                    <button onClick={() => setDotIsActive( !isDotsActive )} className="dots--icon">
+                                                        <img src={require( "../../assets/images/3dots.svg" ).default} />
+                                                        <div className="dots--drop--down">
+                                                            <div className="dropdown--item">
+                                                                <div className="dropdown--list">
+                                                                    <ul>
+                                                                        {/* <li ><span> Rename</span></li> */}
+                                                                        <li
+                                                                            onClick={() => {
+                                                                                setDeletePopUp( true )
+                                                                                setDeleteData( {
+                                                                                    id: item.id
+                                                                                } )
+                                                                            }}
+                                                                        ><span> Delete Teacher</span></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ) )
+                                    )
+                                }
+                                {deletePopUp && <DeleteClassroom getTeachersList={getTeachersList} deleteData={deleteData} setDeletePopUp={setDeletePopUp} />}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </>
+    )
+}
+
+export default IsLoadingHOC( SchoolAdminClassroom );

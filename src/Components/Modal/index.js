@@ -24,7 +24,7 @@ const Modal = ( props ) => {
 
     const { current, closeModal, data, getModuleData, getStudentCharacter, selected, setLoading, user } = props
 
-    const { CG_TotalIntro, CG_StepIntro, activeStep, currentStepIndex  } = current
+    const { CG_TotalIntro, CG_StepIntro, activeStep, currentStepIndex ,weekNumber ,CLG_Index  } = current
 
     const { lessonSlideDetails } = data
 
@@ -73,10 +73,8 @@ const Modal = ( props ) => {
 
 
 
-
-
     const goPreviousStep = () => {
-        if ( activeStep === "intro" && !selected ) {
+        if ( activeStep === "intro" && !selectedChar ) {
             closeModal( {
                 isModalOpen: false,
             } )
@@ -85,12 +83,15 @@ const Modal = ( props ) => {
             getModuleData( {
                 activeStep: "intro",
                 currentStepIndex: 0,
+                selectedChar: undefined,
             } )
         }
-        if ( activeStep === "intro" && selected ) {
+        if ( activeStep === "intro" && selectedChar ) {
             getModuleData( {
                 activeStep: "character",
                 selected: undefined,
+                selectedChar: undefined,
+                
             } )
         }
         if ( activeStep === "quiz" ) {
@@ -98,28 +99,53 @@ const Modal = ( props ) => {
                 getModuleData( {
                     currentStepIndex: currentStepIndex === 0 ? 0 : currentStepIndex - 1
                 } )
-            } else {
+
+            }
+             else {
                 getModuleData( {
                     activeStep: "quiz-video",
-                    currentStepIndex: undefined,
-                    CLG_Index: undefined,
-                    CG_index: undefined,
-
+                    currentStepIndex: 0,
                 } )
             }
         }
         if ( activeStep === "quiz-video" ) {
-            getModuleData( {
-                activeStep: "intro",
-                currentStepIndex: 0,
-            } )
+            if ( currentStepIndex !== 0 ) {
+                getModuleData( {
+                    currentStepIndex: currentStepIndex === 0 ? 0 : currentStepIndex - 1
+                } )
+            }
+         else{
+             if(weekNumber > 1){
+                getModuleData( {
+                    activeStep: "leaderboard",
+                    currentStepIndex: 0,
+                } )
+             }
+             else{
+                getModuleData( {
+                    activeStep: "intro",
+                    currentStepIndex: 0,
+                } )
+             }
+           
         }
+
+    }
+
         if ( activeStep === "lesson-game" ) {
+
+            if(CLG_Index !==1){
+                getModuleData( {
+                    CLG_Index: CLG_Index === 1 ? 1 : CLG_Index -1 ,
+                    CG_index: 0,
+                } )
+            }
+            else{
             getModuleData( {
                 activeStep: "quiz",
-                currentStepIndex: 0,
-              
+              //  currentStepIndex: 0,
             } )
+        }
         }
     }
 
@@ -144,7 +170,9 @@ const Modal = ( props ) => {
     const handlerClose = () => {
         closeModal( {
             isModalOpen: false,
+            currentStepIndex: 0,
         } )
+        
         switch ( activeStep ) {
             case "character":
             case "intro":

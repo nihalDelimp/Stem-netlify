@@ -42,7 +42,7 @@ const Quiz = ( props ) => {
             getModuleData( {
                 activeStep: "lesson-game",
                 previousStep: "quiz",
-                currentStepIndex: 0,
+               // currentStepIndex: 0,
             } )
         }
     }

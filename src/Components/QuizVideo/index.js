@@ -7,7 +7,8 @@ const QuizVideo = ( props ) => {
 
     const { current } = useSelector( state => state.app )
 
-    const { weekNumber, courseId } = current
+    const { weekNumber, courseId ,currentStepIndex, totalStepIndex, } = current
+
 
     const { getModuleData } = props
 
@@ -19,11 +20,15 @@ const QuizVideo = ( props ) => {
 
 
     const handlerContinue = () => {
-        if ( currentVideo < documentData.length - 1 ) {
+        if ( currentStepIndex < documentData.length - 1 ) {
             setCurrentVideo( currentVideo + 1 )
+            getModuleData( {
+                currentStepIndex: currentStepIndex + 1,
+            } )
         } else {
             getModuleData( {
                 activeStep: "quiz",
+                currentStepIndex : 0
             } )
         }
     }
@@ -69,7 +74,7 @@ const QuizVideo = ( props ) => {
                
                 {
                     documentData.map( ( _, index ) => (
-                        currentVideo === index && (
+                        currentStepIndex === index && (
                             <Fragment key={index}>
                                 {
                                     getFileExtention( documentData[index].file_details ) === "mp4" && (
@@ -120,7 +125,7 @@ const QuizVideo = ( props ) => {
                 <div className="step--indicator">
                     {documentData.map( ( _, index ) => (
                         <span key={index}
-                            className={`indicator--item step${index} ${currentVideo > index ? "fill" : ""}`}></span>
+                            className={`indicator--item step${index} ${currentStepIndex > index ? "fill" : ""}`}></span>
                     ) )}
                 </div>
                 <button className="btn btn--secondary" onClick={handlerContinue}>Continue</button>

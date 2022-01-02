@@ -5,7 +5,7 @@ import { connect, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import IsLoadingHOC from '../../Components/IsLoadingHOC'
 import Modal from '../../Components/Modal'
-import { getModuleData } from '../../Redux/action/App'
+import { getModuleData  } from '../../Redux/action/App'
 import { getAllLesson, getCharacters, getIntro } from '../../Redux/action/Student'
 import { useJwt } from "react-jwt";
 import { IsloggedinHOC } from '../../Components/IsLoggedinHOC'
@@ -36,6 +36,8 @@ const Dashboard = ( props ) => {
                 response => {
                     setLessonData( response.data ? response.data : [] )
                     setLoading( false )
+                    dispatch( { type: "SET_CLASS_CODE_SUCCESS", payload: response.data[0].class_code } )
+                  //  setClassCode(response.data[0].class_code)
                 },
                 () => {
                     setLessonData( [] )
@@ -86,7 +88,9 @@ const Dashboard = ( props ) => {
                                                 weekNumber: item.week_number,
                                                 courseId: item.id,
                                                 lessonLocked: item.lesson_locked,
-                                                activeStep: item.week_number === 1 ? undefined : "leaderboard"
+                                                activeStep: item.week_number === 1 ? undefined : "leaderboard",
+                                                currentStepIndex: 0,
+                                               
                                             } )}>
                                             <motion.div
                                                 whileHover={{
@@ -165,6 +169,6 @@ const mapStateToProps = state => {
 
 
 export default connect( mapStateToProps,
-    { getModuleData } )
+    { getModuleData} )
     ( IsLoadingHOC( IsloggedinHOC( Dashboard ) ) )
 

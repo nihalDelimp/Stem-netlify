@@ -213,10 +213,10 @@ export const DeleteLessonSlideConversation = ( id ) => async () => {
     } )
 }
 
-export const UpdateLessonSlideConversation = id => async () => {
+export const UpdateLessonSlideConversation = (id,data) => async () => {
     console.log( "data in update conversastion", id )
     return new Promise( async ( resolve, reject ) => {
-        await authAxios().put( `/site-admin/update-lesson-conversation/${id}` )
+        await authAxios().put( `/site-admin/update-lesson-conversation/${id}` ,data)
             .then(
                 response => {
                     resolve( response.data )
@@ -331,6 +331,25 @@ export const getWeekLession = id => async () => {
             .then(
                 response => resolve( response.data ),
                 error => reject( error )
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}
+
+export const updatevideodocs = ( fileData ,id ) => async () => {
+    console.log( "data in update conversastion", id )
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().put( `/site-admin/update-weekly-courses-documents/${id}` ,fileData)
+            .then(
+                response => {
+                    resolve( response.data )
+                    toast.success( response.data.message )
+                },
+                error => {
+                    reject( error )
+                }
             )
             .catch(
                 error => console.log( error )

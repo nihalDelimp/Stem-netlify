@@ -9,44 +9,46 @@ import { renameClassroom } from '../../../Redux/action/Teacher'
 import IsLoadingHOC from '../../../Components/IsLoadingHOC'
 import { toast } from 'react-toastify'
 import ClassRoomCode from '../../../Components/ClassRoomCode'
+import CreateStudent from './Create'
 
 
 
-const LessonPerformance = ( props ) => {
+const LessonPerformance = (props) => {
     const { setLoading } = props
     const dispatch = useDispatch()
     const history = useHistory();
     const params = useParams()
-    const [isActive, setIsActive] = useState( false )
-    const [dropdownState, setdropdownState] = useState( 1 );
-    const [editName, setEditName] = useState( false )
-    const [className, setClassName] = useState( "" )
-    const [isOpen, setIsOpen] = useState( false )
+    const [isActive, setIsActive] = useState(false)
+    const [dropdownState, setdropdownState] = useState(1);
+    const [editName, setEditName] = useState(false)
+    const [className, setClassName] = useState("")
+    const [isOpen, setIsOpen] = useState(false)
+    const [createPopUp, setCreatePopUp] = useState(false)
 
     let nameElement = null;
 
-    const toggleDropdownList = ( index ) => {
-        setdropdownState( index );
+    const toggleDropdownList = (index) => {
+        setdropdownState(index);
     }
 
-    useEffect( () => {
+    useEffect(() => {
 
-    }, [className] )
+    }, [className])
 
 
 
-    const handlerRenameClassroom = async ( e ) => {
-        await dispatch( renameClassroom( { class_name: e }, history.location.state.id ) )
+    const handlerRenameClassroom = async (e) => {
+        await dispatch(renameClassroom({ class_name: e }, history.location.state.id))
             .then(
                 response => {
-                    toast.success( response.message )
+                    toast.success(response.message)
                 },
                 error => {
-                    console.log( error.response.data );
+                    console.log(error.response.data);
                 }
             )
             .catch(
-                error => console.log( error )
+                error => console.log(error)
             )
     }
 
@@ -71,41 +73,46 @@ const LessonPerformance = ( props ) => {
                                         </Link>
                                     </li>
                                     <li>
-                                        <img src={require( "../../../assets/images/polygon_green.svg" ).default} alt="" />
+                                        <img src={require("../../../assets/images/polygon_green.svg").default} alt="" />
+                                       
+                                       
                                         <span
                                             style={{ padding: "0.25rem 0.5rem" }}
-                                            ref={( element ) => {
+                                            ref={(element) => {
                                                 nameElement = element
-                                                if ( nameElement ) {
+                                                if (nameElement) {
                                                     nameElement.focus();
                                                 }
                                             }}
                                             contentEditable={`${editName}`}
                                             suppressContentEditableWarning={true}
                                             autoFocus={true}
-                                            onKeyPress={( e ) => {
-                                                if ( e.key === "Enter" ) {
-                                                    setEditName( false )
-                                                    if ( e.target.innerHTML !== history.location.state.classroom ) {
-                                                        handlerRenameClassroom( e.target.innerHTML )
+                                            onKeyPress={(e) => {
+                                                if (e.key === "Enter") {
+                                                    setEditName(false)
+                                                    if (e.target.innerHTML !== history.location.state.classroom) {
+                                                        handlerRenameClassroom(e.target.innerHTML)
                                                     }
                                                 }
                                             }}
                                             onBlur={e => {
-                                                setEditName( false );
-                                                if ( e.target.innerHTML !== history.location.state.classroom ) {
-                                                    handlerRenameClassroom( e.target.innerHTML )
+                                                setEditName(false);
+                                                if (e.target.innerHTML !== history.location.state.classroom) {
+                                                    handlerRenameClassroom(e.target.innerHTML)
                                                 }
-                                                setClassName( e.target.innerText )
+                                                setClassName(e.target.innerText)
                                             }}
                                         >
                                             {className ? className : history.location.state.classroom}
                                         </span>
+
+
+                                        
                                         {editName ? (
                                             <button
                                                 className="btn-edit save-btn"
                                                 onClick={() => {
-                                                    setEditName( false );
+                                                    setEditName(false);
                                                 }}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                                                     <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
@@ -115,14 +122,14 @@ const LessonPerformance = ( props ) => {
                                             <button
                                                 className="btn-edit"
                                                 onClick={() => {
-                                                    setEditName( true );
+                                                    setEditName(true);
                                                 }}>
-                                                <img className="edit-class" src={require( "../../../assets/images/pancel_icon.svg" ).default} style={{ width: 20 }} alt="" />
+                                                <img className="edit-class" src={require("../../../assets/images/pancel_icon.svg").default} style={{ width: 20 }} alt="" />
                                             </button>
                                         )}
                                     </li>
                                 </ul>
-                                <button className="codeBtn" onClick={() => setIsOpen( true )}>See Class Code</button>
+                                <button className="codeBtn" onClick={() => setIsOpen(true)}>See Class Code</button>
 
                             </div>
                         </div>
@@ -145,23 +152,34 @@ const LessonPerformance = ( props ) => {
                                         <div className="addclass--ct">
                                             <div className="addclass--room-button">
                                                 <div className="drop--down">
-                                                    <button className="leval--btn" onClick={e => setIsActive( !isActive )}><span>Name</span> <span className="button--icon"><img src={ArrowDownImg} alt="" /></span></button>
+                                                    <button className="leval--btn" onClick={e => setIsActive(!isActive)}><span>Name</span> <span className="button--icon"><img src={ArrowDownImg} alt="" /></span></button>
                                                     {isActive && (
                                                         <div className="dropdown--item">
                                                             <div className="dropdown--list">
                                                                 <ul>
-                                                                    <li className={dropdownState === 1 ? "active---list" : ""} onClick={() => toggleDropdownList( 1 )} ><img src={require( "../../../assets/images/check_right.svg" ).default} alt="" /><span> Name</span></li>
-                                                                    <li className={dropdownState === 2 ? "active---list" : ""} onClick={() => toggleDropdownList( 2 )}><span><img src={require( "../../../assets/images/check_right.svg" ).default} alt="" /> Student ID</span></li>
+                                                                    <li className={dropdownState === 1 ? "active---list" : ""} onClick={() => toggleDropdownList(1)} ><img src={require("../../../assets/images/check_right.svg").default} alt="" /><span> Name</span></li>
+                                                                    <li className={dropdownState === 2 ? "active---list" : ""} onClick={() => toggleDropdownList(2)}><span><img src={require("../../../assets/images/check_right.svg").default} alt="" /> Student ID</span></li>
                                                                 </ul>
                                                             </div>
                                                             <div className="dropdown--arrow">
-                                                                <img src={require( "../../../assets/images/arrow_down.svg" ).default} alt="" />
-                                                                <img src={require( "../../../assets/images/arrow_down.svg" ).default} alt="" />
+                                                                <img src={require("../../../assets/images/arrow_down.svg").default} alt="" />
+                                                                <img src={require("../../../assets/images/arrow_down.svg").default} alt="" />
                                                             </div>
                                                         </div>
                                                     )}
                                                 </div>
-                                                <button className="addclasroom--btn addstudent-btn"> <span className="button--icon"><img src={plusIcon} alt="" /></span></button>
+
+                                                <button className="addclasroom--btn addstudent-btn" onClick={() => setCreatePopUp(true)} >
+                                                    <span className="button--icon">
+                                                        <img src={plusIcon} alt="" /></span>
+                                                </button>
+                                               
+                                               {createPopUp && <CreateStudent
+                                                    setCreatePopUp={setCreatePopUp}
+                                                //  getClassroom={getClassroom}
+                                                />
+                                               }
+
                                             </div>
                                         </div>
                                     </div>
@@ -176,4 +194,4 @@ const LessonPerformance = ( props ) => {
     )
 }
 
-export default IsLoadingHOC( LessonPerformance );
+export default IsLoadingHOC(LessonPerformance);

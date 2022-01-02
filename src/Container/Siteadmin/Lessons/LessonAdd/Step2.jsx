@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { trimFileName } from '../../../../Helper'
+import {updatevideodocs} from '../../../../Redux/action/SiteAdmin'
 
 const Step2 = ( props ) => {
 
     const { courseData } = props
     const { course_documents } = courseData
     const dispatch = useDispatch()
+    
 
 
     const [firstdoc, setFirstDoc] = useState( [] )
     const [seconddoc, setSecondDoc] = useState( [] )
     const [thirddoc, setThirdDoc] = useState( [] )
     const [fourthdoc, setFourthDoc] = useState( [] )
+    console.log("follow by first doc",firstdoc)
+
 
     const setImageDocURL = (course_documents) =>{
            const videodocs1 = []
@@ -58,118 +62,158 @@ const Step2 = ( props ) => {
         setFourthDoc( [] )
     }
 
+    const handlerFileChange = ( filedata, id ) => {
+     
+        var formData = new FormData();
+        formData.append( 'file_details', filedata );
+        dispatch( updatevideodocs( formData, id ) )
+      
+        
+    }
+
     return (
         <div className="upload-video-text">
+  
+      
+  
+         
+  
             <div className="lesson-add-content-header">
                 <span>1</span>
                 <h3>Upload your videos</h3>
             </div>
-            <div className="upload-video-text-container">
-                <div className="upload-video-text-counter">
-                    <h3>First video</h3>
-                    <div>
-                        <div className="file--upload">
-                            <input
-                                type="file"
-                                accept="video/mp4"
-                                onChange={e => {
-                                    if ( e.target.files.length === 0 ) {
-                                        clearStoreFile()
-                                    } else {
-                                        setFirstDoc( e.target.files[0] )
-                                        dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
-                                    }
-                                }}
-                            />
-                            <div className="add-video-icon">
-                                <img src={require( "../../../../assets/images/plus.svg" ).default} alt="" />
-                                <span>{firstdoc?.length !== 0
-                                    ? trimFileName( firstdoc.name ? firstdoc.name : firstdoc.file_details )
-                                    : "Add video"
-                                }</span>
+               
+           
+
+           
+                
+                    <div className="upload-video-text-container">
+                        <div className="upload-video-text-counter">
+                            <h3>First video</h3>
+                            <div>
+                                <div className="file--upload">
+                                    <input
+                                        type="file"
+                                        accept="video/mp4"
+                                        onChange={e => {
+                                            if ( e.target.files.length === 0 ) {
+                                                clearStoreFile()
+                                            } else {
+                                                  firstdoc.id ? handlerFileChange( e.target.files[0], firstdoc.id )
+                                                    :
+                                                   setFirstDoc(e.target.files[0]) 
+                                                   dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
+                                                // if ( firstdoc.id > 0 ) {
+                                                    
+                                                //     handlerFileChange( e.target.files[0], firstdoc.id )
+                                                //       setFirstDoc(e.target.files[0]) 
+                                                // }
+                                                // else {
+                                                //      setFirstDoc(e.target.files[0]) 
+                                                //    dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
+                                                // }
+                                     }
+                                        }}
+                                    />
+                                    <div className="add-video-icon">
+                                        <img src={require( "../../../../assets/images/plus.svg" ).default} alt="" />
+                                        <span>{firstdoc?.length !== 0
+                                            ? trimFileName( firstdoc.name ? firstdoc.name : firstdoc.file_details )
+                                            : "Add video"
+                                        }</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="upload-video-text-counter">
+                            <h3>Second video</h3>
+                            <div>
+                                <div className="file--upload">
+                                    <input
+                                        type="file"
+                                        accept="video/mp4"
+                                        onChange={e => {
+                                            if ( e.target.files.length === 0 ) {
+                                                clearStoreFile()
+                                            } else {
+                                                seconddoc.id ? handlerFileChange( e.target.files[0], seconddoc.id )
+                                                     :
+                                                setSecondDoc( e.target.files[0] )
+                                                dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
+                                            }
+                                        }}
+                                    />
+                                    <div className="add-video-icon">
+                                        <img src={require( "../../../../assets/images/plus.svg" ).default} alt="" />
+                                        <span>{seconddoc?.length !== 0
+                                            ? trimFileName( seconddoc.name ? seconddoc.name : seconddoc.file_details )
+                                            : "Add video"
+                                        }</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="upload-video-text-counter">
+                            <h3>First text</h3>
+                            <div>
+                                <div className="file--upload">
+                                    <input
+                                        type="file"
+                                        accept="application/pdf, image/png, image/jpeg, image/jpg"
+                                        onChange={e => {
+                                            if ( e.target.files.length === 0 ) {
+                                                clearStoreFile()
+                                            } else {
+                                                thirddoc.id ? handlerFileChange( e.target.files[0], thirddoc.id )
+                                             :
+                                                setThirdDoc(e.target.files[0])
+                                                dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
+                                            }
+                                        }}
+                                    />
+                                    <div className="add-video-icon">
+                                        <img src={require( "../../../../assets/images/plus.svg" ).default} alt="" />
+                                        <span>{thirddoc?.length !== 0
+                                            ? trimFileName( thirddoc.name ? thirddoc.name : thirddoc.file_details )
+                                            : "Add Text"
+                                        }</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="upload-video-text-counter">
+                            <h3>Second text</h3>
+                            <div>
+                                <div className="file--upload">
+                                    <input
+                                        type="file"
+                                        accept="application/pdf, image/png, image/jpeg, image/jpg"
+                                        onChange={e => {
+                                            if ( e.target.files.length === 0 ) {
+                                                clearStoreFile()
+                                            } else {
+                                                fourthdoc.id ? handlerFileChange( e.target.files[0], fourthdoc.id )
+                                                     :
+                                                setFourthDoc( e.target.files[0] )
+                                                dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
+                                            }
+                                        }}
+                                    />
+                                    <div className="add-video-icon">
+                                        <img src={require( "../../../../assets/images/plus.svg" ).default} alt="" />
+                                        <span> {fourthdoc?.length !== 0
+                                            ? trimFileName( fourthdoc.name ? fourthdoc.name : fourthdoc.file_details )
+                                            : "Add Text"
+                                        }</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="upload-video-text-counter">
-                    <h3>Second video</h3>
-                    <div>
-                        <div className="file--upload">
-                            <input
-                                type="file"
-                                accept="video/mp4"
-                                onChange={e => {
-                                    if ( e.target.files.length === 0 ) {
-                                        clearStoreFile()
-                                    } else {
-                                        setSecondDoc( e.target.files[0] )
-                                        dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
-                                    }
-                                }}
-                            />
-                            <div className="add-video-icon">
-                                <img src={require( "../../../../assets/images/plus.svg" ).default} alt="" />
-                                <span>{seconddoc?.length !== 0
-                                    ? trimFileName( seconddoc.name ? seconddoc.name : seconddoc.file_details )
-                                    : "Add video"
-                                }</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="upload-video-text-counter">
-                    <h3>First text</h3>
-                    <div>
-                        <div className="file--upload">
-                            <input
-                                type="file"
-                                accept="application/pdf, image/png, image/jpeg, image/jpg"
-                                onChange={e => {
-                                    if ( e.target.files.length === 0 ) {
-                                        clearStoreFile()
-                                    } else {
-                                        setThirdDoc( e.target.files[0] )
-                                        dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
-                                    }
-                                }}
-                            />
-                            <div className="add-video-icon">
-                                <img src={require( "../../../../assets/images/plus.svg" ).default} alt="" />
-                                <span>{thirddoc?.length !== 0 
-                                    ? trimFileName( thirddoc.name ? thirddoc.name : thirddoc.file_details )
-                                    : "Add Text"
-                                }</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="upload-video-text-counter">
-                    <h3>Second text</h3>
-                    <div>
-                        <div className="file--upload">
-                            <input
-                                type="file"
-                                accept="application/pdf, image/png, image/jpeg, image/jpg"
-                                onChange={e => {
-                                    if ( e.target.files.length === 0 ) {
-                                        clearStoreFile()
-                                    } else {
-                                        setFourthDoc( e.target.files[0] )
-                                        dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
-                                    }
-                                }}
-                            />
-                            <div className="add-video-icon">
-                                <img src={require( "../../../../assets/images/plus.svg" ).default} alt="" />
-                                <span>{fourthdoc?.length !== 0
-                                    ? trimFileName( fourthdoc.name ? fourthdoc.name : fourthdoc.file_details )
-                                    : "Add Text"
-                                }</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+          
+        
+
         </div>
     )
 }

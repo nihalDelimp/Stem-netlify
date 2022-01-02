@@ -75,7 +75,7 @@ const AddConversion = ( props ) => {
         else {
             setLoading( true )
             if ( flag ) {
-                await dispatch( UpdateLessonSlideConversation(lessonDescID) )
+                await dispatch( UpdateLessonSlideConversation( lessonDescID, { conversation_details : lessonDesc }) )
                     .then(
                         async () => {
                             await lesson_conversation_list();

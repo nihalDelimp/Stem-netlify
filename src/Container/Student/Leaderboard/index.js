@@ -1,14 +1,47 @@
-import React,{useState,useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { connect, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import IsLoadingHOC from '../../../Components/IsLoadingHOC'
+import { getAllStudentScore } from '../../../Redux/action/Student'
+import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
 
-
-
-const Leaderboard = () => {
+const Leaderboard = (props) => {
+    const{setLoading} = props
     const [currentLeaderTab, setCurrentTab] = useState(1)
+    const [leaderboardData, setLeaderboardData] = useState( [] )
+    const classCode = useSelector(state =>state.auth.classCode)
+
+    const dispatch = useDispatch();
     const NewLeaderTab = (index) => {
         setCurrentTab(index)
     }
 
+
+    const getAllStudentScoreData = async () => {
+        await dispatch( getAllStudentScore({
+            class_code: classCode
+        }) )
+        .then(
+            response => {
+                setLeaderboardData( response.data ? response.data : [] )
+                setLoading( false )
+            },
+            () => {
+                setLeaderboardData( [] )
+                setLoading( false )
+            }
+        )
+        .catch(
+            error => console.log( error )
+        )
+    }
+
+    useEffect( () => {
+        getAllStudentScoreData();
+     
+    }, [] )
+  
     return (
         <div className="container">
             <div className="LeaderNew--section">
@@ -56,173 +89,29 @@ const Leaderboard = () => {
                         </div>
                         <div className='new--leaderboard_tabs-content-wrapper'>
                             <div className='new--leaderboard_tabs-content' className={currentLeaderTab === 1 ? "activetabLeader new--leaderboard_tabs-content" : "new--leaderboard_tabs-content"} onClick={() => NewLeaderTab(1)}>
-                                <div className='new--leaderboard_tabs-data'>
+                           
+                            {leaderboardData.length >0 && leaderboardData.map((item ,index)=>
+                                <div className='new--leaderboard_tabs-data' key={item.id} >
                                     <div className='winner-ranks'>
-                                        <h3>1</h3>
+                                        <h3>{index+1}</h3>
                                         <img src={require("../../../assets/images/user_img.png").default}></img>
-                                        <h4>You</h4>
+                                        <h4>{item.student_details[0].name}</h4>
                                     </div>
                                     <div className='winner-datas'>
                                         <div className='winner-budget'>
                                             <span>Budget: </span>
-                                            <span>30,000</span>
+                                            <span>10,000</span>
                                         </div>
                                         <div className='winner-price'>
                                             <span>$ </span>
-                                            <span>12,300</span>
+                                            <span>{item.quiz_score}</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div className='new--leaderboard_tabs-data'>
-                                    <div className='winner-ranks'>
-                                        <h3>2</h3>
-                                        <img src={require("../../../assets/images/user_img.png").default}></img>
-                                        <h4>You</h4>
-                                    </div>
-                                    <div className='winner-datas'>
-                                        <div className='winner-budget'>
-                                            <span>Budget: </span>
-                                            <span>30,000</span>
-                                        </div>
-                                        <div className='winner-price'>
-                                            <span>$ </span>
-                                            <span>12,300</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='new--leaderboard_tabs-data'>
-                                    <div className='winner-ranks'>
-                                        <h3>3</h3>
-                                        <img src={require("../../../assets/images/user_img.png").default}></img>
-                                        <h4>You</h4>
-                                    </div>
-                                    <div className='winner-datas'>
-                                        <div className='winner-budget'>
-                                            <span>Budget: </span>
-                                            <span>30,000</span>
-                                        </div>
-                                        <div className='winner-price'>
-                                            <span>$ </span>
-                                            <span>12,300</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='new--leaderboard_tabs-data'>
-                                    <div className='winner-ranks'>
-                                        <h3>4</h3>
-                                        <img src={require("../../../assets/images/user_img.png").default}></img>
-                                        <h4>You</h4>
-                                    </div>
-                                    <div className='winner-datas'>
-                                        <div className='winner-budget'>
-                                            <span>Budget: </span>
-                                            <span>30,000</span>
-                                        </div>
-                                        <div className='winner-price'>
-                                            <span>$ </span>
-                                            <span>12,300</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='new--leaderboard_tabs-data'>
-                                    <div className='winner-ranks'>
-                                        <h3>5</h3>
-                                        <img src={require("../../../assets/images/user_img.png").default}></img>
-                                        <h4>You</h4>
-                                    </div>
-                                    <div className='winner-datas'>
-                                        <div className='winner-budget'>
-                                            <span>Budget: </span>
-                                            <span>30,000</span>
-                                        </div>
-                                        <div className='winner-price'>
-                                            <span>$ </span>
-                                            <span>12,300</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='new--leaderboard_tabs-data'>
-                                    <div className='winner-ranks'>
-                                        <h3>6</h3>
-                                        <img src={require("../../../assets/images/user_img.png").default}></img>
-                                        <h4>You</h4>
-                                    </div>
-                                    <div className='winner-datas'>
-                                        <div className='winner-budget'>
-                                            <span>Budget: </span>
-                                            <span>30,000</span>
-                                        </div>
-                                        <div className='winner-price'>
-                                            <span>$ </span>
-                                            <span>12,300</span>
-                                        </div>
-                                    </div>
-                                </div><div className='new--leaderboard_tabs-data'>
-                                    <div className='winner-ranks'>
-                                        <h3>7</h3>
-                                        <img src={require("../../../assets/images/user_img.png").default}></img>
-                                        <h4>You</h4>
-                                    </div>
-                                    <div className='winner-datas'>
-                                        <div className='winner-budget'>
-                                            <span>Budget: </span>
-                                            <span>30,000</span>
-                                        </div>
-                                        <div className='winner-price'>
-                                            <span>$ </span>
-                                            <span>12,300</span>
-                                        </div>
-                                    </div>
-                                </div><div className='new--leaderboard_tabs-data'>
-                                    <div className='winner-ranks'>
-                                        <h3>8</h3>
-                                        <img src={require("../../../assets/images/user_img.png").default}></img>
-                                        <h4>You</h4>
-                                    </div>
-                                    <div className='winner-datas'>
-                                        <div className='winner-budget'>
-                                            <span>Budget: </span>
-                                            <span>30,000</span>
-                                        </div>
-                                        <div className='winner-price'>
-                                            <span>$ </span>
-                                            <span>12,300</span>
-                                        </div>
-                                    </div>
-                                </div><div className='new--leaderboard_tabs-data'>
-                                    <div className='winner-ranks'>
-                                        <h3>9</h3>
-                                        <img src={require("../../../assets/images/user_img.png").default}></img>
-                                        <h4>You</h4>
-                                    </div>
-                                    <div className='winner-datas'>
-                                        <div className='winner-budget'>
-                                            <span>Budget: </span>
-                                            <span>30,000</span>
-                                        </div>
-                                        <div className='winner-price'>
-                                            <span>$ </span>
-                                            <span>12,300</span>
-                                        </div>
-                                    </div>
-                                </div><div className='new--leaderboard_tabs-data'>
-                                    <div className='winner-ranks'>
-                                        <h3>10</h3>
-                                        <img src={require("../../../assets/images/user_img.png").default}></img>
-                                        <h4>You</h4>
-                                    </div>
-                                    <div className='winner-datas'>
-                                        <div className='winner-budget'>
-                                            <span>Budget: </span>
-                                            <span>30,000</span>
-                                        </div>
-                                        <div className='winner-price'>
-                                            <span>$ </span>
-                                            <span>12,300</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                 )}
                             </div>
+
+
                             <div className='new--leaderboard_tabs-content' className={currentLeaderTab === 2 ? "activetabLeader new--leaderboard_tabs-content" : "new--leaderboard_tabs-content"} onClick={() => NewLeaderTab(1)}>
                                 <div className='new--leaderboard_tabs-data'>
                                     <div className='winner-ranks'>
@@ -259,6 +148,8 @@ const Leaderboard = () => {
                                     </div>
                                 </div>
                             </div>
+
+
                             <div className='new--leaderboard_tabs-content' className={currentLeaderTab === 3 ? "activetabLeader new--leaderboard_tabs-content" : "new--leaderboard_tabs-content"} onClick={() => NewLeaderTab(1)}>
                                 <div className='new--leaderboard_tabs-data'>
                                     <div className='winner-ranks'>
@@ -304,4 +195,4 @@ const Leaderboard = () => {
     )
 }
 
-export default Leaderboard
+export default ( IsLoadingHOC( IsloggedinHOC( Leaderboard ) ) )

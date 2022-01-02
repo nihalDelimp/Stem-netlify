@@ -4,6 +4,7 @@ export const getAllClassroom = () => async () => new Promise( async ( resolve, r
     await authAxios().get( "/site-admin/list-teacher-class" )
         .then(
             response => resolve( response.data ),
+            
             error => reject( error )
         )
         .catch(

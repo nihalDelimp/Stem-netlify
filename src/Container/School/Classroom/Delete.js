@@ -10,7 +10,7 @@ const DeleteClassroom = ( props ) => {
         deleteData,
         getClassroom
     } = props
-    const { classCode } = deleteData
+    const { classCode ,id } = deleteData
     const { setDeletePopUp } = props
     const [checked, setChecked] = useState( false )
     const [deleteStep, setDeleteStep] = useState( 0 )

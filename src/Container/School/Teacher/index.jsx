@@ -1,11 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams,useLocation } from 'react-router-dom'
 import { getSchoolTeacherClassroom } from '../../../Redux/action/SchoolAdmin'
+import DeleteClassroom from '../Classroom/Delete'
+
+
+
 
 const SchoolTeacher = () => {
+     const [deleteData, setDeleteData] = useState( {} )
+    const [deletePopUp, setDeletePopUp] = useState( false )
     const params = useParams()
     const dispatch = useDispatch();
+
+     const location = useLocation()
+    const { classCode, classname, size, progress, assginedteacher } = location.state
+    console.log("uselocationdata",location.state)
+
     const getTeacherClassroom = () => {
         dispatch( getSchoolTeacherClassroom( { user_id: params.id } ) )
             .then(
@@ -36,6 +47,9 @@ const SchoolTeacher = () => {
                         </div>
                     </div>
                 </div>
+                   {
+                    deletePopUp && <DeleteClassroom deleteData={deleteData} setDeletePopUp={setDeletePopUp} />
+                } 
             </div>
             <div className="Current-classrooms">
                 <div className="grid">
@@ -106,14 +120,14 @@ const SchoolTeacher = () => {
                                         <tr >
                                                 <td>
                                                     <span>
-                                                        {"lassroom"}
+                                                        {classname[0].class_name}
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    <span>{"classroom.student_count"}</span>
+                                                    <span>{size}</span>
                                                 </td>
                                                 <td>
-                                                    <span>{"classroom.course_name"}</span>
+                                                    <span>{progress}</span>
                                                 </td>
                                                 <td>
                                                     <span style={{ color: "#00D823" }}>78% (+2%)</span>
@@ -124,15 +138,15 @@ const SchoolTeacher = () => {
                                                         style={{
                                                             color: "#000",
                                                             fontWeight: "normal"
-                                                        }}>{"classroom.teacher_name.name"}</Link>
+                                                        }}>{assginedteacher}</Link>
                                                 </td>
                                                 <td>
                                                     <span>
                                                         <button className="btn-remove" onClick={() => {
-                                                            // setDeletePopUp( true )
-                                                            // setDeleteData( {
-                                                            //     classCode: classroom.class_code,
-                                                            // } )
+                                                              setDeletePopUp( true )
+                                                              setDeleteData( {
+                                                                  classCode: classCode,
+                                                             } )
                                                         }}>Remove</button>
                                                     </span>
                                                 </td>

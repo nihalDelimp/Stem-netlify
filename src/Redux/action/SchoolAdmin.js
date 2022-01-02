@@ -1,5 +1,6 @@
 import { authAxios } from "../../Config/axios"
 
+
 export const getTeacherList = () => async () => {
     return new Promise( async ( resolve, reject ) => {
         await authAxios().get( 'school-admin/list-all-teacher' )
@@ -65,3 +66,18 @@ export const getSchoolTeacherClassroom = data => async () => {
             )
     } )
 }
+
+export const sendinvite = ( data ) => async () => {
+    console.log( "data for send invite function", data )
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().post( 'school-admin/add-teacher-school-admin', data )
+            .then(
+                response => resolve( response.data ),
+                error => reject( error )
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}
+

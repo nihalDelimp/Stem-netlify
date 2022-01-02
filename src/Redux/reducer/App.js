@@ -7,8 +7,8 @@ let initialState = {
     data: {}
 }
 
-export default function foo ( state = initialState, action ) {
-    switch ( action.type ) {
+export default function foo(state = initialState, action) {
+    switch (action.type) {
         case "MODAL_DATA_UPDATE":
             return { ...state, current: { ...state.current, ...action.payload } }
         case "USER_ACTIVITY":
@@ -17,6 +17,7 @@ export default function foo ( state = initialState, action ) {
             return { ...state, data: { ...state.data, ...action.payload } }
         case "CLOSE_MODAL":
             return { ...state, current: action.payload }
+       
         case "SAVE_CHARACTER_DATA":
             return { ...state, character: { ...state.character, ...action.payload } }
         default:

@@ -17,6 +17,8 @@ import LessonAdd from '../Container/Siteadmin/Lessons/LessonAdd/index';
 import SchoolTeacher from '../Container/School/Teacher';
 import Leaderboard from '../Container/Student/Leaderboard';
 import AddTeacher from '../Container/SchooladminDashboard/Classrooms/AddTeacher'
+import classroomsStudentdata from '../Container/Teacher/LessonPerformance/classroomsStudentdata'
+import SchoolAdminClassroom from '../Container/School/index'
 
 
 
@@ -24,11 +26,13 @@ import AddTeacher from '../Container/SchooladminDashboard/Classrooms/AddTeacher'
 
 const ALLUser = Authorization( ['TEACHER', 'STUDENT', 'SCHOOL_ADMIN', "SITE_ADMIN"] );
 // const SiteAdmin = Authorization( ["SITE_ADMIN"] );
+const Student = Authorization( ["STUDENT"] );
 const SiteAdminAndTeacher = Authorization( ["SITE_ADMIN", "TEACHER"] )
 // const TeacherAndSchoolAdmin = Authorization( ["SCHOOL_ADMIN", "TEACHER"] )
-// const Teacher = Authorization( ['TEACHER'] )
+ const Teacher = Authorization( ['TEACHER'] )
 const SchoolAdmin = Authorization( ["SCHOOL_ADMIN"] )
 const AllAdmission = Authorization( ["SITE_ADMIN", "SCHOOL_ADMIN", "TEACHER"] )
+
 
 
 
@@ -62,9 +66,15 @@ const Routing = () => {
                 exact
                 path="/"
                 component={ALLUser( role === "SCHOOL_ADMIN"
-                    ? AddTeacher
+                    ? SchoolAdminClassroom
                     : StudentDashboard  )}
                 layout={PrivateLayout} />
+            <PrivateRoute
+                exact
+                path="/addTeacher"
+                component={SchoolAdmin(AddTeacher)}
+                layout={PrivateLayout} />
+            //AddTeacher
             <PrivateRoute
                 exact
                 path="/intro/:id"
@@ -98,9 +108,9 @@ const Routing = () => {
             <PrivateRoute
                 exact
                 path="/leaderboard"
-                component={ALLUser( Leaderboard )}
+                component={Student( Leaderboard )}
                 layout={PrivateLayout} />
-
+//--------------------------------------------------------------------------------------------
             <PrivateRoute
                 exact
                 path="/classroom"
@@ -126,8 +136,13 @@ const Routing = () => {
                 path="/course"
                 component={SiteAdminAndTeacher( LessonsList )}
                 layout={PrivateLayout} />
-           
-
+            
+            <PrivateRoute
+                exact
+                path="/classroomsStudentdata"
+                component={Teacher( classroomsStudentdata )}
+                layout={PrivateLayout} />
+           //---------------------------------------------------------------------------------------------
 
             <PrivateRoute
                 exact

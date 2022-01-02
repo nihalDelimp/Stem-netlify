@@ -19,6 +19,7 @@ const Classrooms = ( props ) => {
     const [createPopUp, setCreatePopUp] = useState( false )
     const [classroomData, setClassroomData] = useState( [] )
     const [deleteData, setDeleteData] = useState( {} )
+    
 
     const toggleDropdownList = ( index ) => {
         setdropdownState( index );
@@ -50,7 +51,9 @@ const Classrooms = ( props ) => {
 
 
     return (
+        
         <>
+            
             <div className="container">
                 <div className="grid">
                     <div className="grid---">
@@ -131,56 +134,68 @@ const Classrooms = ( props ) => {
                             </div>
                         </div>
                     </div>
-                    <div className="grid">
-                        <div className="grid---">
-                            <div className="classrooms">
-                                {
-                                    classroomData && (
-                                        classroomData.map( ( item, index ) => (
-                                            <div className="class--name--wrapper" key={index}>
-                                                <div className="class--name">
-                                                    <Link
-                                                        className="class--number" to={{
-                                                            pathname: `classroom/${item.class_code}`,
-                                                            state: {
-                                                                classroom: item.class_name,
-                                                                id: item.id
-                                                            }
-                                                        }}
-                                                    >
-                                                        <img src={require( "../../../assets/images/polygon_green.svg" ).default} alt="" />
-                                                        <h3>{item.class_name}</h3>
-                                                    </Link>
-                                                    <button onClick={() => setDotIsActive( !isDotsActive )} className="dots--icon">
-                                                        <img src={require( "../../../assets/images/3dots.svg" ).default} />
-                                                        <div className="dots--drop--down">
-                                                            <div className="dropdown--item">
-                                                                <div className="dropdown--list">
-                                                                    <ul>
-                                                                        {/* <li ><span> Rename</span></li> */}
-                                                                        <li
-                                                                            onClick={() => {
-                                                                                setDeletePopUp( true )
-                                                                                setDeleteData( {
-                                                                                    classCode: item.class_code,
-                                                                                    id: item.id
-                                                                                } )
-                                                                            }}
-                                                                        ><span> Delete classroom</span></li>
-                                                                    </ul>
+
+                    {classroomData
+                        
+                        ? <div className="grid">
+                            <div className="grid---">
+                                <div className="classrooms">
+                                    {
+                                        classroomData && (
+                                            classroomData.map( ( item, index ) => (
+                                                <div className="class--name--wrapper" key={index}>
+                                                    <div className="class--name">
+                                                        <Link
+                                                            className="class--number" to={{
+                                                                pathname: `classroom/${item.class_code}`,
+                                                                state: {
+                                                                    classroom: item.class_name,
+                                                                    id: item.id,
+                                                                    classCode: item.class_code,
+
+                                                                }
+                                                            }}
+                                                        >
+                                                            <img src={require( "../../../assets/images/polygon_green.svg" ).default} alt="" />
+                                                            <h3>{item.class_name}</h3>
+                                                        </Link>
+                                                        <button onClick={() => setDotIsActive( !isDotsActive )} className="dots--icon">
+                                                            <img src={require( "../../../assets/images/3dots.svg" ).default} />
+                                                            <div className="dots--drop--down">
+                                                                <div className="dropdown--item">
+                                                                    <div className="dropdown--list">
+                                                                        <ul>
+                                                                            {/* <li ><span> Rename</span></li> */}
+                                                                            <li
+                                                                                onClick={() => {
+                                                                                    setDeletePopUp( true )
+                                                                                    setDeleteData( {
+                                                                                        classCode: item.class_code,
+                                                                                        id: item.id
+                                                                                    } )
+                                                                                }}
+                                                                            ><span> Delete classroom</span></li>
+                                                                        </ul>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </button>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ) )
-                                    )
-                                }
-                                {deletePopUp && <DeleteClassroom getClassroom={getClassroom} deleteData={deleteData} setDeletePopUp={setDeletePopUp} />}
+                                            ) )
+                                        )
+                                    }
+                                    {deletePopUp && <DeleteClassroom getClassroom={getClassroom} deleteData={deleteData} setDeletePopUp={setDeletePopUp} />}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        : "No Data Found"
+                 }
+
+                  
+
+
+
                 </section>
             </div>
         </>

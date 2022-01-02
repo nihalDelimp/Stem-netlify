@@ -22,11 +22,13 @@ const LessonAdd = ( props ) => {
     const [activeStep, setActiveStep] = useState( 0 )
     const [courseData, setCourseData] = useState([])
     const { course_documents } = courseData ? courseData : {}
+    console.log("course data in  index.js",courseData)
 
     const { app, course } = useSelector( state => state )
-
+   
     const submitHandler = async () => {
         if ( course.addedDoc.length > 3 ) {
+            console.log("course addedDoc length",course.addedDoc.length)
             setLoading( true )
             var formData = new FormData();
             for ( let i = 0; i < course.addedDoc.length; i++ ) {
@@ -37,6 +39,7 @@ const LessonAdd = ( props ) => {
             await dispatch( createCourse( formData ) )
                 .then(
                     response => {
+                      
                         toast.success( response.message )
                         history.push( `/classroom/${classCode}` )
                         setLoading( false )
@@ -50,7 +53,7 @@ const LessonAdd = ( props ) => {
                     error => console.log( error )
                 )
         } else {
-            toast.error( "somthing went wrong" )
+            toast.error( "something went wrong" )
         }
     }
 
@@ -60,6 +63,7 @@ const LessonAdd = ( props ) => {
             .then(
                 response => {
                     setCourseData( response.data );
+                    
                 },
                 () => {
                     setCourseData([])
@@ -145,7 +149,7 @@ const LessonAdd = ( props ) => {
                                                 type="button"
                                                 onClick={submitHandler}
                                                 className="btn btn-create-lesson btn-orenge">
-                                               {course_documents.length > 0  ? "Update lesson" : "Create lesson"}
+                                               {courseData.length > 0  ? "Update lesson" : "Create lesson"}
                                             </button>
                                             <button
                                                 type="button"

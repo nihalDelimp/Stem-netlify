@@ -1,11 +1,11 @@
-import { withoutAuthAxios } from "../../Config/axios"
+import { withoutAuthAxios ,authAxios  } from "../../Config/axios"
 
 export const login = data => async _dispatch => {
     return new Promise( async ( resolve, reject ) => {
         await withoutAuthAxios().post( "/auth/login", data )
             .then(
                 response => {
-                    resolve( response.data )
+                     resolve( response.data )
                     _dispatch( { type: "USER_DATA_UPDATE", payload: response.data.data.user } );
                     _dispatch( { type: "SAVE_TOKEN", payload: response.data.data.token } )
                 },
@@ -57,6 +57,20 @@ export const forgotPassword = data => async _dispatch => {
                 error => {
                     console.log( error )
                 }
+            )
+    } )
+}
+
+
+export const profileListUserDetails = () => async () => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().post( "profile/list-user-details" )
+            .then(
+                response => resolve( response.data ),
+                error => reject( error )
+            )
+            .catch(
+                error => console.log( error )
             )
     } )
 }
