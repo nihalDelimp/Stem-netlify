@@ -6,48 +6,47 @@ import IsLoadingHOC from '../../../Components/IsLoadingHOC'
 import { getClassroomList } from '../../../Redux/action/SchoolAdmin'
 import CreateRoom from './Create'
 import DeleteClassroom from "./Delete";
-const CreateNewClassroom = ( props ) => {
+const CreateNewClassroom = (props) => {
     const { setLoading } = props
-    const [currentTab, setCurrentTab] = useState( 1 )
+    const [currentTab, setCurrentTab] = useState(1)
     const dispatch = useDispatch()
-    const [classrooms, setClassrooms] = useState( [] )
-    const [deleteData, setDeleteData] = useState( {} )
-    const [deletePopUp, setDeletePopUp] = useState( false )
+    const [classrooms, setClassrooms] = useState([])
+    const [deleteData, setDeleteData] = useState({})
+    const [deletePopUp, setDeletePopUp] = useState(false)
 
 
-    console.log( "classroomn h yr", classrooms )
 
-    const ClassromTab = ( index ) => {
-        setCurrentTab( index )
+    const ClassromTab = (index) => {
+        setCurrentTab(index)
     }
 
     const getClassrooms = async () => {
-        setLoading( true )
-        await dispatch( getClassroomList() )
+        setLoading(true)
+        await dispatch(getClassroomList())
             .then(
                 response => {
-                    setLoading( false )
-                    console.log( response );
-                    setClassrooms( response.data )
+                    setLoading(false)
+                    console.log(response);
+                    setClassrooms(response.data)
                 },
                 error => {
-                    setLoading( false )
-                    console.log( error.response.data );
-                    setClassrooms( [] )
+                    setLoading(false)
+                    console.log(error.response.data);
+                    setClassrooms([])
                 }
             )
             .catch(
-                error => console.log( error )
+                error => console.log(error)
             )
     }
 
-    useEffect( () => {
-        getClassrooms()
-    }, [] )
+    useEffect(() => {
+        getClassrooms();
+    }, [])
 
 
-    const handlerRemove = ( e ) => {
-        alert( e );
+    const handlerRemove = (e) => {
+        alert(e);
     }
 
     return (
@@ -62,7 +61,7 @@ const CreateNewClassroom = ( props ) => {
                 </div>
                 <CreateRoom />
                 {
-                    deletePopUp && <DeleteClassroom deleteData={deleteData} setDeletePopUp={setDeletePopUp} />
+                    deletePopUp && <DeleteClassroom  getClassrooms = {getClassrooms} deleteData={deleteData} setDeletePopUp={setDeletePopUp} />
                 }
 
             </div>
@@ -98,8 +97,8 @@ const CreateNewClassroom = ( props ) => {
                                                 <div className="sort-th">
                                                     <span>Class</span>
                                                     <span className="sort-icon">
-                                                        <img alt="" className="up-arrow" src={require( "../../../assets/images/arrowdown.svg" ).default} />
-                                                        <img alt="" src={require( "../../../assets/images/arrowdown.svg" ).default} />
+                                                        <img alt="" className="up-arrow" src={require("../../../assets/images/arrowdown.svg").default} />
+                                                        <img alt="" src={require("../../../assets/images/arrowdown.svg").default} />
                                                     </span>
                                                 </div>
                                             </th>
@@ -107,8 +106,8 @@ const CreateNewClassroom = ( props ) => {
                                                 <div className="sort-th">
                                                     <span>Size</span>
                                                     <span className="sort-icon">
-                                                        <img alt="" className="up-arrow" src={require( "../../../assets/images/arrowdown.svg" ).default} />
-                                                        <img alt="" src={require( "../../../assets/images/arrowdown.svg" ).default} />
+                                                        <img alt="" className="up-arrow" src={require("../../../assets/images/arrowdown.svg").default} />
+                                                        <img alt="" src={require("../../../assets/images/arrowdown.svg").default} />
                                                     </span>
                                                 </div>
                                             </th>
@@ -116,8 +115,8 @@ const CreateNewClassroom = ( props ) => {
                                                 <div className="sort-th">
                                                     <span>Progress</span>
                                                     <span className="sort-icon">
-                                                        <img alt="" className="up-arrow" src={require( "../../../assets/images/arrowdown.svg" ).default} />
-                                                        <img alt="" src={require( "../../../assets/images/arrowdown.svg" ).default} />
+                                                        <img alt="" className="up-arrow" src={require("../../../assets/images/arrowdown.svg").default} />
+                                                        <img alt="" src={require("../../../assets/images/arrowdown.svg").default} />
                                                     </span>
                                                 </div>
                                             </th>
@@ -125,8 +124,8 @@ const CreateNewClassroom = ( props ) => {
                                                 <div className="sort-th">
                                                     <span>Mean scores</span>
                                                     <span className="sort-icon">
-                                                        <img alt="" className="up-arrow" src={require( "../../../assets/images/arrowdown.svg" ).default} />
-                                                        <img alt="" src={require( "../../../assets/images/arrowdown.svg" ).default} />
+                                                        <img alt="" className="up-arrow" src={require("../../../assets/images/arrowdown.svg").default} />
+                                                        <img alt="" src={require("../../../assets/images/arrowdown.svg").default} />
                                                     </span>
                                                 </div>
                                             </th>
@@ -134,8 +133,8 @@ const CreateNewClassroom = ( props ) => {
                                                 <div className="sort-th">
                                                     <span>Assigned teacher</span>
                                                     <span className="sort-icon">
-                                                        <img alt="" className="up-arrow" src={require( "../../../assets/images/arrowdown.svg" ).default} />
-                                                        <img alt="" src={require( "../../../assets/images/arrowdown.svg" ).default} />
+                                                        <img alt="" className="up-arrow" src={require("../../../assets/images/arrowdown.svg").default} />
+                                                        <img alt="" src={require("../../../assets/images/arrowdown.svg").default} />
                                                     </span>
                                                 </div>
                                             </th>
@@ -146,7 +145,7 @@ const CreateNewClassroom = ( props ) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {classrooms.map( ( classroom, index ) => (
+                                        {classrooms.map((classroom, index) => (
                                             <tr key={index}>
                                                 <td>
                                                     <span>
@@ -167,7 +166,7 @@ const CreateNewClassroom = ( props ) => {
                                                 </td>
                                                 <td>
                                                     <Link
-                                                      //  to={`/classroom/${classroom.teacher_id.user_id}`}
+                                                        //  to={`/classroom/${classroom.teacher_id.user_id}`}
                                                         to={{
                                                             pathname: `/classroom/${classroom.teacher_id.user_id}`,
                                                             state: {
@@ -186,16 +185,16 @@ const CreateNewClassroom = ( props ) => {
                                                 <td>
                                                     <span>
                                                         <button className="btn-remove" onClick={() => {
-                                                            setDeletePopUp( true )
-                                                            setDeleteData( {
+                                                            setDeletePopUp(true)
+                                                            setDeleteData({
                                                                 classCode: classroom.class_code,
-                                                               
-                                                            } )
+
+                                                            })
                                                         }}>Remove</button>
                                                     </span>
                                                 </td>
                                             </tr>
-                                        ) )}
+                                        ))}
                                     </tbody>
                                 </table>
                             </div>
@@ -207,4 +206,4 @@ const CreateNewClassroom = ( props ) => {
     )
 }
 
-export default IsLoadingHOC( CreateNewClassroom );
+export default IsLoadingHOC(CreateNewClassroom);

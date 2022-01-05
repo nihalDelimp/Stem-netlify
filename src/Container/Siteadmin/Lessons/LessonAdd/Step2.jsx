@@ -2,21 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { trimFileName } from '../../../../Helper'
 import {updatevideodocs} from '../../../../Redux/action/SiteAdmin'
+import IsLoadingHOC from '../../../../Components/IsLoadingHOC'
+import { toast } from 'react-toastify'
+
 
 const Step2 = ( props ) => {
 
-    const { courseData } = props
+    const { courseData ,setLoading ,getCourseData } = props
     const { course_documents } = courseData
     const dispatch = useDispatch()
-    
-
-
     const [firstdoc, setFirstDoc] = useState( [] )
     const [seconddoc, setSecondDoc] = useState( [] )
     const [thirddoc, setThirdDoc] = useState( [] )
     const [fourthdoc, setFourthDoc] = useState( [] )
-    console.log("follow by first doc",firstdoc)
-
+    
 
     const setImageDocURL = (course_documents) =>{
            const videodocs1 = []
@@ -63,30 +62,33 @@ const Step2 = ( props ) => {
     }
 
     const handlerFileChange = ( filedata, id ) => {
-     
         var formData = new FormData();
         formData.append( 'file_details', filedata );
+        setLoading(true)
         dispatch( updatevideodocs( formData, id ) )
-      
+        .then(
+            response => {
+                toast.success(response.message)
+                setLoading(false)
+                getCourseData()
+            },
+            error => {
+                toast.error(error.message)
+                setLoading(false)
+            }
+        )
+        .catch(
+            error => console.log(error)
+        )
         
     }
 
     return (
         <div className="upload-video-text">
-  
-      
-  
-         
-  
             <div className="lesson-add-content-header">
                 <span>1</span>
                 <h3>Upload your videos</h3>
             </div>
-               
-           
-
-           
-                
                     <div className="upload-video-text-container">
                         <div className="upload-video-text-counter">
                             <h3>First video</h3>
@@ -99,19 +101,13 @@ const Step2 = ( props ) => {
                                             if ( e.target.files.length === 0 ) {
                                                 clearStoreFile()
                                             } else {
-                                                  firstdoc.id ? handlerFileChange( e.target.files[0], firstdoc.id )
+                                                  firstdoc.id ?
+                                                   handlerFileChange( e.target.files[0], firstdoc.id ) &&
+                                                   setFirstDoc(e.target.files[0]) 
                                                     :
                                                    setFirstDoc(e.target.files[0]) 
                                                    dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
-                                                // if ( firstdoc.id > 0 ) {
-                                                    
-                                                //     handlerFileChange( e.target.files[0], firstdoc.id )
-                                                //       setFirstDoc(e.target.files[0]) 
-                                                // }
-                                                // else {
-                                                //      setFirstDoc(e.target.files[0]) 
-                                                //    dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
-                                                // }
+                                               
                                      }
                                         }}
                                     />
@@ -136,7 +132,9 @@ const Step2 = ( props ) => {
                                             if ( e.target.files.length === 0 ) {
                                                 clearStoreFile()
                                             } else {
-                                                seconddoc.id ? handlerFileChange( e.target.files[0], seconddoc.id )
+                                                seconddoc.id ?
+                                                 handlerFileChange( e.target.files[0], seconddoc.id )&&
+                                                 setSecondDoc( e.target.files[0] )
                                                      :
                                                 setSecondDoc( e.target.files[0] )
                                                 dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
@@ -164,7 +162,10 @@ const Step2 = ( props ) => {
                                             if ( e.target.files.length === 0 ) {
                                                 clearStoreFile()
                                             } else {
-                                                thirddoc.id ? handlerFileChange( e.target.files[0], thirddoc.id )
+                                                thirddoc.id ?
+                                                 handlerFileChange( e.target.files[0], thirddoc.id ) &&
+                                                 setThirdDoc(e.target.files[0])
+
                                              :
                                                 setThirdDoc(e.target.files[0])
                                                 dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
@@ -192,7 +193,8 @@ const Step2 = ( props ) => {
                                             if ( e.target.files.length === 0 ) {
                                                 clearStoreFile()
                                             } else {
-                                                fourthdoc.id ? handlerFileChange( e.target.files[0], fourthdoc.id )
+                                                fourthdoc.id ? handlerFileChange( e.target.files[0], fourthdoc.id ) &&
+                                                setFourthDoc( e.target.files[0] )
                                                      :
                                                 setFourthDoc( e.target.files[0] )
                                                 dispatch( { type: "SAVE_ADDED_DOC", payload: e.target.files[0] } )
@@ -210,12 +212,8 @@ const Step2 = ( props ) => {
                             </div>
                         </div>
                     </div>
-
-          
-        
-
         </div>
     )
 }
 
-export default Step2
+export default  IsLoadingHOC(Step2)

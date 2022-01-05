@@ -74,7 +74,6 @@ const Routing = () => {
                 path="/addTeacher"
                 component={SchoolAdmin(AddTeacher)}
                 layout={PrivateLayout} />
-            //AddTeacher
             <PrivateRoute
                 exact
                 path="/intro/:id"
@@ -110,7 +109,7 @@ const Routing = () => {
                 path="/leaderboard"
                 component={Student( Leaderboard )}
                 layout={PrivateLayout} />
-//--------------------------------------------------------------------------------------------
+
             <PrivateRoute
                 exact
                 path="/classroom"

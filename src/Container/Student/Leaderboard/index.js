@@ -10,14 +10,15 @@ const Leaderboard = (props) => {
     const{setLoading} = props
     const [currentLeaderTab, setCurrentTab] = useState(1)
     const [leaderboardData, setLeaderboardData] = useState( [] )
-    const classCode = useSelector(state =>state.auth.classCode)
+    const classCode = useSelector( state => state.auth.classCode )
+   // console.log( "leadereboard data", leaderboardData)
 
     const dispatch = useDispatch();
     const NewLeaderTab = (index) => {
         setCurrentTab(index)
     }
 
-
+  console.log("leaderboard data",leaderboardData)
     const getAllStudentScoreData = async () => {
         await dispatch( getAllStudentScore({
             class_code: classCode

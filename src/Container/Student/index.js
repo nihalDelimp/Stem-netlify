@@ -15,6 +15,7 @@ const Dashboard = ( props ) => {
 
     const { getModuleData, name, setLoading } = props
     const modal = useSelector( state => state.app )
+    const role = useSelector( state => state.auth.user.user_type )
     const [, setModalOpen] = useState( true )
     const dispatch = useDispatch();
 
@@ -28,6 +29,7 @@ const Dashboard = ( props ) => {
     }
 
     useEffect( () => {
+        if(role === "STUDENT"){
         setLoading( true )
         getCharacterList()
         getModuleIntro()
@@ -37,7 +39,6 @@ const Dashboard = ( props ) => {
                     setLessonData( response.data ? response.data : [] )
                     setLoading( false )
                     dispatch( { type: "SET_CLASS_CODE_SUCCESS", payload: response.data[0].class_code } )
-                  //  setClassCode(response.data[0].class_code)
                 },
                 () => {
                     setLessonData( [] )
@@ -47,6 +48,7 @@ const Dashboard = ( props ) => {
             .catch(
                 error => console.log( error )
             )
+        }
     }, [] )
 
     return (

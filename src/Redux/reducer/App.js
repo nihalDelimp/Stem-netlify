@@ -4,7 +4,8 @@ let initialState = {
         selected: 0,
         active: 0,
     },
-    data: {}
+    data: {},
+    studentData : []
 }
 
 export default function foo(state = initialState, action) {
@@ -20,6 +21,8 @@ export default function foo(state = initialState, action) {
        
         case "SAVE_CHARACTER_DATA":
             return { ...state, character: { ...state.character, ...action.payload } }
+            case "GET_STUDENT_DATA_SUCESS" :
+                return { ...state, studentData:  action.payload } 
         default:
             return state
     }

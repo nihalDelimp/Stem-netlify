@@ -11,9 +11,6 @@ const ClassroomStudentData = () => {
 
     const location = useLocation()
     const { name, classs, classcode ,id} = location.state
-
-    console.log( "what is in classCodeee", classcode)
-
      return (
 
         <>

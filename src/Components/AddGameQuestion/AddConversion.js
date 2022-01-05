@@ -171,7 +171,7 @@ const AddConversion = ( props ) => {
             <div className="add-game-question">
                 <div className="add-game-question-inner">
                     <div className="modal-question-header">
-                        <h3>Conversion</h3>
+                        <h3>conversation</h3>
                     </div>
                     <div className="modal-question-body conversion">
                         <div>
@@ -212,34 +212,20 @@ const AddConversion = ( props ) => {
                                             ) )}
                                         </ul>
                                     </div>
-
-
-
                                     <div>
                                         <div className="form--item">
                                             <textarea name="lesson_desc" value={lessonDesc} id="#" onChange={( e => setLessonDesc( e.target.value ) )} cols="30" rows="10"></textarea>
                                         </div>
-
-
                                         <div className="form--itme">
                                             <button
                                                 type="submit"
                                                 className="btn btn-create-lesson btn-orenge"
                                                 style={{ maxWidth: "unset" }}
                                                 onClick={addConversations}>
-                                                {flag ? "Update lesson" : "Create lesson"}
+                                                {flag ? "Update dialogue" : "Create dialogue"}
                                             </button>
                                         </div>
                                     </div>
-
-
-
-
-
-
-
-
-
                                 </div>
                             </div>
                         </div>

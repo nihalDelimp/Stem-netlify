@@ -26,7 +26,7 @@ const DeleteClassroom = ( props ) => {
         if ( checked ) {
             setLoading( true )
             await dispatch( user_type === "SITE_ADMIN"
-                ? deleteSiteAdminClassroom()
+                ? deleteSiteAdminClassroom(id)
                 : deleteTeacherClassroom( { class_code: classCode }, id ) )
                 .then(
                     response => {

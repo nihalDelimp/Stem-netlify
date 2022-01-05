@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom'
 const Menu = () => {
 
     const location = useLocation();
-    // const user_type = useSelector( state => state.auth.user.user_type );
+    const role = useSelector(state => state.auth.user.user_type);
 
     return (
         <ul className="menu">
@@ -26,30 +26,30 @@ const Menu = () => {
                     <span>Calendar</span>
                 </Link>
             </li> */}
-            <li className="menu--item">
-                <Link to="/leaderboard" className={`menu--link ${location.pathname === "/leaderboard" ? "active" : ""}`}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fillRule="evenodd" clipRule="evenodd" d="M7 8V11.5L3 14.5V20H7C7 21.1046 7.89543 22 9 22H11V23H13V22H15C16.1046 22 17 21.1046 17 20H21V14.5L17 11.5V8C17 4.84392 15.0864 1 12 1C8.91356 1 7 4.84392 7 8ZM13 20H15V10V8C15 5.80724 13.6025 3 12 3C10.3975 3 9 5.80724 9 8V10V20H11V14H13V20ZM5 15.5L7 14V18H5V15.5ZM17 18V14L19 15.5V18H17ZM12 11C10.8954 11 10 10.1046 10 9C10 7.89543 10.8954 7 12 7C13.1046 7 14 7.89543 14 9C14 10.1046 13.1046 11 12 11Z" fill="#FFCA2A" />
-                    </svg>
-                    <span>Leaderboard</span>
-                </Link>
-            </li>
-            {/* {user_type === "SITE_ADMIN" && ( */}
-            <li className="menu--item">
+            {role === "STUDENT" && (
+                <li className="menu--item">
+                    <Link to="/leaderboard" className={`menu--link ${location.pathname === "/leaderboard" ? "active" : ""}`}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M7 8V11.5L3 14.5V20H7C7 21.1046 7.89543 22 9 22H11V23H13V22H15C16.1046 22 17 21.1046 17 20H21V14.5L17 11.5V8C17 4.84392 15.0864 1 12 1C8.91356 1 7 4.84392 7 8ZM13 20H15V10V8C15 5.80724 13.6025 3 12 3C10.3975 3 9 5.80724 9 8V10V20H11V14H13V20ZM5 15.5L7 14V18H5V15.5ZM17 18V14L19 15.5V18H17ZM12 11C10.8954 11 10 10.1046 10 9C10 7.89543 10.8954 7 12 7C13.1046 7 14 7.89543 14 9C14 10.1046 13.1046 11 12 11Z" fill="#FFCA2A" />
+                        </svg>
+                        <span>Leaderboard</span>
+                    </Link>
+                </li>
+            )}
+
+
+            {role === "SITE_ADMIN" || role === "SCHOOL_ADMIN" ||  role === "TEACHER" ? 
+           (<li className="menu--item">
                 <Link to="/classroom" className={`menu--link ${location.pathname === "/classroom" ? "active" : ""}`}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd" d="M21 22H6C4.34315 22 3 20.6569 3 19V5C3 3.34315 4.34315 2 6 2H21V18C20.4477 18 20 18.4477 20 19C20 19.5523 20.4477 20 21 20V22ZM18 19C18 18.6494 18.0602 18.3128 18.1707 18H6C5.44772 18 5 18.4477 5 19C5 19.5523 5.44772 20 6 20H18.1707C18.0602 19.6872 18 19.3506 18 19ZM6 4H19V16H6C5.64936 16 5.31278 16.0602 5 16.1707V5C5 4.44772 5.44772 4 6 4Z" fill="#FFCA2A" />
                     </svg>
                     <span>Course Management</span>
                 </Link>
-                {/* <Link to="/classroom" className={`menu--link ${location.pathname === "/classroom" ? "active" : ""}`}>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" clipRule="evenodd" d="M1 13C0.447715 13 0 12.5523 0 12C0 11.4477 0.447715 11 1 11H1.41604C2.1876 9.2341 3.94968 8 6 8C7.8244 8 9.42059 8.97712 10.2938 10.4366C10.7845 10.158 11.3765 10 12 10C12.6235 10 13.2155 10.158 13.7062 10.4366C14.5794 8.97712 16.1756 8 18 8C20.0503 8 21.8124 9.2341 22.584 11H23C23.5523 11 24 11.4477 24 12C24 12.5523 23.5523 13 23 13C23 15.7614 20.7614 18 18 18C15.2386 18 13 15.7614 13 13C13 12.8313 13.0084 12.6645 13.0247 12.5H13C13 12.2966 12.6046 12 12 12C11.3954 12 11 12.2966 11 12.5H10.9753C10.9916 12.6645 11 12.8313 11 13C11 15.7614 8.76142 18 6 18C3.23858 18 1 15.7614 1 13ZM6 16C7.65685 16 9 14.6569 9 13C9 11.3431 7.65685 10 6 10C4.34315 10 3 11.3431 3 13C3 14.6569 4.34315 16 6 16ZM21 13C21 14.6569 19.6569 16 18 16C16.3431 16 15 14.6569 15 13C15 11.3431 16.3431 10 18 10C19.6569 10 21 11.3431 21 13Z" fill="#FFCA2A" />
-                        </svg>
-                        <span>Classroom management</span>
-                    </Link> */}
-            </li>
-            {/* )} */}
+            </li>):null}
+
+
+            
             {/* {user_type === "SITE_ADMIN" && (
                 <li className="menu--item">
                     <Link to="/course" className={`menu--link ${location.pathname === "/course" ? "active" : ""}`}>
@@ -60,6 +60,7 @@ const Menu = () => {
                     </Link>
                 </li>
             )} */}
+            
         </ul>
     )
 }

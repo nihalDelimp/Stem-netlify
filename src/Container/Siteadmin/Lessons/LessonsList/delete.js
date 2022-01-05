@@ -2,18 +2,17 @@ import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 import { useParams } from "react-router-dom"
-import IsLoadingHOC from "../../../Components/IsLoadingHOC"
-import {  deleteClassroomStudent } from '../../../Redux/action/Teacher'
+import IsLoadingHOC from "../../../../Components/IsLoadingHOC"
+import {  deleteCourse  } from '../../../../Redux/action/SiteAdmin'
 
 
-const DeleteStudent = ( props ) => {
+const Delete = ( props ) => {
 
-    const { setLoading, deleteData, getStudents } = props
-    const { classCode, id } = deleteData
+    const { setLoading, deleteData, getCourse } = props
+    // const { classCode, id } = deleteData
     const { setDeletePopUp } = props
     const [checked, setChecked] = useState( false )
     const dispatch = useDispatch()
-    const params = useParams()
     const handlerChecked = event => {
         if ( event.target.checked ) {
             setChecked( true )
@@ -22,21 +21,23 @@ const DeleteStudent = ( props ) => {
         }
     }
 
-    const deleteStudent = async () => {
+    const deleteCoursData = async () => {
         if ( checked ) {
         setLoading(true)
-        await dispatch(deleteClassroomStudent({ class_code: classCode }, id))
+        await dispatch(deleteCourse(deleteData))
             .then(
                 response => {
                     setLoading(false)
                     toast.success(response.message)
                     setDeletePopUp( false )
-                    getStudents();
+                    getCourse();
                     
                 },
                 error => {
-                    toast.error(error.response.data.message)
                     setLoading(false)
+                    toast.success("course deleted successfully")
+                    setDeletePopUp( false )
+                    getCourse();
                 }
             )
             .catch(
@@ -52,7 +53,7 @@ const DeleteStudent = ( props ) => {
     return (
         <div className="popup" onClick={() => setDeletePopUp( false )}>
             <div className="popup--card" onClick={( e ) => e.stopPropagation()}>
-                <h3>Delete Student?</h3>
+                <h3>Delete Course?</h3>
                 <div className="form-check">
                     <input
                         type="checkbox"
@@ -60,10 +61,10 @@ const DeleteStudent = ( props ) => {
                         id="exampleCheck1"
                         onChange={handlerChecked}
                     />
-                    <label className="form-check-label" htmlFor="exampleCheck1">Are you sure you want to remove this Student from this Class ?</label>
+                    <label className="form-check-label" htmlFor="exampleCheck1">Are you sure you want to delete this  course ?</label>
                 </div>
                 <div className="btn--group">
-                    <button className="delete" onClick={deleteStudent} disabled={!checked}>Delete Student</button>
+                    <button className="delete" onClick={deleteCoursData} disabled={!checked}>Delete</button>
                     <button className="cancel" onClick={() => setDeletePopUp( false )}>Cancel</button>
                 </div>
             </div>
@@ -71,4 +72,4 @@ const DeleteStudent = ( props ) => {
     )
 }
 
-export default IsLoadingHOC( DeleteStudent )
+export default IsLoadingHOC( Delete )

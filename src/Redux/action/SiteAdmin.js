@@ -345,7 +345,6 @@ export const updatevideodocs = ( fileData ,id ) => async () => {
             .then(
                 response => {
                     resolve( response.data )
-                    toast.success( response.data.message )
                 },
                 error => {
                     reject( error )

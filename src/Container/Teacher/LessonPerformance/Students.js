@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch ,useSelector } from "react-redux"
 import { useParams, useLocation } from "react-router-dom"
 import { toast } from "react-toastify"
 import { Link } from 'react-router-dom'
 import IsLoadingHOC from "../../../Components/IsLoadingHOC"
-import { getClassroomStudents, deleteClassroomStudent } from '../../../Redux/action/Teacher'
+import { getClassroomStudents } from '../../../Redux/action/Teacher'
 import DeleteStudent from './deleteStudent'
 
 
@@ -13,14 +13,11 @@ const StudentsList = ( props ) => {
     const { setLoading } = props
     const dispatch = useDispatch()
     const params = useParams()
-    const [students, setStudents] = useState( [] )
     const location = useLocation()
     const { classroom, classcode } = location.state
     const [deletePopUp, setDeletePopUp] = useState(false)
     const [deleteData, setDeleteData] = useState({})
-
-   
-    console.log( "studentClass", location.state )
+    const studentData = useSelector(state => state.app.studentData)
 
     useEffect( () => {
         getStudents()
@@ -42,12 +39,11 @@ const StudentsList = ( props ) => {
                             }
                         )
                     } )
-                    setStudents( students );
-                    setLoading( false )
+                    dispatch({ type: "GET_STUDENT_DATA_SUCESS", payload: students } )
+                    setLoading( false );
                 },
                 () => {
                     setLoading( false )
-                    setStudents( [] )
                 }
             )
             .catch(
@@ -59,7 +55,7 @@ const StudentsList = ( props ) => {
         <div className="classrooms-student">
             
             <div className="classrooms">
-                {students.map( ( student, index ) => (
+                {studentData && studentData.map( ( student, index ) => (
                     <div className="class--name--wrapper" key={index}>
                         <div className="class--name">
                             <div className="class--number">

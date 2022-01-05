@@ -4,74 +4,105 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../../Components/IsLoadingHOC";
 import { createStudent } from "../../../Redux/action/Teacher";
-import { Link, useHistory, useParams } from 'react-router-dom'
+import {useParams } from 'react-router-dom'
+import { getClassroomStudents } from '../../../Redux/action/Teacher'
 
 
-const CreateStudent = ( props ) => {
-    const { setLoading, setCreatePopUp, getClassroom } = props;
+
+const CreateStudent = (props) => {
+    const { setLoading, setCreatePopUp } = props;
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const dispatch = useDispatch()
-    const history = useHistory();
     const params = useParams()
 
-    useEffect(()=>{
+    useEffect(() => {
 
-    },[])
+    }, [])
 
-    
+
+    const getStudents = async () => {
+        setLoading( true )
+        await dispatch( getClassroomStudents( {
+            class_code: params.id
+        } ) )
+            .then(
+                response => {
+                    let students = []
+                    response.data.map( ( item ) => {
+                        students.push(
+                            {
+                                id: item.user_id,
+                                name: item.users[0].name,
+                            }
+                        )
+                    } )
+                    dispatch({ type: "GET_STUDENT_DATA_SUCESS", payload: students } )
+                    setLoading( false )
+                },
+                () => {
+                    setLoading( false )
+                }
+            )
+            .catch(
+                error => console.log( error )
+            )
+    }
+
+
+
 
     return (
-        <div className="popup" onClick={() => setCreatePopUp( false )}>
-            <div className="popup--card" onClick={( e ) => e.stopPropagation()}>
+        <div className="popup" onClick={() => setCreatePopUp(false)}>
+            <div className="popup--card" onClick={(e) => e.stopPropagation()}>
                 <h3>Create New  Student</h3>
                 <Formik
                     initialValues={{
                         email: "",
                         class_code: params.id,
                     }}
-                    onSubmit={async ( values, { setSubmitting } ) => {
-                        setSubmitting( true );
-                        setLoading( true )
+                    onSubmit={async (values, { setSubmitting }) => {
+                        setSubmitting(true);
                         const { email, class_code } = values;
-                        if ( !email ) {
-                            toast.error( "Email is required" )
-                            setSubmitting( false );
-                            setLoading( false );
+                        if (!email) {
+                            toast.error("Email address is required")
+                            setSubmitting(false);
+                          
                             return;
-                        } else if ( !class_code ) {
-                            toast.error( "Class Code is required" )
-                            setSubmitting( false );
-                            setLoading( false );
+                        }
+                        else if (!email.match(mailformat)) {
+                            toast.error("Email address is not valid");
+                            setSubmitting(false);
                             return;
-                        } else {
-                            await dispatch( createStudent( values ) )
+                        }
+                        else if (!class_code) {
+                            toast.error("Class Code is required")
+                            setSubmitting(false);
+                            return;
+                        }
+                         else {
+                            setLoading(true)
+                            await dispatch(createStudent(values))
                                 .then(
-                                    () => {
-                                        toast.success( "Student created successfully" )
-                                        setSubmitting( false );
-                                        setCreatePopUp( false );
-                                        setLoading( false );
-                                        getClassroom();
+                                    (response) => {
+                                        toast.success(response.message)
+                                        setSubmitting(false);
+                                        setCreatePopUp(false);
+                                        setLoading(false);
+                                        getStudents();
                                     },
                                     error => {
-                                        if ( Array.isArray( error.response.data.errors ) ) {
-                                            error.response.data.errors.map( error => (
-                                                toast.error( error.class_name && error.class_name ),
-                                                toast.error( error.description && error.description )
-                                            ) )
-                                        } else {
-                                            toast.error( error.response.data.message )
-                                        }
-                                        setSubmitting( false );
-                                        setLoading( false );
+                                       toast.error(error.response.data.message)
+                                        setSubmitting(false);
+                                        setLoading(false);
                                     }
                                 )
                                 .catch(
-                                    error => console.log( error )
+                                    error => console.log(error)
                                 )
                         }
                     }}
                 >
-                    {( { values, handleChange, handleSubmit, isSubmitting } ) => (
+                    {({ values, handleChange, handleSubmit, isSubmitting }) => (
                         <form action="" className="form" onSubmit={handleSubmit}>
                             <div className="form--item">
                                 <label htmlFor="name" >Email</label>
@@ -95,7 +126,7 @@ const CreateStudent = ( props ) => {
                             </div>
                             <div className="btn--group">
                                 <button className="create" onClick={handleSubmit} disabled={isSubmitting}>Create Student</button>
-                                <button className="cancel" onClick={() => setCreatePopUp( false )}>Cancel</button>
+                                <button className="cancel" onClick={() => setCreatePopUp(false)}>Cancel</button>
                             </div>
                         </form>
                     )}
@@ -106,4 +137,4 @@ const CreateStudent = ( props ) => {
     )
 }
 
-export default IsLoadingHOC( CreateStudent )
+export default IsLoadingHOC(CreateStudent)

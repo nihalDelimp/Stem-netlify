@@ -3,36 +3,38 @@ import { connect, useDispatch } from 'react-redux'
 import { createWeekLesson, getCourseData, updateCourseData } from '../../../../Redux/action/SiteAdmin'
 import { Formik } from 'formik';
 import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
 import IsLoadingHOC from '../../../../Components/IsLoadingHOC';
 
-const Step1 = ( props ) => {
+const Step1 = (props) => {
 
     const { createWeekLesson, updateCourseData, week, classCode, setLoading, id, setActiveStep } = props;
     const dispatch = useDispatch();
-    const [state, setState] = useState( { course_name: "", course_desc: "" } )
-    
-    useEffect( () => {
-        if ( id ) {
+    const history = useHistory()
+    const [state, setState] = useState({ course_name: "", course_desc: "" })
+
+    useEffect(() => {
+        if (id) {
             getData()
         }
-    }, [] )
+    }, [])
 
     const getData = async () => {
-        setLoading( true )
-        await dispatch( getCourseData( id ) )
+        setLoading(true)
+        await dispatch(getCourseData(id))
             .then(
                 response => {
                     const { course_name, course_desc } = response.data
-                    setState( {
+                    setState({
                         course_name,
                         course_desc
-                    } )
-                    setLoading( false )
+                    })
+                    setLoading(false)
                 },
-                () => setLoading( false )
+                () => setLoading(false)
             )
             .catch(
-                error => console.log( error )
+                error => console.log(error)
             )
     }
 
@@ -46,71 +48,71 @@ const Step1 = ( props ) => {
                     class_code: classCode,
                     week_number: week
                 }}
-                onSubmit={async ( values, actions ) => {
+                onSubmit={async (values, actions) => {
                     const { setSubmitting, resetForm } = actions
                     const { course_name, course_desc } = values
-                    if ( !course_name ) {
-                        toast.error( "Please enter course Title" )
+                    if (!course_name) {
+                        toast.error("Please enter course Title")
                         return
-                    } else if ( !course_desc ) {
-                        toast.error( "Please enter course Description" )
+                    } else if (!course_desc) {
+                        toast.error("Please enter course Description")
                         return
                     } else {
-                        setSubmitting( true );
-                        setLoading( true );
-                        if ( id ) {
-                            await updateCourseData( values, id )
+                        setSubmitting(true);
+                        setLoading(true);
+                        if (id) {
+                            await updateCourseData(values, id)
                                 .then(
                                     response => {
-                                        toast.success( response.message )
-                                        setLoading( false );
-                                        setActiveStep( 1 )
+                                        toast.success(response.message)
+                                        setLoading(false);
+                                        setActiveStep(1)
                                     },
-                                    error => console.log( error.response.data )
+                                    error => console.log(error.response.data)
                                 )
                                 .catch(
-                                    error => console.log( error )
+                                    error => console.log(error)
                                 )
                         } else {
-                            await createWeekLesson( values )
+                            await createWeekLesson(values)
                                 .then(
                                     response => {
-                                        toast.success( response.message )
-                                        setSubmitting( false );
+                                        toast.success(response.message)
+                                        setSubmitting(false);
                                         const saveData = {
                                             classCode: response.data.class_code,
                                             weekNumber: response.data.week_number,
                                             courseId: response.data.id,
                                         }
                                         resetForm()
-                                        dispatch( {
+                                        dispatch({
                                             type: "SAVE_COURSE_DATA",
                                             payload: saveData
-                                        } )
-                                        setLoading( false );
-                                        setActiveStep( 1 )
+                                        })
+                                        setLoading(false);
+                                        setActiveStep(1)
                                     },
                                     error => {
-                                        toast.error( error.response.data.message )
-                                        setSubmitting( false );
-                                        setLoading( false );
+                                        toast.error(error.response.data.message)
+                                        setSubmitting(false);
+                                        setLoading(false);
                                     }
                                 )
                                 .catch(
                                     () => {
-                                        setSubmitting( false );
+                                        setSubmitting(false);
                                     }
                                 )
                         }
                     }
                 }}
             >
-                {( {
+                {({
                     isSubmitting,
                     handleSubmit,
                     handleChange,
                     values
-                } ) => (
+                }) => (
                     <form className="form add--course" onSubmit={handleSubmit}>
                         <div className="form--item">
                             <label>Title</label>
@@ -134,9 +136,19 @@ const Step1 = ( props ) => {
                             <button
                                 type="submit"
                                 className="btn btn-create-lesson btn-orenge"
-                                style={{ maxWidth: "unset" }}
+                                 style={{ margin : "5px" }}
                                 disabled={isSubmitting}
                             >{state.course_name && state.course_desc ? "Update Lesson" : "Create Lesson"}</button>
+                            <button
+                                type="button"
+                                className="btn btn-create-lesson  "
+                                style={{ margin : "5px" }}
+                                onClick={() => {
+                                history.push(`/classroom/${classCode}`)
+                                }}
+                            >
+                                Cancel
+                            </button>
                         </div>
                     </form>
                 )}
@@ -145,4 +157,4 @@ const Step1 = ( props ) => {
     )
 }
 
-export default connect( null, { createWeekLesson, updateCourseData } )( IsLoadingHOC( Step1 ) )
+export default connect(null, { createWeekLesson, updateCourseData })(IsLoadingHOC(Step1))

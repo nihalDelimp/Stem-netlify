@@ -9,10 +9,11 @@ import { toast } from 'react-toastify'
 import IsLoadingHOC from '../IsLoadingHOC'
 
 
-const Signup = ( props ) => {
 
+const Signup = ( props ) => {
     const { signup, setLoading } = props;
     const history = useHistory()
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     const formik = useFormik( {
         initialValues: {
@@ -23,6 +24,26 @@ const Signup = ( props ) => {
             user_type: "STUDENT"
         },
         onSubmit: async values => {
+
+            if(!values.class_code){
+                toast.error("Class code is required !")
+            }
+            else if (!values.name){
+                toast.error("Name is required !")
+            }
+          else if(!values.email){
+                toast.error("Email is required !")
+            }
+            else if (!values.email.match(mailformat)){
+                toast.error("Email address is invalid !")
+            }
+            else if (!values.password){
+                toast.error("Password is required !")
+            }
+            else if (values.password.length<8){
+                toast.error("Password must be 8 characters long !")
+            }
+            else{
             setLoading( true )
             await signup( values )
                 .then(
@@ -48,6 +69,7 @@ const Signup = ( props ) => {
                     error => console.log( error )
                 )
         }
+    }
     } )
 
     const { values, handleChange, handleSubmit } = formik

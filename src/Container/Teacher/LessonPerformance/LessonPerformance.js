@@ -33,7 +33,7 @@ const LessonPerformance = (props) => {
 
     useEffect(() => {
 
-    }, [className])
+    }, [className ,createPopUp])
 
 
 
@@ -51,6 +51,8 @@ const LessonPerformance = (props) => {
                 error => console.log(error)
             )
     }
+
+    
 
     return (
         <>
@@ -144,6 +146,8 @@ const LessonPerformance = (props) => {
                                     </div>
                                     <LessonList />
                                 </div>
+
+                                
                                 <div className="lesson--students">
                                     <div className="lesson--students-header">
                                         <div className="page--title-sub">
@@ -176,7 +180,7 @@ const LessonPerformance = (props) => {
                                                
                                                {createPopUp && <CreateStudent
                                                     setCreatePopUp={setCreatePopUp}
-                                                //  getClassroom={getClassroom}
+                                                 //  getClassroom={getClassroom}
                                                 />
                                                }
 

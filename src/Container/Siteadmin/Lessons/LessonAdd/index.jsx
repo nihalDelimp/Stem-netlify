@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '../../../../Components/Modal'
+import { Link } from 'react-router-dom'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
 // import Step4 from './Step4'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router'
-import { createCourse, deleteCourse, getWeekLession } from '../../../../Redux/action/SiteAdmin'
+import { createCourse, getWeekLession } from '../../../../Redux/action/SiteAdmin'
 import { toast } from 'react-toastify'
 import IsLoadingHOC from '../../../../Components/IsLoadingHOC'
 
-const LessonAdd = ( props ) => {
+const LessonAdd = (props) => {
     const { setLoading } = props;
 
     const history = useHistory();
@@ -19,63 +20,73 @@ const LessonAdd = ( props ) => {
 
     const { week, classCode, id } = history.location.state;
 
-    const [activeStep, setActiveStep] = useState( 0 )
+    const [activeStep, setActiveStep] = useState(0)
     const [courseData, setCourseData] = useState([])
     const { course_documents } = courseData ? courseData : {}
-    console.log("course data in  index.js",courseData)
+    console.log("course data in  index.js", courseData)
 
-    const { app, course } = useSelector( state => state )
-   
+    const { app, course } = useSelector(state => state)
+
+
     const submitHandler = async () => {
-        if ( course.addedDoc.length > 3 ) {
-            console.log("course addedDoc length",course.addedDoc.length)
-            setLoading( true )
-            var formData = new FormData();
-            for ( let i = 0; i < course.addedDoc.length; i++ ) {
-                formData.append( 'file_details', course.addedDoc[i] );
+        if (course_documents && course_documents.length > 0) {
+            setLoading(true)
+            toast.success("Data updated successfully")
+            setTimeout(() => {
+                setLoading(false)
+                history.push(`/classroom/${classCode}`)
+            }, 1000)
+        }
+        else {
+            if (course.addedDoc.length > 3) {
+                setLoading(true)
+                var formData = new FormData();
+                for (let i = 0; i < course.addedDoc.length; i++) {
+                    formData.append('file_details', course.addedDoc[i]);
+                }
+                formData.append('class_code', classCode);
+                formData.append('week_number', week);
+                await dispatch(createCourse(formData))
+                    .then(
+                        response => {
+
+                            toast.success(response.message)
+                            history.push(`/classroom/${classCode}`)
+                            setLoading(false)
+                        },
+                        error => {
+                            toast.error(error.message)
+                            setLoading(false)
+                        }
+                    )
+                    .catch(
+                        error => console.log(error)
+                    )
+            } else {
+                toast.error("Please upload all file documents")
             }
-            formData.append( 'class_code', classCode );
-            formData.append( 'week_number', week );
-            await dispatch( createCourse( formData ) )
-                .then(
-                    response => {
-                      
-                        toast.success( response.message )
-                        history.push( `/classroom/${classCode}` )
-                        setLoading( false )
-                    },
-                    error => {
-                        toast.error( error.message )
-                        setLoading( false )
-                    }
-                )
-                .catch(
-                    error => console.log( error )
-                )
-        } else {
-            toast.error( "something went wrong" )
         }
     }
 
 
     const getCourseData = async () => {
-        await dispatch( getWeekLession( id ) )
+        await dispatch(getWeekLession(id))
             .then(
                 response => {
-                    setCourseData( response.data );
-                    
+                    setCourseData(response.data);
+
                 },
                 () => {
                     setCourseData([])
                 }
             )
             .catch(
-                error => console.log( error )
+                error => console.log(error)
             )
     }
 
-    useEffect( () => {
-        if ( id ) {
+    useEffect(() => {
+        if (id) {
             getCourseData()
         }
     }, [])
@@ -102,7 +113,17 @@ const LessonAdd = ( props ) => {
                     <div className="grid---">
                         <div className="page--sub-title">
                             <ul>
-                                <li><span>Lessons</span></li>
+                                <li>
+                                    <Link to="/classroom" style={{ color: "#000", textDecoration: "none" }}>
+                                        <span>Classroom</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                <Link to= {`/classroom/${classCode}`} style={{ color: "#000", textDecoration: "none" }}>
+                                    <span>Lessons</span>
+                                    </Link>
+                                </li>
+                                <li><span>Lessons Add</span></li>
                             </ul>
                         </div>
                     </div>
@@ -135,8 +156,8 @@ const LessonAdd = ( props ) => {
                             <div className="grid">
                                 <div className="grid---">
                                     <div className="lesson-add-content_week">
-                                        <Step2 courseData={courseData} getCourseData = {getCourseData} />
-                                        <Step3 courseData={courseData}  getCourseData = {getCourseData} />
+                                        <Step2 courseData={courseData} getCourseData={getCourseData} />
+                                        <Step3 courseData={courseData} getCourseData={getCourseData} />
                                     </div>
                                 </div>
                             </div>
@@ -149,30 +170,14 @@ const LessonAdd = ( props ) => {
                                                 type="button"
                                                 onClick={submitHandler}
                                                 className="btn btn-create-lesson btn-orenge">
-                                               {courseData.length > 0  ? "Update lesson" : "Create lesson"}
+                                                {course_documents && course_documents.length > 0 ? "Update lesson" : "Create lesson"}
                                             </button>
+
                                             <button
                                                 type="button"
                                                 className="btn btn-create-lesson"
                                                 onClick={() => {
-                                                   
-                                                    dispatch( deleteCourse(week) )
-                                                        .then(
-                                                            () => {
-                                                                
-                                                                history.push( `/classroom/${classCode}` )
-                                                            },
-                                                            () => {
-                                                                
-                                                             history.push( `/classroom/${classCode}` )
-                                                            }
-                                                        )
-                                                        .catch(
-                                                            error => {
-                                                                alert("resff3")
-                                                                console.log( error );
-                                                            }
-                                                        )
+                                                    history.push(`/classroom/${classCode}`)
                                                 }}
                                             >
                                                 Cancel
@@ -189,4 +194,4 @@ const LessonAdd = ( props ) => {
     )
 }
 
-export default IsLoadingHOC( LessonAdd )
+export default IsLoadingHOC(LessonAdd)

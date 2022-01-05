@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Logo from '../../../Components/Logo'
 import Menu from '../../../Components/Menu'
 import { LogOut } from '../../../Redux/action/App'
@@ -9,6 +9,7 @@ import SettingSidebarStudent from  './SettingSidebarStudent'
 const Sidebar = () => {
 
     const [menuOpen, setMenuOpen] = useState( true )
+    const role = useSelector(state => state.auth.user.user_type);
 
     
     return (
@@ -47,7 +48,8 @@ const Sidebar = () => {
            
             
         </div>
-          <SettingSidebar  /> 
+         {role === "SITE_ADMIN" || role === "SCHOOL_ADMIN" ||  role === "TEACHER" ? <SettingSidebar  /> : null }
+         {role === "STUDENT" && <SettingSidebarStudent/>}
          </>
     )
 }

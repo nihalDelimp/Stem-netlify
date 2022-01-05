@@ -9,8 +9,9 @@ import { Input } from '../Inputs'
 import IsLoadingHOC from '../IsLoadingHOC'
 
 
-const InvitedLogin = ( props ) => {
+const InvitedLogin = (props) => {
     const { setLoading } = props;
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     const params = useParams()
     const dispatch = useDispatch()
@@ -32,38 +33,49 @@ const InvitedLogin = ( props ) => {
                     }}
                     onSubmit={async values => {
                         const { name, password, email } = values
-                        if ( !email ) {
-                            toast.error( "Please Enter Email" )
+                        if (!email) {
+                            toast.error("Please Enter Email")
                             return
-                        } else if ( !name ) {
-                            toast.error( "Please Enter Name" )
+                        }
+                        else if (!email.match(mailformat)) {
+                            toast.error("Email address is not valid")
                             return
-                        } else if ( !password ) {
-                            toast.error( "Please Enter Password" )
+                        }
+                        else if (!name) {
+                            toast.error("Please Enter Name")
                             return
+                        }
+                        else if (!password) {
+                            toast.error("Please Enter Password")
+                            return
+                        }
+                        else if (password.length < 8) {
+                            toast.error("Password must be 8 characters long !")
+                            return
+
                         } else {
-                            setLoading( true )
-                            await dispatch( signup( values ) )
+                            setLoading(true)
+                            await dispatch(signup(values))
                                 .then(
                                     response => {
-                                        toast.success( response.message )
-                                        history.push( "/" )
-                                        setLoading( false )
+                                        toast.success(response.message)
+                                        history.push("/")
+                                        setLoading(false)
                                     },
                                     error => {
-                                        toast.error( error.response.data.message )
-                                        setLoading( false )
+                                        toast.error(error.response.data.message)
+                                        setLoading(false)
                                     }
                                 )
-                                .catch( error => console.log( error ) )
+                                .catch(error => console.log(error))
                         }
                     }}
                 >
-                    {( {
+                    {({
                         handleSubmit,
                         handleChange,
                         values
-                    } ) => (
+                    }) => (
                         <form className="form" onSubmit={handleSubmit}>
                             <div className="form--item">
                                 <Input
@@ -113,4 +125,4 @@ const InvitedLogin = ( props ) => {
     )
 }
 
-export default IsLoadingHOC( InvitedLogin )
+export default IsLoadingHOC(InvitedLogin)

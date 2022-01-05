@@ -221,7 +221,7 @@ const Modal = ( props ) => {
                 animate={"visible"}
                 exit={"exit"}
             >
-                {
+                {  
                     !lessonFinished
                     && activeStep !== "add-game-question"
                     && activeStep !== "add-quiz-question" && (

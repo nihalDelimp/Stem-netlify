@@ -11,6 +11,7 @@ import IsLoadingHOC from '../IsLoadingHOC';
 const Login = ( props ) => {
     const { login, setLoading } = props
     const history = useHistory()
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     return (
         <div className="card card--form">
@@ -19,6 +20,19 @@ const Login = ( props ) => {
                 <Formik
                     initialValues={{ email: '', password: '' }}
                     onSubmit={async ( values, { setSubmitting } ) => {
+                        if(!values.email){
+                            toast.error("Email is required !")
+                        }
+                        else if (!values.email.match(mailformat)){
+                            toast.error("Email address is invalid !")
+                        }
+                        else if (!values.password){
+                            toast.error("Password is required !")
+                        }
+                        else if (values.password.length<8){
+                            toast.error("Password must be 8 characters long !")
+                        }
+                        else{
                         setLoading( true )
                         await login( values )
                             .then(
@@ -37,6 +51,7 @@ const Login = ( props ) => {
                             .catch(
                                 error => console.log( error )
                             )
+                        }
                     }}>
 
                     {( {
@@ -49,7 +64,7 @@ const Login = ( props ) => {
                         <form className="form" onSubmit={handleSubmit}>
                             <div className="form--item">
                                 <Input
-                                    type="text"
+                                    type="email"
                                     name="email"
                                     className="form--input"
                                     onChange={handleChange}
