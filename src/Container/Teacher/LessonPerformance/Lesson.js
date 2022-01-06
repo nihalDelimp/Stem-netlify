@@ -3,33 +3,36 @@ import { useDispatch } from "react-redux"
 import { useParams } from "react-router-dom"
 import IsLoadingHOC from "../../../Components/IsLoadingHOC";
 import { getClassroomLessons } from "../../../Redux/action/Teacher";
+import UnlockPopUp from './unlockPopup'
 
 
-const LessonList = ( props ) => {
+const LessonList = (props) => {
     const { setLoading } = props;
     const dispatch = useDispatch();
     const params = useParams()
-    const [lessons, setLessons] = useState( [] );
+    const [lessons, setLessons] = useState([]);
+    const [unlockPopUp, setunlockPopUp] = useState(false)
+    const [lessonData, setLessonData] = useState({})
 
-    useEffect( () => {
+    useEffect(() => {
         getLessons()
-    }, [] )
+    }, [])
 
     const getLessons = async () => {
-        setLoading( true );
-        await dispatch( getClassroomLessons( {
+        setLoading(true);
+        await dispatch(getClassroomLessons({
             class_code: params.id
-        } ) )
+        }))
             .then(
                 response => {
-                    setLessons( response.data )
-                    setLoading( false )
+                    setLessons(response.data)
+                    setLoading(false)
                 },
                 () =>
-                    setLoading( false )
+                    setLoading(false)
             )
             .catch(
-                error => console.log( error )
+                error => console.log(error)
             );
     }
 
@@ -37,22 +40,32 @@ const LessonList = ( props ) => {
         <div className="classrooms-student">
             <div className="classrooms">
                 {
-                    lessons.map( ( lesson, index ) => (
+                    lessons.map((lesson, index) => (
                         <div className="class--name--wrapper" key={index}>
                             <div className="class--name">
                                 <div className="class--number">
                                     <h3>{lesson.course_name}</h3>
                                 </div>
                                 <div className="dots--icon">
-                                    <span>Inspect</span>
+                                    <span onClick={ () => {
+                                         setunlockPopUp(true)
+                                         setLessonData({
+                                                week_number:lesson.week_number,
+                                                lesson_locked : lesson.lesson_locked,
+                                                id  : lesson.id
+                                         })
+
+                                     } }  >Inspect</span>
                                 </div>
                             </div>
                         </div>
-                    ) )
+                    ))
                 }
+            {unlockPopUp && <UnlockPopUp setunlockPopUp={setunlockPopUp} lessonData = {lessonData} />}
+
             </div>
         </div>
     )
 }
 
-export default IsLoadingHOC( LessonList )
+export default IsLoadingHOC(LessonList)

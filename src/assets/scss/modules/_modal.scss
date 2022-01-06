@@ -54,6 +54,17 @@
             background-color: rgba($sidebar, 0.25);
         }
     }
+
+    &--close2{
+        position: absolute;
+        top: 1rem;
+        right : 1rem;
+        z-index: 999;
+        background-color: rgba($sidebar, 0.05);
+        &:hover{
+            background-color: rgba($sidebar, 0.25);
+        }
+    }
     &--character{
         &--bg{
             position: absolute;

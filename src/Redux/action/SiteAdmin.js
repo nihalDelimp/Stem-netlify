@@ -158,6 +158,26 @@ export const createLessonConversationImage = data => async () => {
     } )
 }
 
+
+export const updateLessonConversationImage = (id , data) => async () => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().post( `/site-admin/update-lesson-images-slides/${id}`, data )
+            .then(
+                response => {
+                    resolve( response.data )
+                },
+                error => {
+                    reject( error )
+                }
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}
+
+
+
 export const getLessonConversationImage = ( data ) => async () => {
     return new Promise( async ( resolve, reject ) => {
         await authAxios().post( "/site-admin/get-weekly-slide-image", data )

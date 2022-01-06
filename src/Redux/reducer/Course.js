@@ -2,12 +2,13 @@ let initialState = {
     addedQuiz: [],
     addedGame: [],
     addedDoc: [],
+    coursedetails : {}
 }
 
 export default function foo ( state = initialState, action ) {
     switch ( action.type ) {
         case "SAVE_COURSE_DATA":
-            return { ...state, ...action.payload }
+            return { ...state,    coursedetails : action.payload }
         case "SAVE_ADDED_QUIZ":
             return { ...state, addedQuiz: [...state.addedQuiz, action.payload] }
         case "SAVE_ADDED_GAMEQUIZ":
@@ -21,6 +22,7 @@ export default function foo ( state = initialState, action ) {
                 addedQuiz: [],
                 addedGame: [],
                 addedDoc: [],
+                coursedetails : {}
             }
         default:
             return state

@@ -111,10 +111,10 @@ const LessonsList = (props) => {
                                                         <div className="week-bg" style={{ backgroundColor: "#FFF8F8" }}></div>
                                                         <h5 className="slide--no">{item.course[0].course_name}</h5>
                                                     </Link>
-                                                    <span className="slide-delete-icon" onClick={() =>{
-                                                         setDeletePopUp( true )
-                                                         setDeleteData(item.course[0].id)}}
-                                                         >
+                                                    <span className="slide-delete-icon" onClick={() => {
+                                                         setDeletePopUp(true)
+                                                        setDeleteData(item.course[0].id)}}
+                                                    >
                                                         <img src={require("../../../../assets/images/times.svg").default} alt="" />
                                                     </span>
                                                 </div>
@@ -123,7 +123,7 @@ const LessonsList = (props) => {
                                     ))
                                     : null
                                 }
-                                                {deletePopUp && <DeleteStudent getCourse={getCourse} deleteData={deleteData} setDeletePopUp={setDeletePopUp} />}
+                                {deletePopUp && <DeleteStudent getCourse={getCourse} deleteData={deleteData} setDeletePopUp={setDeletePopUp} />}
 
                             </div>
                         </div>

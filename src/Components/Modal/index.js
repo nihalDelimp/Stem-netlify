@@ -9,7 +9,7 @@ import { motion } from "framer-motion"
 import Intro from "../Intro"
 import Character from "../Character"
 import { useHistory, useLocation, useParams } from "react-router"
-import { connect ,useSelector } from "react-redux"
+import { connect, useSelector } from "react-redux"
 import { closeModal, getModuleData } from "../../Redux/action/App"
 import Quiz from "../Quiz"
 import AddGameQuestion from "../AddGameQuestion"
@@ -20,19 +20,19 @@ import { getStudentCharacter } from "../../Redux/action/Student"
 import IsLoadingHOC from "../IsLoadingHOC"
 import Leaderboard from "../Leaderboard"
 
-const Modal = ( props ) => {
+const Modal = (props) => {
 
     const { current, closeModal, data, getModuleData, getStudentCharacter, selected, setLoading, user } = props
 
-    const { CG_TotalIntro, CG_StepIntro, activeStep, currentStepIndex ,weekNumber ,CLG_Index  } = current
+    const { CG_TotalIntro, CG_StepIntro, activeStep, currentStepIndex, weekNumber, CLG_Index } = current
 
     const { lessonSlideDetails } = data
 
     const selectedChar = useSelector(state => state.app.current.selected)
- 
-   
-    const [lessonFinished, setLessonFinished] = useState( false )
-    const [characterDetail, setCharacterDetail] = useState( [] )
+
+
+    const [lessonFinished, setLessonFinished] = useState(false)
+    const [characterDetail, setCharacterDetail] = useState([])
     const history = useHistory();
     const location = useLocation()
     const params = useParams()
@@ -60,136 +60,136 @@ const Modal = ( props ) => {
     }
 
 
-    useEffect( () => {
-        if ( user.user_type === "STUDENT" ) {
+    useEffect(() => {
+        if (user.user_type === "STUDENT") {
             getCharacterDetail()
         }
-        getModuleData( {
+        getModuleData({
             route: location.pathname,
             moduleId: params.id,
             activeStep: !activeStep ? "intro" : activeStep
-        } )
-    }, [activeStep, getModuleData, location.pathname, params.id] )
+        })
+    }, [activeStep, getModuleData, location.pathname, params.id])
 
 
 
     const goPreviousStep = () => {
-        if ( activeStep === "intro" && !selectedChar ) {
-            closeModal( {
+        if (activeStep === "intro" && !selectedChar) {
+            closeModal({
                 isModalOpen: false,
-            } )
+            })
         }
-        if ( activeStep === "character" ) {
-            getModuleData( {
+        if (activeStep === "character") {
+            getModuleData({
                 activeStep: "intro",
                 currentStepIndex: 0,
                 selectedChar: undefined,
-            } )
+            })
         }
-        if ( activeStep === "intro" && selectedChar ) {
-            getModuleData( {
+        if (activeStep === "intro" && selectedChar) {
+            getModuleData({
                 activeStep: "character",
                 selected: undefined,
                 selectedChar: undefined,
-                
-            } )
+
+            })
         }
-        if ( activeStep === "quiz" ) {
-            if ( currentStepIndex !== 0 ) {
-                getModuleData( {
+        if (activeStep === "quiz") {
+            if (currentStepIndex !== 0) {
+                getModuleData({
                     currentStepIndex: currentStepIndex === 0 ? 0 : currentStepIndex - 1
-                } )
+                })
 
             }
-             else {
-                getModuleData( {
+            else {
+                getModuleData({
                     activeStep: "quiz-video",
                     currentStepIndex: 0,
-                } )
+                })
             }
         }
-        if ( activeStep === "quiz-video" ) {
-            if ( currentStepIndex !== 0 ) {
-                getModuleData( {
+        if (activeStep === "quiz-video") {
+            if (currentStepIndex !== 0) {
+                getModuleData({
                     currentStepIndex: currentStepIndex === 0 ? 0 : currentStepIndex - 1
-                } )
+                })
             }
-         else{
-             if(weekNumber > 1){
-                getModuleData( {
-                    activeStep: "leaderboard",
-                    currentStepIndex: 0,
-                } )
-             }
-             else{
-                getModuleData( {
-                    activeStep: "intro",
-                    currentStepIndex: 0,
-                } )
-             }
-           
+            else {
+                if (weekNumber > 1) {
+                    getModuleData({
+                        activeStep: "leaderboard",
+                        currentStepIndex: 0,
+                    })
+                }
+                else {
+                    getModuleData({
+                        activeStep: "intro",
+                        currentStepIndex: 0,
+                    })
+                }
+
+            }
+
         }
 
-    }
+        if (activeStep === "lesson-game") {
 
-        if ( activeStep === "lesson-game" ) {
-
-            if(CLG_Index !==1){
-                getModuleData( {
-                    CLG_Index: CLG_Index === 1 ? 1 : CLG_Index -1 ,
+            if (CLG_Index !== 1) {
+                getModuleData({
+                    CLG_Index: CLG_Index === 1 ? 1 : CLG_Index - 1,
                     CG_index: 0,
-                } )
+                })
             }
-            else{
-            getModuleData( {
-                activeStep: "quiz",
-              //  currentStepIndex: 0,
-            } )
-        }
+            else {
+                getModuleData({
+                    activeStep: "quiz",
+                    //  currentStepIndex: 0,
+                })
+            }
         }
     }
 
     const getCharacterDetail = async () => {
-        setLoading( true )
+        setLoading(true)
         await getStudentCharacter()
             .then(
                 response => {
-                    setCharacterDetail( response.data )
-                    setLoading( false )
+                    setCharacterDetail(response.data)
+                    setLoading(false)
                 },
                 () => {
-                    setLoading( false )
+                    setLoading(false)
                 }
             )
             .catch(
-                error => console.log( error )
+                error => console.log(error)
             )
     }
 
 
     const handlerClose = () => {
-        closeModal( {
+        closeModal({
             isModalOpen: false,
             currentStepIndex: 0,
-        } )
-        
-        switch ( activeStep ) {
+        })
+
+        switch (activeStep) {
             case "character":
             case "intro":
             case "quiz":
-                return history.push( "/" )
+                return history.push("/")
             default:
                 return
         }
     }
 
     return (
-        <Backdrop onClick={handlerClose}>
+        <Backdrop >
             <motion.div
                 className={`modal ${activeStep === "quiz" || activeStep === "leaderboard"
                     ? "content--center"
                     : ""}`}
-                onClick={( e ) => e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()}
                 style={activeStep === "intro"
                     ? {
                         backgroundImage: `url(${!selected
@@ -221,12 +221,24 @@ const Modal = ( props ) => {
                 animate={"visible"}
                 exit={"exit"}
             >
-                {  
+                {
                     !lessonFinished
                     && activeStep !== "add-game-question"
                     && activeStep !== "add-quiz-question" && (
-                        <div className={"modal--close btn btn--circle"} onClick={goPreviousStep}>
+                        <div className={"modal--close  btn btn--circle"} onClick={goPreviousStep}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M7.828 11H20v2H7.828l5.364 5.364-1.414 1.414L4 12l7.778-7.778 1.414 1.414z" /></svg>
+                        </div>
+                    )
+                }
+
+                {
+                    !lessonFinished
+                    && activeStep !== "add-game-question"
+                    && activeStep !== "add-quiz-question" && (
+                        <div className={"modal--close2 btn btn--circle "}    onClick={handlerClose}>
+                            <svg width="12" height="12" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4.75736 4.02755L8.04136 0.743551L8.77114 1.47333L5.48714 4.75732L8.77114 8.04132L8.04136 8.7711L4.75736 5.4871L1.47337 8.7711L0.743591 8.04132L4.02759 4.75732L0.743591 1.47333L1.47337 0.743551L4.75736 4.02755Z" fill="black" />
+                            </svg>
                         </div>
                     )
                 }
@@ -234,11 +246,11 @@ const Modal = ( props ) => {
                 {CG_TotalIntro === CG_StepIntro && activeStep === "lesson-game" && (
                     <div className="game--info">
                         <div className="game--info--item">
-                            <img src={require( "../../assets/images/dolor_star.svg" ).default} alt="" />
+                            <img src={require("../../assets/images/dolor_star.svg").default} alt="" />
                             <span>$10K</span>
                         </div>
                         <div className="game--info--item">
-                            <img src={require( "../../assets/images/dolor.svg" ).default} alt="" />
+                            <img src={require("../../assets/images/dolor.svg").default} alt="" />
                             <span>+81</span>
                         </div>
                     </div>
@@ -252,22 +264,22 @@ const Modal = ( props ) => {
                         <img src={`${process.env.REACT_APP_BASEURL}${characterDetail.image}`} alt="" />
                     </motion.div>
                 ) : null}
-                {  characterDetail && selectedChar &&  activeStep === "leaderboard" && (
-                        <motion.div variants={config}
-                            initial={"hidden"}
-                            animate={"visible"}
-                            exit={"exit"} className="right--character">
-                            <img src={`${process.env.REACT_APP_BASEURL}${selected.image}`} alt="" />
-                        </motion.div>
-                    )
+                {characterDetail && selectedChar && activeStep === "leaderboard" && (
+                    <motion.div variants={config}
+                        initial={"hidden"}
+                        animate={"visible"}
+                        exit={"exit"} className="right--character">
+                        <img src={`${process.env.REACT_APP_BASEURL}${selected.image}`} alt="" />
+                    </motion.div>
+                )
                 }
 
                 <div className={`modal--body ${!activeStep ? "intro" : activeStep} ${lessonFinished ? "lessonFinished" : ""}`}>
                     {activeStep === "add-game-question" ? null : (
                         <div className="shape--group">
-                            <img className="bg-shape" src={require( "../../assets/images/bg-shape-1.svg" ).default} alt="" />
-                            <img className="bg-shape" src={require( "../../assets/images/bg-shape-2.svg" ).default} alt="" />
-                            <img className="bg-shape" src={require( "../../assets/images/bg-shape-2.svg" ).default} alt="" />
+                            <img className="bg-shape" src={require("../../assets/images/bg-shape-1.svg").default} alt="" />
+                            <img className="bg-shape" src={require("../../assets/images/bg-shape-2.svg").default} alt="" />
+                            <img className="bg-shape" src={require("../../assets/images/bg-shape-2.svg").default} alt="" />
                         </div>
                     )}
 
@@ -296,8 +308,8 @@ const mapStateToProps = state => {
     return { current, data, selected, user }
 }
 
-export default connect( mapStateToProps, {
+export default connect(mapStateToProps, {
     closeModal,
     getModuleData,
     getStudentCharacter
-} )( IsLoadingHOC( Modal ) )
+})(IsLoadingHOC(Modal))

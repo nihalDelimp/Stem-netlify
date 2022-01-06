@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { connect, useDispatch } from 'react-redux'
+import { connect, useDispatch ,useSelector } from 'react-redux'
 import { createWeekLesson, getCourseData, updateCourseData } from '../../../../Redux/action/SiteAdmin'
 import { Formik } from 'formik';
 import { toast } from 'react-toastify';
@@ -12,16 +12,18 @@ const Step1 = (props) => {
     const dispatch = useDispatch();
     const history = useHistory()
     const [state, setState] = useState({ course_name: "", course_desc: "" })
-
+    const {coursedetails}  = useSelector(state => state.course)
+    const {courseId}  = coursedetails ? coursedetails : {}
+ 
     useEffect(() => {
-        if (id) {
+        if (id || courseId ) {
             getData()
         }
     }, [])
 
     const getData = async () => {
         setLoading(true)
-        await dispatch(getCourseData(id))
+        await dispatch(getCourseData(id || courseId ))
             .then(
                 response => {
                     const { course_name, course_desc } = response.data
@@ -60,8 +62,8 @@ const Step1 = (props) => {
                     } else {
                         setSubmitting(true);
                         setLoading(true);
-                        if (id) {
-                            await updateCourseData(values, id)
+                        if (id || courseId) {
+                            await updateCourseData(values, id || courseId )
                                 .then(
                                     response => {
                                         toast.success(response.message)

@@ -19,6 +19,8 @@ const LessonAdd = (props) => {
     const dispatch = useDispatch()
 
     const { week, classCode, id } = history.location.state;
+    const {coursedetails}  = useSelector(state => state.course)
+    const {courseId}  = coursedetails ? coursedetails : {}
 
     const [activeStep, setActiveStep] = useState(0)
     const [courseData, setCourseData] = useState([])
@@ -70,7 +72,7 @@ const LessonAdd = (props) => {
 
 
     const getCourseData = async () => {
-        await dispatch(getWeekLession(id))
+        await dispatch(getWeekLession(id || courseId))
             .then(
                 response => {
                     setCourseData(response.data);
@@ -86,7 +88,7 @@ const LessonAdd = (props) => {
     }
 
     useEffect(() => {
-        if (id) {
+        if (id || courseId ) {
             getCourseData()
         }
     }, [])

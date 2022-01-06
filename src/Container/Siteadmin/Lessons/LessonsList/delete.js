@@ -53,7 +53,7 @@ const Delete = ( props ) => {
     return (
         <div className="popup" onClick={() => setDeletePopUp( false )}>
             <div className="popup--card" onClick={( e ) => e.stopPropagation()}>
-                <h3>Delete Course?</h3>
+                <h3>Delete Lesson?</h3>
                 <div className="form-check">
                     <input
                         type="checkbox"
@@ -61,7 +61,7 @@ const Delete = ( props ) => {
                         id="exampleCheck1"
                         onChange={handlerChecked}
                     />
-                    <label className="form-check-label" htmlFor="exampleCheck1">Are you sure you want to delete this  course ?</label>
+                    <label className="form-check-label" htmlFor="exampleCheck1">Are you sure you want to delete this lesson  ?</label>
                 </div>
                 <div className="btn--group">
                     <button className="delete" onClick={deleteCoursData} disabled={!checked}>Delete</button>

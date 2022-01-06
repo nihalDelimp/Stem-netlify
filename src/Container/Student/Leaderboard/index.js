@@ -21,7 +21,8 @@ const Leaderboard = (props) => {
   console.log("leaderboard data",leaderboardData)
     const getAllStudentScoreData = async () => {
         await dispatch( getAllStudentScore({
-            class_code: classCode
+            class_code: classCode,
+            week_number:1
         }) )
         .then(
             response => {

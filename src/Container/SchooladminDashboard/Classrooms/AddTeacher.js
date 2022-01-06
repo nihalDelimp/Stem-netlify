@@ -13,10 +13,9 @@ const AddTeacher = () => {
     const [displayName, setDisplsayName] = useState( "" );
     const [contactEmail, setContactEmail] = useState( "" );
     const [userType, setUserType] = useState('');
-    const [schooladmin, setadminPosition] = useState(false )
     const dispatch = useDispatch();
     const history = useHistory()
-    console.log("schooladmin",schooladmin)
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 
     const submitHandler = async () => {
@@ -28,6 +27,9 @@ const AddTeacher = () => {
         }
         else if (!contactEmail){
             toast.error( "Contact email is required" )
+        }
+        else if (!contactEmail.match(mailformat)){
+            toast.error( "Contact email invalid" )
         }
         else{
         await dispatch (sendinvite( {
