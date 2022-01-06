@@ -161,7 +161,7 @@ export const createLessonConversationImage = data => async () => {
 
 export const updateLessonConversationImage = (id , data) => async () => {
     return new Promise( async ( resolve, reject ) => {
-        await authAxios().post( `/site-admin/update-lesson-images-slides/${id}`, data )
+        await authAxios().put( `/site-admin/update-lesson-images-slides/${id}`, data )
             .then(
                 response => {
                     resolve( response.data )
