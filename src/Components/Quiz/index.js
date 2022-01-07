@@ -102,12 +102,21 @@ const Quiz = ( props ) => {
                         </div>
                     </>
                 ):
-                <div >
-                     <h3>Quiz question not found.</h3>
-                      <div className="btn--group">
-                    <button className="btn btn--secondary"onClick={nextHandler}  >Continue</button>
+                (<div>
+                <div style={{
+                    height: "300px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gridColumn: "span 2"
+                }}>
+                    <h2 style={{ fontWeight: "normal", opacity: "0.25" }}>No Data found</h2>
                 </div>
-                </div>
+                <div className="btn--group">
+                <button className="btn btn--secondary"onClick={nextHandler}>Continue</button>
+               </div>
+               </div>
+                )
                 }
             </div>
         </div>
