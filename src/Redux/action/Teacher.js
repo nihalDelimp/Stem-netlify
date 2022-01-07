@@ -118,7 +118,7 @@ export const deleteTeacherClassroom = ( data, id ) => async () => {
     } )
 }
 
-export const createStudent = data => async () =>
+export const createStudent = data => async () => {
     new Promise( async ( resolve, reject ) =>
         await authAxios().post( "teacher/add-student-teacher-class", data )
             .then(
@@ -131,3 +131,22 @@ export const createStudent = data => async () =>
             .catch(
                 error => console.log( error )
             ) )
+}
+
+
+export const unlockedLesson = (id , data ) => async () => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().put( `/teacher/unlock-lesson/${id}`,data)
+            .then(
+                response => {
+                    resolve( response.data )
+                },
+                error => {
+                    reject( error )
+                }
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}

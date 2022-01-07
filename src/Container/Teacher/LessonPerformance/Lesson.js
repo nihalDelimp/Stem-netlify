@@ -50,6 +50,7 @@ const LessonList = (props) => {
                                     <span onClick={ () => {
                                          setunlockPopUp(true)
                                          setLessonData({
+                                                class_code : params.id ,
                                                 week_number:lesson.week_number,
                                                 lesson_locked : lesson.lesson_locked,
                                                 id  : lesson.id

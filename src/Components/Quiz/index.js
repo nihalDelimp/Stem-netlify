@@ -47,6 +47,14 @@ const Quiz = ( props ) => {
         }
     }
 
+ const nextHandler = () =>{
+    getModuleData( {
+        activeStep: "lesson-game",
+        previousStep: "quiz",
+    } )
+
+ }
+
 
     const getQuizData = () => {
         setLoading( true );
@@ -78,7 +86,7 @@ const Quiz = ( props ) => {
     return (
         <div className="quiz">
             <div className="quiz--content">
-                {quizData.length !== 0 && (
+                {quizData.length !== 0 ? (
                     <>
                         <h3 className="quiz--question">{quizData[!currentStepIndex ? 0 : currentStepIndex]?.question}</h3>
                         <div className={`option--group`}>
@@ -93,7 +101,14 @@ const Quiz = ( props ) => {
                             ) )}
                         </div>
                     </>
-                )}
+                ):
+                <div >
+                     <h3>Quiz question not found.</h3>
+                      <div className="btn--group">
+                    <button className="btn btn--secondary"onClick={nextHandler}  >Continue</button>
+                </div>
+                </div>
+                }
             </div>
         </div>
     )

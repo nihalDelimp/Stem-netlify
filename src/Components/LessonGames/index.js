@@ -47,7 +47,6 @@ const LessonGames = ( props ) => {
         } ) )
             .then(
                 response => {
-                    
                     setLoading( false )
                     setIsOptionOpen( false )
                     dispatch( {
@@ -121,16 +120,17 @@ const LessonGames = ( props ) => {
   
 
     useEffect( () => {
-        setLoading( true )
         getModuleData( {
             CLG_Index: !CLG_Index ? 1 : CLG_Index,
             CG_index: 0,
         } )
-        getCoversation();
+        if(!IsLessonOver){
+            getCoversation();
+        }
         if ( IsLessonOver === " No data present." ) {
             setLessonFinished( true )
         }
-    }, [CLG_Index] )
+    }, [CLG_Index ] )
 
     return (
         <>

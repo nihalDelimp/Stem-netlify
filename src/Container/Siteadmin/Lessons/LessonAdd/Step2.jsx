@@ -157,7 +157,7 @@ const Step2 = ( props ) => {
                                 <div className="file--upload">
                                     <input
                                         type="file"
-                                        accept="application/pdf, image/png, image/jpeg, image/jpg"
+                                        accept="application/pdf, image/png, image/jpeg, image/jpg,"
                                         onChange={e => {
                                             if ( e.target.files.length === 0 ) {
                                                 clearStoreFile()
@@ -188,7 +188,7 @@ const Step2 = ( props ) => {
                                 <div className="file--upload">
                                     <input
                                         type="file"
-                                        accept="application/pdf, image/png, image/jpeg, image/jpg"
+                                        accept="application/pdf, image/png, image/jpeg, image/jpg,"
                                         onChange={e => {
                                             if ( e.target.files.length === 0 ) {
                                                 clearStoreFile()
