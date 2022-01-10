@@ -9,6 +9,7 @@ import { Input } from '../Inputs';
 import IsLoadingHOC from '../IsLoadingHOC';
 
 const Login = ( props ) => {
+    console.log("Updated code")
     const { login, setLoading } = props
     const history = useHistory()
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;

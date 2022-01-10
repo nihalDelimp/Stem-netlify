@@ -460,17 +460,23 @@
         }
     }
 }
+
+
+//aashish's changes
+
  // Leader page css changed
-.modal.content--center .leaderboard {
+ .modal.content--center .leaderboard {
     height: 400px !important;
 }
 
+//quiz option section changes
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
-    .modal.content--center .modal--body { padding: 1.5rem 3rem; } 
-  } 
-  
-  .modal--body.quiz {
+    .modal.content--center .quiz { 
       display: flex;
       flex-direction: column;
+      height: -webkit-fit-content;
       justify-content: center;
-   }
+      padding: 1.5rem 3rem;
+      align-items: center; 
+   } 
+  } 
