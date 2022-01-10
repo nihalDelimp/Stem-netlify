@@ -9,7 +9,6 @@ import { Input } from '../Inputs';
 import IsLoadingHOC from '../IsLoadingHOC';
 
 const Login = ( props ) => {
-    console.log("Updated code")
     const { login, setLoading } = props
     const history = useHistory()
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -91,7 +90,7 @@ const Login = ( props ) => {
 
 
                 <Link to="/signup">Sign up new account</Link>
-                <Link to="/invited-login">I have an invite link!</Link>
+                {/* <Link to="/invited-login">I have an invite link!</Link> */}
             </div>
         </div>
     )

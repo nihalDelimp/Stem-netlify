@@ -24,7 +24,7 @@ const Leaderboard = (props) => {
         }))
             .then(
                 response => {
-                    setLeaderboardData(response.data ? response.data : [])
+                    setLeaderboardData(response.data ? response.data.reverse() : [])
                     setLoading(false)
                 },
                 () => {
@@ -57,21 +57,21 @@ const Leaderboard = (props) => {
                         <div className='Leaderboard--winners-trophy'>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/silver.png").default}></img>
-                                {/* <h3>{leaderboardData && leaderboardData.length > 0 ? leaderboardData[3].student_details[0]?.name : "No Student"}</h3> */}
+                                <h3>{leaderboardData && leaderboardData[1] ? leaderboardData[1]?.student_details[0]?.name : "N/A"}</h3>
                                 <h4>Company value: </h4>
-                                {/* <h5>{leaderboardData && leaderboardData.length > 0 ? leaderboardData[3]?.quiz_game_money : ""}</h5> */}
+                                <h5>{leaderboardData && leaderboardData[1] ? leaderboardData[1]?.quiz_game_money : "N/A"}</h5>
                             </div>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/gold.png").default}></img>
-                                <h3>{leaderboardData && leaderboardData.length > 1 ? leaderboardData[4]?.student_details[0]?.name : "No Student"}</h3>
+                                <h3>{leaderboardData && leaderboardData[0] ? leaderboardData[0]?.student_details[0]?.name : "N/A"}</h3>
                                 <h4>Company value: </h4>
-                                {/* <h5>{leaderboardData && leaderboardData.length > 0 ? leaderboardData[4]?.quiz_game_money : ""}</h5> */}
+                                <h5>{leaderboardData && leaderboardData[0] ? leaderboardData[0]?.quiz_game_money : "N/A"}</h5>
                             </div>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/bronze.png").default}></img>
-                                {/* <h3>{leaderboardData && leaderboardData.length > 2 ? leaderboardData[2]?.student_details[0]?.name : "No Student"}</h3> */}
+                                <h3>{leaderboardData && leaderboardData[2] ? leaderboardData[2]?.student_details[0]?.name : "N/A"}</h3>
                                 <h4>Company value: </h4>
-                                {/* <h5>{leaderboardData && leaderboardData.length > 0 ? leaderboardData[2]?.quiz_game_money : ""}</h5> */}
+                                <h5>{leaderboardData && leaderboardData[2] ? leaderboardData[2]?.quiz_game_money : "N/A"}</h5>
                             </div>
                         </div>
                         <div className='new--leaderboard_tabs'>
