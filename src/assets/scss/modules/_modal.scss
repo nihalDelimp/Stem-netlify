@@ -464,3 +464,13 @@
 .modal.content--center .leaderboard {
     height: 400px !important;
 }
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    .modal.content--center .modal--body { padding: 1.5rem 3rem; } 
+  } 
+  
+  .modal--body.quiz {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+   }
