@@ -7,43 +7,41 @@ import { getAllStudentScore } from '../../../Redux/action/Student'
 import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
 
 const Leaderboard = (props) => {
-    const{setLoading} = props
+    const { setLoading } = props
     const [currentLeaderTab, setCurrentTab] = useState(1)
-    const [leaderboardData, setLeaderboardData] = useState( [] )
-    const classCode = useSelector( state => state.auth.classCode )
-   // console.log( "leadereboard data", leaderboardData)
+    const [leaderboardData, setLeaderboardData] = useState([])
+    const classCode = useSelector(state => state.auth.classCode)
 
     const dispatch = useDispatch();
     const NewLeaderTab = (index) => {
         setCurrentTab(index)
     }
 
-  console.log("leaderboard data",leaderboardData)
     const getAllStudentScoreData = async () => {
-        await dispatch( getAllStudentScore({
+        await dispatch(getAllStudentScore({
             class_code: classCode,
-            week_number:1
-        }) )
-        .then(
-            response => {
-                setLeaderboardData( response.data ? response.data : [] )
-                setLoading( false )
-            },
-            () => {
-                setLeaderboardData( [] )
-                setLoading( false )
-            }
-        )
-        .catch(
-            error => console.log( error )
-        )
+            week_number: 1
+        }))
+            .then(
+                response => {
+                    setLeaderboardData(response.data ? response.data : [])
+                    setLoading(false)
+                },
+                () => {
+                    setLeaderboardData([])
+                    setLoading(false)
+                }
+            )
+            .catch(
+                error => console.log(error)
+            )
     }
 
-    useEffect( () => {
+    useEffect(() => {
         getAllStudentScoreData();
-     
-    }, [] )
-  
+
+    }, [])
+
     return (
         <div className="container">
             <div className="LeaderNew--section">
@@ -59,21 +57,21 @@ const Leaderboard = (props) => {
                         <div className='Leaderboard--winners-trophy'>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/silver.png").default}></img>
-                                <h3>Lily</h3>
+                                {/* <h3>{leaderboardData && leaderboardData.length > 0 ? leaderboardData[3].student_details[0]?.name : "No Student"}</h3> */}
                                 <h4>Company value: </h4>
-                                <h5>1,120,550</h5>
+                                {/* <h5>{leaderboardData && leaderboardData.length > 0 ? leaderboardData[3]?.quiz_game_money : ""}</h5> */}
                             </div>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/gold.png").default}></img>
-                                <h3>Lily</h3>
+                                <h3>{leaderboardData && leaderboardData.length > 1 ? leaderboardData[4]?.student_details[0]?.name : "No Student"}</h3>
                                 <h4>Company value: </h4>
-                                <h5>1,120,550</h5>
+                                {/* <h5>{leaderboardData && leaderboardData.length > 0 ? leaderboardData[4]?.quiz_game_money : ""}</h5> */}
                             </div>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/bronze.png").default}></img>
-                                <h3>Lily</h3>
+                                {/* <h3>{leaderboardData && leaderboardData.length > 2 ? leaderboardData[2]?.student_details[0]?.name : "No Student"}</h3> */}
                                 <h4>Company value: </h4>
-                                <h5>1,120,550</h5>
+                                {/* <h5>{leaderboardData && leaderboardData.length > 0 ? leaderboardData[2]?.quiz_game_money : ""}</h5> */}
                             </div>
                         </div>
                         <div className='new--leaderboard_tabs'>
@@ -91,26 +89,26 @@ const Leaderboard = (props) => {
                         </div>
                         <div className='new--leaderboard_tabs-content-wrapper'>
                             <div className='new--leaderboard_tabs-content' className={currentLeaderTab === 1 ? "activetabLeader new--leaderboard_tabs-content" : "new--leaderboard_tabs-content"} onClick={() => NewLeaderTab(1)}>
-                           
-                            {leaderboardData.length >0 && leaderboardData.map((item ,index)=>
-                                <div className='new--leaderboard_tabs-data' key={item.id} >
-                                    <div className='winner-ranks'>
-                                        <h3>{index+1}</h3>
-                                        <img src={require("../../../assets/images/user_img.png").default}></img>
-                                        <h4>{item.student_details[0].name}</h4>
-                                    </div>
-                                    <div className='winner-datas'>
-                                        <div className='winner-budget'>
-                                            <span>Budget: </span>
-                                            <span>10,000</span>
+
+                                { leaderboardData && leaderboardData.length > 0 && leaderboardData.map((item, index) =>
+                                    <div className='new--leaderboard_tabs-data' key={item.id} >
+                                        <div className='winner-ranks'>
+                                            <h3>{index + 1}</h3>
+                                            <img src={require("../../../assets/images/user_img.png").default}></img>
+                                            <h4>{item.student_details[0]?.name}</h4>
                                         </div>
-                                        <div className='winner-price'>
-                                            <span>$ </span>
-                                            <span>{item.quiz_score}</span>
+                                        <div className='winner-datas'>
+                                            <div className='winner-budget'>
+                                                <span>Budget: </span>
+                                                <span>10,000</span>
+                                            </div>
+                                            <div className='winner-price'>
+                                                <span>$ </span>
+                                                <span>{item.quiz_game_money}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                 )}
+                                )}
                             </div>
 
 
@@ -197,4 +195,4 @@ const Leaderboard = (props) => {
     )
 }
 
-export default ( IsLoadingHOC( IsloggedinHOC( Leaderboard ) ) )
+export default (IsLoadingHOC(IsloggedinHOC(Leaderboard)))

@@ -50,6 +50,7 @@ const QuizVideo = (props) => {
             .then(
                 response => {
                     setDocumentData(response.data)
+                    console.log(response.data[2], "Nihals")
                 },
                 () => {
                     setDocumentData([])
@@ -63,6 +64,8 @@ const QuizVideo = (props) => {
     useEffect(() => {
         getDocuments()
     }, [dispatch, courseId, weekNumber])
+
+    console.log("documentData", documentData)
 
 
     return (
@@ -123,12 +126,15 @@ const QuizVideo = (props) => {
                                             textAlign : "center"
 
                                         }} >
-                                            <FileViewer
-                                                fileType={type}
-                                                filePath={documentData[index].file_details}
+
+
+
+                                             <FileViewer
+                                                fileType={"pdf"}
+                                                filePath={documentData[2].file_details}
                                                
                                                  onError={onError}
-                                            />
+                                            /> 
                                         </div>
                                     )
                                 } */}

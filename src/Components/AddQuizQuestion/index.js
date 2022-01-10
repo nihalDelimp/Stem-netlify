@@ -13,6 +13,7 @@ const AddQuizQuestions = ( props ) => {
     const dispatch = useDispatch()
     const history = useHistory()
     const { week, classCode, id } = history.location.state;
+    const[correct_answer , setCorrectAnswer] = useState("")
 
 
 
@@ -61,7 +62,7 @@ const AddQuizQuestions = ( props ) => {
                     setState({
                        ...state , question : question
                     })
-                    optiondData.map((item,index)=>
+                    optiondData.map((item,index)=> {
                     setOptions(
                         [
                             ...optiondData.slice( 0, index ),
@@ -69,7 +70,10 @@ const AddQuizQuestions = ( props ) => {
                             ...optiondData.slice( index + 1 )
                         ]
                     )
-                    )
+                    if(item.is_correct === true){
+                        setCorrectAnswer("selectedAnswer") 
+                    }
+                    })
                     setLoading( false )
                 },
                 () => setLoading( false )
@@ -88,9 +92,11 @@ const AddQuizQuestions = ( props ) => {
             }
             return option
         } ) )
+        setCorrectAnswer("selectedAnswer")
     }
 
     const submitHandler = async () => {
+        if(correct_answer){
         setLoading( true )
         if(quizQuestionId){
             await dispatch( updateQuizQuestions( {
@@ -151,6 +157,10 @@ const AddQuizQuestions = ( props ) => {
                 }
             )
         }
+    }
+    else{
+        toast.error("Please select any correct answer")
+    }
     }
 
     const toChars = n => `${n >= 26 ? toChars( Math.floor( n / 26 ) - 1 ) : ''}${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[n % 26]}`;

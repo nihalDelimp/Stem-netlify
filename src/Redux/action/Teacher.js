@@ -119,7 +119,7 @@ export const deleteTeacherClassroom = ( data, id ) => async () => {
 }
 
 export const createStudent = data => async () => {
-    new Promise( async ( resolve, reject ) =>
+    return new Promise( async ( resolve, reject ) =>
         await authAxios().post( "teacher/add-student-teacher-class", data )
             .then(
                 response =>

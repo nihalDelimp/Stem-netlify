@@ -350,7 +350,11 @@
             gap: 0.5rem;
             background-color: #fff;
             min-width: 100px;
-            padding: 0.5rem 1rem;
+            // padding: 0.5rem 1rem;
+            padding-right: 3rem;
+            padding-top:  0.5rem;
+            padding-left:  0.5rem ;
+            padding-bottom:  0.5rem;
             border-radius: 20px;
         }
     }
@@ -455,4 +459,8 @@
             }
         }
     }
+}
+ // Leader page css changed
+.modal.content--center .leaderboard {
+    height: 400px !important;
 }
