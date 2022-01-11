@@ -313,10 +313,14 @@ const AddConversion = (props) => {
             </div>
             <div className="proceed-btn-container">
                 <div className="proceed-btn-group">
-                   { slidefileID ? (<button disabled = {lessonConversation && lessonConversation.length == 0} className="btn-common btn-proceed" onClick={() => {
-                        updateImage()
+                   { slidefileID ? (<button  style={{  opacity:  lessonConversation.length == 0 && "0.5" }} className="btn-common btn-proceed" onClick={() => {
+                       lessonConversation.length == 0 ?
+                       toast.error("Please add any  conversation") :
+                       updateImage()
                     }}>Proceed</button>) :
-                    (<button disabled = {lessonConversation && lessonConversation.length == 0} className="btn-common btn-proceed" onClick={() => {
+                    (<button style={{  opacity:  lessonConversation.length == 0 && "0.5" }} className="btn-common btn-proceed" onClick={() => {
+                        lessonConversation.length == 0 ?
+                       toast.error("Please add any conversation") :
                         createImage()
                     }}>Proceed</button>)
 

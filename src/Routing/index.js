@@ -138,7 +138,7 @@ const Routing = () => {
             
             <PrivateRoute
                 exact
-                path="/classroomsStudentdata"
+                path="/classroom-student/:id"
                 component={Teacher( classroomsStudentdata )}
                 layout={PrivateLayout} />
            //---------------------------------------------------------------------------------------------

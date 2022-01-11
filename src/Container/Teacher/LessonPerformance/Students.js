@@ -61,11 +61,11 @@ const StudentsList = ( props ) => {
                             <div className="class--number">
                                 <Link
                                     to={{
-                                        pathname: "/classroomsStudentdata",
+                                        pathname: `/classroom-student/${student.id}`,
                                         state: {
-                                            name: student.name,
-                                            classs: classroom,
-                                            classcode: "CAN6WZ08"
+                                            StudentName: student.name,
+                                            classsName: classroom,
+                                            classcode: params.id
                                         }
                                     }}
                                 >

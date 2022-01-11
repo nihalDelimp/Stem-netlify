@@ -10,7 +10,7 @@ import AppRoute from '../../../Routing/AppRoute'
 const ClassroomStudentData = () => {
 
     const location = useLocation()
-    const { name, classs, classcode ,id} = location.state
+    const { StudentName , classsName, classcode} = location.state
      return (
 
         <>
@@ -37,22 +37,19 @@ const ClassroomStudentData = () => {
                                         <img src={require( "../../../assets/images/polygon_green.svg" ).default}></img>
                                          <Link style={{ color: "#000", textDecoration: "none" }}
                                              to={{
-                                                 pathname: `classroom/${classcode}`,
+                                                 pathname: `/classroom/${classcode}`,
                                                  state: {
-                                                     classroom: name,
-                                                     id: id,
+                                                     classroom: classsName,
                                                      classCode: classcode,
-
                                                  }
                                              }}
                                        
                                          > 
-                                            <span>{classs}</span>
+                                            <span>{classsName}</span>
                                              </Link> 
                                     </li>
                                     <li>
-                                        <span>{name}</span>
-                                        <span></span>
+                                        <span>{StudentName}</span>
                                     </li>
                                 </ul>
                             </div>

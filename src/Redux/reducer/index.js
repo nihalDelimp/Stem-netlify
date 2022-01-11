@@ -5,9 +5,21 @@ import config from './Config';
 import app from './App';
 import course from "./Course"
 
-export default combineReducers( {
+  const appReducer = combineReducers( {
   auth,
   config,
   app,
   course
 } );
+
+const initialState = appReducer({}, {} ,{} ,{})
+
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    state = initialState
+  }
+
+  return appReducer(state, action)
+}
+
+export default rootReducer ;

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import IsLoadingHOC from "../../../Components/IsLoadingHOC";
 import { getClassroomLessons } from "../../../Redux/action/Teacher";
-import UnlockPopUp from './unlockPopup'
+import { toast } from "react-toastify";
+
+import UnlockPopUp from './unlockPopup';
 
 
 const LessonList = (props) => {
@@ -46,23 +48,31 @@ const LessonList = (props) => {
                                 <div className="class--number">
                                     <h3>{lesson.course_name}</h3>
                                 </div>
-                                <div className="dots--icon">
-                                    <span onClick={ () => {
-                                         setunlockPopUp(true)
-                                         setLessonData({
-                                                class_code : params.id ,
-                                                week_number:lesson.week_number,
-                                                lesson_locked : lesson.lesson_locked,
-                                                id  : lesson.id
-                                         })
-
-                                     } }  >Inspect</span>
+                                <div className="dots--icon" style={{ color: lesson.lesson_locked === false ? "green" : "red" }} >
+                                    <span onClick={() => {
+                                        lesson.lesson_locked === false ?
+                                            toast.warn("This course is already activated") :
+                                            setunlockPopUp(true)
+                                            setLessonData({
+                                            class_code: params.id,
+                                            week_number: lesson.week_number,
+                                            lesson_locked: lesson.lesson_locked,
+                                            id: lesson.id
+                                        })
+                                    }}>
+                                    {lesson.lesson_locked === false ? "Activated" : "Active"}</span>
                                 </div>
                             </div>
                         </div>
                     ))
                 }
-            {unlockPopUp && <UnlockPopUp setunlockPopUp={setunlockPopUp} lessonData = {lessonData} />}
+                {
+                    unlockPopUp &&
+                    <UnlockPopUp
+                        setunlockPopUp={setunlockPopUp}
+                        getLessons={getLessons}
+                        lessonData={lessonData} />
+                }
 
             </div>
         </div>

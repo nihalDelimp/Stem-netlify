@@ -7,9 +7,8 @@ import {  unlockedLesson } from '../../../Redux/action/Teacher'
 
 
 const UnlockPopUp = ( props ) => {
-    const { setLoading,setunlockPopUp ,lessonData} = props
-    const{week_number, lesson_locked , id ,class_code } =  lessonData
-    console.log("lessonData" ,lessonData)
+    const { setLoading, setunlockPopUp, lessonData, getLessons} = props
+    const { week_number, lesson_locked, id, class_code } = lessonData
     const [checked, setChecked] = useState( false )
     const dispatch = useDispatch()
     const params = useParams()
@@ -28,9 +27,10 @@ const UnlockPopUp = ( props ) => {
             .then(
                 response => {
                     setLoading(false)
-                    toast.success(response.message)
+                    toast.success("Course Activated successfully ")
                     setunlockPopUp( false )
-                   
+                    getLessons();
+               
                 },
                 error => {
                     toast.error(error.response.data.message)
@@ -58,7 +58,7 @@ const UnlockPopUp = ( props ) => {
                         id="exampleCheck1"
                         onChange={handlerChecked}
                     />
-                    <label className="form-check-label" htmlFor="exampleCheck1">Are you sure you want to  unlock ?</label>
+                    <label className="form-check-label" htmlFor="exampleCheck1">If you wnat to activate this, the rest all will be deactivate ?</label>
                 </div>
                 <div className="btn--group">
                     <button className="create"  onClick={unlockLessonHandle}  disabled={!checked}>Confirm</button>
