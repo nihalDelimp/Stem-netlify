@@ -76,13 +76,21 @@ const Leaderboard = (props) => {
                         </div>
                         <div className='new--leaderboard_tabs'>
                             <ul>
-                                <li className={currentLeaderTab === 1 ? "active-leadertab" : " "} onClick={() => NewLeaderTab(1)}>
+                                <li className={currentLeaderTab === 1 ? "active-leadertab" : " "}
+
+                                    onClick={() => NewLeaderTab(1)}>
                                     <span>Class</span>
                                 </li>
-                                <li className={currentLeaderTab === 2 ? "active-leadertab" : " "} onClick={() => NewLeaderTab(2)}>
+                                <li className={currentLeaderTab === 2 ? "active-leadertab" : " "}
+
+                                //</ul> onClick={() => NewLeaderTab( 2 )}
+                                >
                                     <span>Year</span>
                                 </li>
-                                <li className={currentLeaderTab === 3 ? "active-leadertab" : " "} onClick={() => NewLeaderTab(3)}>
+                                <li className={currentLeaderTab === 3 ? "active-leadertab" : " "}
+
+                                // onClick={() => NewLeaderTab( 3 )}
+                                >
                                     <span>Region</span>
                                 </li>
                             </ul>
@@ -90,29 +98,42 @@ const Leaderboard = (props) => {
                         <div className='new--leaderboard_tabs-content-wrapper'>
                             <div className='new--leaderboard_tabs-content' className={currentLeaderTab === 1 ? "activetabLeader new--leaderboard_tabs-content" : "new--leaderboard_tabs-content"} onClick={() => NewLeaderTab(1)}>
 
-                                { leaderboardData && leaderboardData.length > 0 && leaderboardData.map((item, index) =>
-                                    <div className='new--leaderboard_tabs-data' key={item.id} >
-                                        <div className='winner-ranks'>
-                                            <h3>{index + 1}</h3>
-                                            <img src={require("../../../assets/images/user_img.png").default}></img>
-                                            <h4>{item.student_details[0]?.name}</h4>
-                                        </div>
-                                        <div className='winner-datas'>
-                                            <div className='winner-budget'>
-                                                <span>Budget: </span>
-                                                <span>10,000</span>
+                                {leaderboardData && leaderboardData.length > 0
+                                    ?
+                                    leaderboardData && leaderboardData.length > 0 && leaderboardData.map((item, index) =>
+                                        <div className='new--leaderboard_tabs-data' key={item.id} >
+                                            <div className='winner-ranks'>
+                                                <h3>{index + 1}</h3>
+                                                <img src={require("../../../assets/images/user_img.png").default}></img>
+                                                <h4>{item.student_details[0]?.name}</h4>
                                             </div>
-                                            <div className='winner-price'>
-                                                <span>$ </span>
-                                                <span>{item.quiz_game_money}</span>
+                                            <div className='winner-datas'>
+                                                <div className='winner-budget'>
+                                                    <span>Budget: </span>
+                                                    <span>10,000</span>
+                                                </div>
+                                                <div className='winner-price'>
+                                                    <span>$ </span>
+                                                    <span>{item.quiz_game_money}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                )}
+                                    )
+                                    :
+                                    (<div style={{
+                                        height: "100px",
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        gridColumn: "span 2"
+                                    }}>
+                                        <h2 style={{ fontWeight: "normal", opacity: "0.25" }}>No Students are registered with this class</h2>
+                                    </div>)
+                                }
                             </div>
-
-
-                            <div className='new--leaderboard_tabs-content' className={currentLeaderTab === 2 ? "activetabLeader new--leaderboard_tabs-content" : "new--leaderboard_tabs-content"} onClick={() => NewLeaderTab(1)}>
+                            <div className='new--leaderboard_tabs-content' className={currentLeaderTab === 2 ? "activetabLeader new--leaderboard_tabs-content" : "new--leaderboard_tabs-content"}
+                            // onClick={() => NewLeaderTab( 1 )}
+                            >
                                 <div className='new--leaderboard_tabs-data'>
                                     <div className='winner-ranks'>
                                         <h3>3</h3>
@@ -150,7 +171,9 @@ const Leaderboard = (props) => {
                             </div>
 
 
-                            <div className='new--leaderboard_tabs-content' className={currentLeaderTab === 3 ? "activetabLeader new--leaderboard_tabs-content" : "new--leaderboard_tabs-content"} onClick={() => NewLeaderTab(1)}>
+                            <div className='new--leaderboard_tabs-content' className={currentLeaderTab === 3 ? "activetabLeader new--leaderboard_tabs-content" : "new--leaderboard_tabs-content"}
+                                onClick={() => NewLeaderTab(1)}
+                            >
                                 <div className='new--leaderboard_tabs-data'>
                                     <div className='winner-ranks'>
                                         <h3>5</h3>

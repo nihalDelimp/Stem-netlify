@@ -23,6 +23,7 @@ const LessonGames = ( props ) => {
         CLG_Index,
         CG_length,
         CG_index,
+        IsOptionOpen ,
         weekNumber,
          courseId ,
          moduleId,
@@ -30,7 +31,7 @@ const LessonGames = ( props ) => {
     const { lessonSlide, lessonConvOption, LessonQuestionDetail } = data
 
 
-    const [IsOptionOpen, setIsOptionOpen] = useState( false )
+    // const [IsOptionOpen, setIsOptionOpen] = useState( false )
     const [IsLessonOver, setIsLessonOver] = useState( "" )
 
     const dispatch = useDispatch()
@@ -48,7 +49,9 @@ const LessonGames = ( props ) => {
             .then(
                 response => {
                     setLoading( false )
-                    setIsOptionOpen( false )
+                    getModuleData( {
+                        IsOptionOpen : false
+                    } )
                     dispatch( {
                         type: "SAVE_DATA",
                         payload: {
@@ -105,7 +108,9 @@ const LessonGames = ( props ) => {
                 CG_index: CG_index + 1
             } )
         } else {
-            setIsOptionOpen( true )
+            getModuleData( {
+                IsOptionOpen : true
+            } )
         }
     }
 

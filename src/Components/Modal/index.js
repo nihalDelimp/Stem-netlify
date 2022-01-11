@@ -24,7 +24,7 @@ const Modal = (props) => {
 
     const { current, closeModal, data, getModuleData, getStudentCharacter, selected, setLoading, user } = props
 
-    const { CG_TotalIntro, CG_StepIntro, activeStep, currentStepIndex, weekNumber, CLG_Index } = current
+    const { CG_TotalIntro, CG_StepIntro, activeStep, currentStepIndex, weekNumber, CLG_Index ,CG_index , CG_length ,IsOptionOpen } = current
 
     const { lessonSlideDetails } = data
 
@@ -134,15 +134,29 @@ const Modal = (props) => {
 
         if (activeStep === "lesson-game") {
 
-            if (CLG_Index !== 1) {
+           if(CG_index !==0 ){
+               if(IsOptionOpen === true){
+                getModuleData({
+                     IsOptionOpen : false
+                })
+                }
+                else{
+                    getModuleData({
+                        CG_index: CG_index === 0 ? 0 : CG_index - 1,
+                    })
+               }
+           }
+
+            else if (CLG_Index !== 1) {
                 getModuleData({
                     CLG_Index: CLG_Index === 1 ? 1 : CLG_Index - 1,
-                    CG_index: 0,
+                    IsOptionOpen : false
                 })
             }
             else {
                 getModuleData({
                     activeStep: "quiz",
+                    CG_length : 0
                     //  currentStepIndex: 0,
                 })
             }
