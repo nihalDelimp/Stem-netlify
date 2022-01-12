@@ -138,7 +138,9 @@ const QuizVideo = (props) => {
                                     getFileExtention(documentData[index].file_details) === "txt" ||
                                         getFileExtention(documentData[index].file_details) === "doc" ? (
                                         <iframe
-                                            src={`https://docs.google.com/viewer?url=${documentData[index].file_details}&embedded=true`}
+                                        frameborder='0' 
+                                        allowtransparency='true'
+                                            src={"https://docs.google.com/viewer?&embedded=true&url="+ documentData[index].file_details}
                                             title="file"
                                             width="100%"
                                             height="100%"
