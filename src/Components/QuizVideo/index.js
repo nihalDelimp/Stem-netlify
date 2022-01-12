@@ -2,16 +2,19 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { getModuleData } from '../../Redux/action/App'
 import { getLessonDocument } from '../../Redux/action/Student'
-// import FileViewer from 'react-file-viewer';
+import FileViewer from 'react-file-viewer';
+import IsLoadingHOC from '../IsLoadingHOC'
+
 const QuizVideo = (props) => {
 
     const { current } = useSelector(state => state.app)
 
     const type = 'pdf'
     const { weekNumber, courseId, currentStepIndex, totalStepIndex, } = current
-    const { getModuleData } = props
+    const { getModuleData, setLoading } = props
     const dispatch = useDispatch()
     const [currentVideo, setCurrentVideo] = useState(0)
+    const [loader, setLoader] = useState(true)
     const [documentData, setDocumentData] = useState([])
 
 
@@ -65,15 +68,12 @@ const QuizVideo = (props) => {
         getDocuments()
     }, [dispatch, courseId, weekNumber])
 
-    console.log("documentData", documentData)
-
-
     return (
         <div>
             <div className="quiz-video" style={{ display: "flex", justifyContent: "center", height: "85%" }}>
 
 
-                {  documentData && documentData.length > 0 ? 
+                {documentData && documentData.length > 0 ? 
                     (documentData.map((_, index) => (
                         currentStepIndex === index && (
                             <Fragment key={index}>
@@ -98,7 +98,8 @@ const QuizVideo = (props) => {
                                             alt={getFileExtention(documentData[index].file_details)} />
                                     ) : null
                                 }
-                                {
+
+                                {/* {
                                     getFileExtention(documentData[index].file_details) === "pdf" && (
                                         <button
                                             onClick={() => {
@@ -115,33 +116,40 @@ const QuizVideo = (props) => {
                                             Download Document
                                         </button>
                                     )
-                                }
-
-
-                                {/* {
-                                    getFileExtention( documentData[index].file_details ) === "pdf" && (
-                                        <div style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            textAlign : "center"
-
-                                        }} >
-
-
-
-                                             <FileViewer
-                                                fileType={"pdf"}
-                                                filePath={documentData[2].file_details}
-                                               
-                                                 onError={onError}
-                                            /> 
-                                        </div>
-                                    )
                                 } */}
 
+                                {
+                                    getFileExtention(documentData[index].file_details) === "pdf" && (
+                                        <div style={{
+                                            width: "80%",
+                                            height: "100%",
+                                            textAlign: "center"
+                                        }} >
+                                            <FileViewer
+                                                fileType={"pdf"}
+                                                filePath={documentData[index].file_details}
+                                                onError={onError}
+                                            />
+                                        </div>
+                                    )}
+
+
+                                {
+                                    getFileExtention(documentData[index].file_details) === "txt" ||
+                                        getFileExtention(documentData[index].file_details) === "doc" ? (
+                                        <iframe
+                                            src={`https://docs.google.com/viewer?url=${documentData[index].file_details}&embedded=true`}
+                                            title="file"
+                                            width="100%"
+                                            height="100%"
+                                        >
+                                        </iframe>
+                                    ) : null
+                                        
+                                }
                             </Fragment>
                         ))
-                    )) : 
+                    )) :
                     (<div style={{
                         height: "300px",
                         display: "flex",
@@ -166,4 +174,4 @@ const QuizVideo = (props) => {
     )
 }
 
-export default connect(null, { getModuleData })(QuizVideo)
+export default connect(null, { getModuleData })(IsLoadingHOC(QuizVideo))

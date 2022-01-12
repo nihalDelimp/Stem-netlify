@@ -11,7 +11,9 @@ const Leaderboard = (props) => {
     const [currentLeaderTab, setCurrentTab] = useState(1)
     const [leaderboardData, setLeaderboardData] = useState([])
     const classCode = useSelector(state => state.auth.classCode)
+    const week_number = useSelector(state => state.app.week_number)
 
+    
     const dispatch = useDispatch();
     const NewLeaderTab = (index) => {
         setCurrentTab(index)
@@ -20,7 +22,7 @@ const Leaderboard = (props) => {
     const getAllStudentScoreData = async () => {
         await dispatch(getAllStudentScore({
             class_code: classCode,
-            week_number: 1
+            week_number: week_number
         }))
             .then(
                 response => {

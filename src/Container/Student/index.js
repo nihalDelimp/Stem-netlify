@@ -39,6 +39,11 @@ const Dashboard = ( props ) => {
                     setLessonData( response.data ? response.data : [] )
                     setLoading( false )
                     dispatch( { type: "SET_CLASS_CODE_SUCCESS", payload: response.data[0].class_code } )
+                    response.data && response.data.map((item , index)=>{
+                        if(!item.lesson_locked){
+                            dispatch( { type: "SET_WEEK_NUMBER_SUCCESS", payload: item.week_number } )
+                        }
+                    })
                 },
                 () => {
                     setLessonData( [] )
@@ -92,6 +97,7 @@ const Dashboard = ( props ) => {
                                                 lessonLocked: item.lesson_locked,
                                                 activeStep: item.week_number === 1 ? undefined : "leaderboard",
                                                 currentStepIndex: 0,
+                                                class_code : item.class_code
                                                
                                             } )}>
                                             <motion.div

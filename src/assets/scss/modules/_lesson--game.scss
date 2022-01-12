@@ -23,6 +23,7 @@
             min-height: 230px;
             cursor: pointer;
             transition: all 0.2s ease-in-out;
+            position: relative;
             &:hover{
                 transform: scale(1.05);
             }
@@ -40,6 +41,11 @@
             &--option{
                 display: flex;
                 justify-content: space-evenly;
+                position: absolute;
+                bottom: 10%;
+                left: 0;
+                right: 0;
+                margin: 0 auto;
             }
             &--item{
                 background-color: #fff;

@@ -9,14 +9,14 @@ import { motion } from "framer-motion"
 import Intro from "../Intro"
 import Character from "../Character"
 import { useHistory, useLocation, useParams } from "react-router"
-import { connect, useSelector } from "react-redux"
+import { connect, useSelector ,useDispatch } from "react-redux"
 import { closeModal, getModuleData } from "../../Redux/action/App"
 import Quiz from "../Quiz"
 import AddGameQuestion from "../AddGameQuestion"
 import AddQuizQuestions from "../AddQuizQuestion"
 import LessonGames from "../LessonGames"
 import QuizVideo from "../QuizVideo"
-import { getStudentCharacter } from "../../Redux/action/Student"
+import { getStudentCharacter ,getAllStudentScore } from "../../Redux/action/Student"
 import IsLoadingHOC from "../IsLoadingHOC"
 import Leaderboard from "../Leaderboard"
 
@@ -24,18 +24,19 @@ const Modal = (props) => {
 
     const { current, closeModal, data, getModuleData, getStudentCharacter, selected, setLoading, user } = props
 
-    const { CG_TotalIntro, CG_StepIntro, activeStep, currentStepIndex, weekNumber, CLG_Index ,CG_index , CG_length ,IsOptionOpen } = current
+    const { CG_TotalIntro, CG_StepIntro, activeStep, currentStepIndex, weekNumber, CLG_Index ,CG_index , class_code ,IsOptionOpen } = current
 
     const { lessonSlideDetails } = data
 
     const selectedChar = useSelector(state => state.app.current.selected)
 
-
+    const [leaderboardData, setLeaderboardData] = useState([])
     const [lessonFinished, setLessonFinished] = useState(false)
     const [characterDetail, setCharacterDetail] = useState([])
     const history = useHistory();
     const location = useLocation()
     const params = useParams()
+    const dispatch = useDispatch();
 
 
     const config = {
@@ -69,7 +70,30 @@ const Modal = (props) => {
             moduleId: params.id,
             activeStep: !activeStep ? "intro" : activeStep
         })
+        getAllStudentScoreData()
     }, [activeStep, getModuleData, location.pathname, params.id])
+
+
+
+    const getAllStudentScoreData = async () => {
+        await dispatch(getAllStudentScore({
+            class_code: class_code,
+            week_number: weekNumber
+        }))
+            .then(
+                response => {
+                    setLeaderboardData(response.data ? response.data.reverse() : [])
+                    setLoading(false)
+                },
+                () => {
+
+                    setLoading(false)
+                }
+            )
+            .catch(
+                error => console.log(error)
+            )
+    }
 
 
 

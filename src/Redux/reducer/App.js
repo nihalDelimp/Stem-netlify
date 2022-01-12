@@ -5,8 +5,11 @@ let initialState = {
         active: 0,
     },
     data: {},
-    studentData : []
+    studentData: [],
+    week_number: ''
 }
+
+
 
 export default function foo(state = initialState, action) {
     switch (action.type) {
@@ -18,11 +21,14 @@ export default function foo(state = initialState, action) {
             return { ...state, data: { ...state.data, ...action.payload } }
         case "CLOSE_MODAL":
             return { ...state, current: action.payload }
-       
+
         case "SAVE_CHARACTER_DATA":
             return { ...state, character: { ...state.character, ...action.payload } }
-            case "GET_STUDENT_DATA_SUCESS" :
-                return { ...state, studentData:  action.payload } 
+        case "GET_STUDENT_DATA_SUCESS":
+            return { ...state, studentData: action.payload }
+
+        case "SET_WEEK_NUMBER_SUCCESS":
+            return { ...state, week_number: action.payload }
         default:
             return state
     }

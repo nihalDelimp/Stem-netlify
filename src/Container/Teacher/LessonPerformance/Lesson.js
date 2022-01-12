@@ -16,6 +16,8 @@ const LessonList = (props) => {
     const [unlockPopUp, setunlockPopUp] = useState(false)
     const [lessonData, setLessonData] = useState({})
 
+    console.log("lesson data", lessons)
+
     useEffect(() => {
         getLessons()
     }, [])
@@ -37,6 +39,7 @@ const LessonList = (props) => {
                 error => console.log(error)
             );
     }
+
 
     return (
         <div className="classrooms-student">

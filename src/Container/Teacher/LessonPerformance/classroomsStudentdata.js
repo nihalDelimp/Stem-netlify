@@ -11,6 +11,7 @@ const ClassroomStudentData = () => {
 
     const location = useLocation()
     const { StudentName , classsName, classcode} = location.state
+    console.log("locationState" , location.state)
      return (
 
         <>
