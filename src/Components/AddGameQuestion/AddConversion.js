@@ -13,31 +13,34 @@ import {
 import { toast } from 'react-toastify'
 import IsLoadingHOC from '../IsLoadingHOC'
 import { closeModal } from '../../Redux/action/App'
-import { useHistory } from 'react-router'
+import {useLocation} from 'react-router'
 
 
 const AddConversion = (props) => {
     const { setLoading } = props;
     const [bg, setBg] = useState('')
     const [fileUrl, setFileUrl] = useState('')
-    const [gotfileUrl2, setGotFileUrl2] = useState('')
     const [slidefileID, setSlideFileID] = useState('')
     const [lessonDesc, setLessonDesc] = useState('')
     const [lessonDescID, setLessonDescID] = useState('')
     const [lessonConversation, setlessonConversation] = useState([])
     const [flag, setflag] = useState(false)
     const dispatch = useDispatch()
-    const history = useHistory()
+    const location = useLocation()
     const state = useSelector(state => state)
-    const { week, classCode, id } = history.location.state;
+    const { week, classCode, id } = location.state ?  location.state : {} ;
     const { coursedetails } = useSelector(state => state.course)
     const { courseId } = coursedetails ? coursedetails : {}
 
 
-
     useEffect(() => {
-        lesson_conversation_list()
-        getLessonConversationImageUrl()
+        lesson_conversation_list();
+        getLessonConversationImageUrl();
+        if(!location.state){
+            dispatch( closeModal( {
+                isModalOpen: false,
+            } ) )
+         }
     }, [])
 
 
@@ -52,7 +55,6 @@ const AddConversion = (props) => {
             .then(
                 response => {
                     setBg(response.data.file_details)
-                    setGotFileUrl2(response.data.file_details)
                     setSlideFileID(response.data.id)
                 },
                 error => {
@@ -204,14 +206,6 @@ const AddConversion = (props) => {
         
     }
 
-    const handleProcess = () =>{
-        
-        setLoading(true)
-        setTimeout(() =>{
-            setLoading(false)
-        } ,1000)
-        props.onClick();
-    }
 
     return (
         <>

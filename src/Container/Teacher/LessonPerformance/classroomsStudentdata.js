@@ -146,7 +146,9 @@ const ClassroomStudentData = () => {
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div className='performence-week-report'>
+
                                             <div className='overall-avg-table'>
                                                 <div className='Overall-avarage-title'>
                                                     <h2>Week 1</h2>
@@ -172,6 +174,7 @@ const ClassroomStudentData = () => {
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div className='overall-avg-table'>
                                                 <div className='Overall-avarage-title'>
                                                     <h2>Week 1</h2>
@@ -197,6 +200,7 @@ const ClassroomStudentData = () => {
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div className='overall-avg-table'>
                                                 <div className='Overall-avarage-title'>
                                                     <h2>Week 1</h2>
@@ -222,6 +226,7 @@ const ClassroomStudentData = () => {
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div className='overall-avg-table'>
                                                 <div className='Overall-avarage-title'>
                                                     <h2>Week 1</h2>
@@ -247,6 +252,7 @@ const ClassroomStudentData = () => {
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div className='overall-avg-table'>
                                                 <div className='Overall-avarage-title'>
                                                     <h2>Week 1</h2>
@@ -272,7 +278,9 @@ const ClassroomStudentData = () => {
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
+                                        
                                         <div className='ranking--history'>
                                             <h3>Ranking history</h3>
                                             <div className='ranking--table'>

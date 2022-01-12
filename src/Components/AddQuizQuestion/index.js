@@ -4,15 +4,15 @@ import { toast } from 'react-toastify'
 import { closeModal } from '../../Redux/action/App'
 import { createQuizQuestions ,getWeeklyQuestionDetails ,updateQuizQuestions } from '../../Redux/action/SiteAdmin'
 import IsLoadingHOC from '../IsLoadingHOC'
-import { useHistory } from 'react-router'
+import {useLocation } from 'react-router'
 
 const AddQuizQuestions = ( props ) => {
     const { setLoading  } = props;
-    const { course, app } = useSelector( state => state )
-    const { questionIndex ,quizQuestionId ,getCourseData } = app.current
+    const { app } = useSelector( state => state )
+    const { questionIndex ,quizQuestionId ,getCourseData } = app.current ? app.current : {}
     const dispatch = useDispatch()
-    const history = useHistory()
-    const { week, classCode, id } = history.location.state;
+    const location = useLocation();
+    const { week, classCode, id } = location.state ?  location.state : {} ;
     const[correct_answer , setCorrectAnswer] = useState("")
 
 
@@ -48,6 +48,11 @@ const AddQuizQuestions = ( props ) => {
     useEffect( () => {
          if (quizQuestionId) {
             getQuestionDetailsData()
+         }
+         if(!location.state){
+            dispatch( closeModal( {
+                isModalOpen: false,
+            } ) )
          }
 
     }, [] )

@@ -4,15 +4,15 @@ import { toast } from 'react-toastify'
 import { closeModal } from '../../Redux/action/App'
 import { createGameQuestions ,getGameQuestionsDetails ,updateGameQuizQuestions } from '../../Redux/action/SiteAdmin'
 import IsLoadingHOC from '../IsLoadingHOC'
-import { useHistory } from 'react-router'
+import {useLocation} from 'react-router'
 
 const GameQuestion = ( props ) => {
     const { setLoading } = props
-    const { course, app } = useSelector( state => state )
-    const { questionIndex  ,quizGameQuestionId , getCourseData} = app.current
+    const {app} = useSelector( state => state )
+    const { questionIndex  ,quizGameQuestionId , getCourseData} = app.current ? app.current : {}
     const dispatch = useDispatch()
-    const history = useHistory()
-    const { week, classCode, id } = history.location.state;
+    const location = useLocation()
+    const { week, classCode, id } = location.state ?  location.state : {} ;
 
 
     const [options, setOptions] = useState( [
@@ -49,6 +49,11 @@ const GameQuestion = ( props ) => {
         if (quizGameQuestionId) {
            getGameQuestionDetailsData()
         }
+        if(!location.state){
+            dispatch( closeModal( {
+                isModalOpen: false,
+            } ) )
+         }
 
    }, [] )
 
@@ -84,9 +89,9 @@ const GameQuestion = ( props ) => {
 
 
     const submitHandler = async () => {
-        setLoading( true )
-        if(quizGameQuestionId){
-        await dispatch( updateGameQuizQuestions( { ...state, options: options } ,quizGameQuestionId ) )
+  if ( quizGameQuestionId ) {
+      setLoading( true )
+      await dispatch( updateGameQuizQuestions( { ...state, options: options }, quizGameQuestionId ) )
             .then(
                 response => {
                     toast.success( response.message );
@@ -111,36 +116,59 @@ const GameQuestion = ( props ) => {
                 error => console.log( error )
             )
         }
-        else{
-            await dispatch( createGameQuestions( { ...state, options: options } ) )
-            .then(
-                response => {
-                    toast.success( response.message );
-                    dispatch( {
-                        type: "SAVE_ADDED_GAMEQUIZ",
-                        payload: response.data.question_index
-                    } )
-                    dispatch( closeModal( {
-                        isModalOpen: false,
-                    } ) )
-                    setLoading( false )
-                    getCourseData()
-                },
-                error => {
-                    if ( error.response.status === 401 ) {
-                        toast.error( error.response.data.message );
-                    } else {
-                        error.response.data.errors.forEach( error => {
-                            toast.error( error.question )
-                        } )
-                    }
-                    setLoading( false )
-                }
-            )
-            .catch(
-                error => console.log( error )
-            )
+        else {
+            
+            console.log("option",options)
+            if ( options[0].is_money === 0 ||
+                 options[1].is_money === 0 ||
+                 options[2].is_money === 0 ||
+                 options[3].is_money === 0 ) {
+            
+                  toast.warn( "Money cannot be 0" )
+             }
 
+
+            
+
+            else {
+                setLoading( true )
+                await dispatch( createGameQuestions( { ...state, options: options } ) )
+                
+                    .then(
+                        response => {
+                            toast.success( response.message );
+                            dispatch( {
+                                type: "SAVE_ADDED_GAMEQUIZ",
+                                payload: response.data.question_index
+                            } )
+                            dispatch( closeModal( {
+                                isModalOpen: false,
+                            } ) )
+                            setLoading( false )
+                            getCourseData()
+                        },
+                        error => {
+                            if ( error.response.status === 401 ) {
+                                toast.error( error.response.data.message );
+                              
+                            } else {
+                               
+
+                                 error.response.data.errors.forEach( error => {
+                                  
+                                     toast.error( error.question )
+                                     
+                                 } )
+                             
+                               
+                            }
+                            setLoading( false )
+                        }
+                    )
+                    .catch(
+                        error => console.log( error )
+                    )
+            }
         }
 
 
@@ -186,7 +214,7 @@ const GameQuestion = ( props ) => {
                                             <input
                                                 type="number"
                                                 name= {`quizM${index +1}`}
-                                                value={item.is_money}
+                                                value={item.is_money }
                                                 style={{ padding: "0.55rem 0.5rem", paddingLeft: "2.5rem" }}
                                                 onChange={e => setOptions( [...options.slice( 0, index ), { ...item, is_money: e.target.value }, ...options.slice( index + 1 )] )}
                                             />

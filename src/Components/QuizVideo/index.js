@@ -121,7 +121,7 @@ const QuizVideo = (props) => {
                                 {
                                     getFileExtention(documentData[index].file_details) === "pdf" && (
                                         <div style={{
-                                            width: "80%",
+                                            width: "100%",
                                             height: "100%",
                                             textAlign: "center"
                                         }} >
