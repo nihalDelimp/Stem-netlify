@@ -73,10 +73,10 @@ const QuizVideo = (props) => {
             <div className="quiz-video" style={{ display: "flex", justifyContent: "center", height: "85%" }}>
 
 
-                {documentData && documentData.length > 0 ? 
+                {documentData && documentData.length > 0 ?
                     (documentData.map((_, index) => (
                         currentStepIndex === index && (
-                            <Fragment key={index}>
+                            <Fragment key={index + 1}>
                                 {
                                     getFileExtention(documentData[index].file_details) === "mp4" && (
                                         <video width="95%" height="100%" controls key={index}>
@@ -119,9 +119,25 @@ const QuizVideo = (props) => {
                                 } */}
 
                                 {
+                                    getFileExtention(documentData[index].file_details) === "docx" && (
+                                        <div style={{
+                                            width: "95%",
+                                            height: "100%",
+                                            textAlign: "center"
+                                        }} >
+                                            <FileViewer
+                                                fileType={"docx"}
+                                                filePath={documentData[index].file_details}
+                                                onError={onError}
+                                            />
+                                        </div>
+                                    )
+                                }
+
+                                {
                                     getFileExtention(documentData[index].file_details) === "pdf" && (
                                         <div style={{
-                                            width: "100%",
+                                            width: "95%",
                                             height: "100%",
                                             textAlign: "center"
                                         }} >
@@ -134,20 +150,21 @@ const QuizVideo = (props) => {
                                     )}
 
 
+
                                 {
                                     getFileExtention(documentData[index].file_details) === "txt" ||
-                                        getFileExtention(documentData[index].file_details) === "doc" ? (
+                                        getFileExtention(documentData[index].file_details) === "doc" ?
                                         <iframe
-                                        frameborder='0' 
-                                        allowtransparency='true'
-                                            src={"https://docs.google.com/viewer?&embedded=true&url="+ documentData[index].file_details}
-                                            title="file"
+                                            src={"https://docs.google.com/viewer?url=" + documentData[index].file_details + "&embedded=true"}
                                             width="100%"
                                             height="100%"
-                                        >
-                                        </iframe>
-                                    ) : null
-                                        
+                                            id="myId"
+                                            display="initial"
+                                            title="file"
+                                            frameborder='0'
+                                            allowtransparency='true'
+                                            position="relative" />
+                                        : null
                                 }
                             </Fragment>
                         ))

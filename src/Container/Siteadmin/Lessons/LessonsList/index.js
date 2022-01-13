@@ -17,7 +17,7 @@ const LessonsList = (props) => {
     const params = useParams()
     const [CourseData, setCourseData] = useState([])
     const [deletePopUp, setDeletePopUp] = useState(false)
-    const [deleteData, setDeleteData] = useState('')
+    const [deleteData, setDeleteData] = useState({})
 
     useEffect(() => {
         dispatch({ type: "REMOVE_COURSE_DATA" })
@@ -112,8 +112,12 @@ const LessonsList = (props) => {
                                                         <h5 className="slide--no">{item.course[0].course_name}</h5>
                                                     </Link>
                                                     <span className="slide-delete-icon" onClick={() => {
-                                                         setDeletePopUp(true)
-                                                        setDeleteData(item.course[0].id)}}
+                                                        setDeletePopUp(true)
+                                                        setDeleteData({
+                                                            id: item.course[0].id,
+                                                            lesson_locked: item.course[0].lesson_locked
+                                                        })
+                                                    }}
                                                     >
                                                         <img src={require("../../../../assets/images/times.svg").default} alt="" />
                                                     </span>

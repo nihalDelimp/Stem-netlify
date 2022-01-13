@@ -30,7 +30,7 @@ const Step2 = (props) => {
                     setSecondDoc(item)
                 }
             }
-            if (item.file_type == "jpeg" || item.file_type == "png" || item.file_type == "jpg" || item.file_type == "pdf" || item.file_type == "txt" || item.file_type == "doc") {
+            if (item.file_type == "jpeg" || item.file_type == "png" || item.file_type == "jpg" || item.file_type == "pdf" || item.file_type == "txt" || item.file_type == "doc" ||item.file_type == "docx") {
                 if (textdocs1.length == 0) {
                     setThirdDoc(item)
                     textdocs1.push(item)
@@ -157,7 +157,7 @@ const Step2 = (props) => {
                         <div className="file--upload">
                             <input
                                 type="file"
-                                accept="application/pdf, image/png, image/jpeg, image/jpg, .txt , .doc"
+                                accept="application/pdf, image/png, image/jpeg, image/jpg, .txt , .doc ,.docx"
                                 onChange={e => {
                                     if (e.target.files.length === 0) {
                                         clearStoreFile()
@@ -188,7 +188,7 @@ const Step2 = (props) => {
                         <div className="file--upload">
                             <input
                                 type="file"
-                                accept="application/pdf, image/png, image/jpeg, image/jpg, .txt ,.doc "
+                                accept="application/pdf, image/png, image/jpeg, image/jpg, .txt ,.doc ,.docx "
                                 onChange={e => {
                                     if (e.target.files.length === 0) {
                                         clearStoreFile()

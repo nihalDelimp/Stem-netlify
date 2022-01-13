@@ -5,56 +5,61 @@ import { connect, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import IsLoadingHOC from '../../Components/IsLoadingHOC'
 import Modal from '../../Components/Modal'
-import { getModuleData  } from '../../Redux/action/App'
+import { getModuleData } from '../../Redux/action/App'
 import { getAllLesson, getCharacters, getIntro } from '../../Redux/action/Student'
 import { useJwt } from "react-jwt";
 import { IsloggedinHOC } from '../../Components/IsLoggedinHOC'
+import PopupModel from './popupModel'
 
 
-const Dashboard = ( props ) => {
+const Dashboard = (props) => {
 
     const { getModuleData, name, setLoading } = props
-    const modal = useSelector( state => state.app )
-    const role = useSelector( state => state.auth.user.user_type )
-    const [, setModalOpen] = useState( true )
+    const modal = useSelector(state => state.app)
+    const role = useSelector(state => state.auth.user.user_type)
+    const [, setModalOpen] = useState(true)
     const dispatch = useDispatch();
 
-    const [lessonData, setLessonData] = useState( [] )
-    
+    const [lessonData, setLessonData] = useState([])
+    const [lockedModel, setLockedModel] = useState(false)
+    const [unlockedWeek, SetUnlockedWeek] = useState(0)
+
     const getModuleIntro = async () => {
-        await dispatch( getIntro() )
+        await dispatch(getIntro())
     }
     const getCharacterList = async () => {
-        await dispatch( getCharacters() )
+        await dispatch(getCharacters())
     }
 
-    useEffect( () => {
-        if(role === "STUDENT"){
-        setLoading( true )
-        getCharacterList()
-        getModuleIntro()
-        dispatch( getAllLesson() )
-            .then(
-                response => {
-                    setLessonData( response.data ? response.data : [] )
-                    setLoading( false )
-                    dispatch( { type: "SET_CLASS_CODE_SUCCESS", payload: response.data[0].class_code } )
-                    response.data && response.data.map((item , index)=>{
-                        if(!item.lesson_locked){
-                            dispatch( { type: "SET_WEEK_NUMBER_SUCCESS", payload: item.week_number } )
-                        }
-                    })
-                },
-                () => {
-                    setLessonData( [] )
-                    setLoading( false )
-                }
-            )
-            .catch(
-                error => console.log( error )
-            )
+    useEffect(() => {
+        if (role === "STUDENT") {
+            setLoading(true)
+            getCharacterList()
+            getModuleIntro()
+            dispatch(getAllLesson())
+                .then(
+                    response => {
+                        setLessonData(response.data ? response.data : [])
+                        setLoading(false)
+                        dispatch({ type: "SET_CLASS_CODE_SUCCESS", payload: response.data[0].class_code })
+                        response.data && response.data.map((item, index) => {
+                            if (!item.lesson_locked) {
+                                SetUnlockedWeek(item.week_number)
+                                dispatch({ type: "SET_WEEK_NUMBER_SUCCESS", payload: item.week_number })
+                            }
+
+                        })
+                    },
+                    () => {
+                        setLessonData([])
+                        setLoading(false)
+                    }
+                )
+                .catch(
+                    error => console.log(error)
+                )
         }
-    }, [] )
+    }, [])
 
     return (
         <>
@@ -84,22 +89,27 @@ const Dashboard = ( props ) => {
                         <div className="grid--body">
                             <div className="module--group">
                                 {lessonData.length !== 0 ? (
-                                    lessonData.map( ( item, index ) => (
+                                    lessonData.map((item, index) => (
                                         <Link
                                             key={index}
                                             to={{
-                                                pathname: `/intro/${item.class_code}`,
+                                                pathname: item.week_number <= unlockedWeek ? `/intro/${item.class_code}` : "",
                                             }}
-                                            onClick={() => getModuleData( {
-                                                isModalOpen: true,
-                                                weekNumber: item.week_number,
-                                                courseId: item.id,
-                                                lessonLocked: item.lesson_locked,
-                                                activeStep: item.week_number === 1 ? undefined : "leaderboard",
-                                                currentStepIndex: 0,
-                                                class_code : item.class_code
-                                               
-                                            } )}>
+                                            onClick={() => {
+                                                item.week_number <= unlockedWeek ?
+                                                    getModuleData({
+                                                        isModalOpen: true,
+                                                        weekNumber: item.week_number,
+                                                        courseId: item.id,
+                                                        lessonLocked: item.lesson_locked,
+                                                        activeStep: item.week_number === 1 ? undefined : "leaderboard",
+                                                        currentStepIndex: 0,
+                                                        class_code: item.class_code
+                                                    })
+                                                    :
+                                                    setLockedModel(true)
+                                            }}
+                                        >
                                             <motion.div
                                                 whileHover={{
                                                     scale: 1.01,
@@ -107,7 +117,7 @@ const Dashboard = ( props ) => {
                                                 className="module--item"
                                                 style={{
                                                     backgroundColor: `${!item.lesson_locked
-                                                        ? `${( item.id % 2 )
+                                                        ? `${(item.id % 2)
                                                             ? "#F6C940"
                                                             : "#F6C940"}`
                                                         : `#979494`}`
@@ -122,7 +132,7 @@ const Dashboard = ( props ) => {
                                                 <h5 className="module--title">{item.course_name}</h5>
                                             </motion.div>
                                         </Link>
-                                    ) )
+                                    ))
                                 ) : (
                                     <div style={{
                                         height: "300px",
@@ -163,9 +173,9 @@ const Dashboard = ( props ) => {
                         </div>
                     </div> */}
 
-
                 </div>
             </div>
+            {lockedModel && <PopupModel setLockedModel={setLockedModel} />}
         </>
     )
 }
@@ -176,7 +186,7 @@ const mapStateToProps = state => {
 }
 
 
-export default connect( mapStateToProps,
-    { getModuleData} )
-    ( IsLoadingHOC( IsloggedinHOC( Dashboard ) ) )
+export default connect(mapStateToProps,
+    { getModuleData })
+    (IsLoadingHOC(IsloggedinHOC(Dashboard)))
 

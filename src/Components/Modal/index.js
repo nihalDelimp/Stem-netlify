@@ -30,7 +30,7 @@ const Modal = (props) => {
 
     const selectedChar = useSelector(state => state.app.current.selected)
 
-    const [leaderboardData, setLeaderboardData] = useState([])
+    const [studentScore, setStudentScore] = useState([])
     const [lessonFinished, setLessonFinished] = useState(false)
     const [characterDetail, setCharacterDetail] = useState([])
     const history = useHistory();
@@ -64,25 +64,26 @@ const Modal = (props) => {
     useEffect(() => {
         if (user.user_type === "STUDENT") {
             getCharacterDetail()
+            studentScoreData()
         }
         getModuleData({
             route: location.pathname,
             moduleId: params.id,
             activeStep: !activeStep ? "intro" : activeStep
         })
-        getAllStudentScoreData()
     }, [activeStep, getModuleData, location.pathname, params.id])
 
 
 
-    const getAllStudentScoreData = async () => {
+    const studentScoreData = async () => {
+        setLoading(true)
         await dispatch(getAllStudentScore({
             class_code: class_code,
             week_number: weekNumber
         }))
             .then(
                 response => {
-                    setLeaderboardData(response.data ? response.data.reverse() : [])
+                    setStudentScore(response.data ? response.data.reverse() : [])
                     setLoading(false)
                 },
                 () => {
