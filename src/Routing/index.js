@@ -17,7 +17,7 @@ import LessonAdd from '../Container/Siteadmin/Lessons/LessonAdd/index';
 import SchoolTeacher from '../Container/School/Teacher';
 import Leaderboard from '../Container/Student/Leaderboard';
 import AddTeacher from '../Container/SchooladminDashboard/Classrooms/AddTeacher'
-import classroomsStudentdata from '../Container/Teacher/LessonPerformance/classroomsStudentdata'
+import StudentPerformanceReport from '../Container/Teacher/LessonPerformance/performanceReport'
 import SchoolAdminClassroom from '../Container/School/index'
 
 
@@ -138,22 +138,21 @@ const Routing = () => {
             
             <PrivateRoute
                 exact
-                path="/classroom-student/:id"
-                component={Teacher( classroomsStudentdata )}
+                path="/performance-report/:id"
+                component={Teacher(StudentPerformanceReport)}
                 layout={PrivateLayout} />
-           //---------------------------------------------------------------------------------------------
-
+        
             <PrivateRoute
                 exact
                 path="/lesson-add"
                 component={SiteAdminAndTeacher( LessonAdd )}
                 layout={PrivateLayout} />
 
-            <PrivateRoute
+            {/* <PrivateRoute
                 exact
                 path="/lessonperformance"
                 component={LessonPerformance}
-                layout={PrivateLayout} />
+                layout={PrivateLayout} /> */}
 
             <Route
                 path="*"

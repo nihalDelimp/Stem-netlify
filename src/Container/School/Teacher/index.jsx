@@ -15,7 +15,7 @@ const SchoolTeacher = () => {
 
      const location = useLocation()
     const { classCode, classname, size, progress, assginedteacher } = location.state
-    console.log("uselocationdata",location.state)
+
 
     const getTeacherClassroom = () => {
         dispatch( getSchoolTeacherClassroom( { user_id: params.id } ) )

@@ -213,3 +213,17 @@ export const getStudentUpdatedScore = (data) => async _dispatch  => {
             )
     } )
 }
+
+export const lastWeekSummaryAction = (data) => async () => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().post( "student-dashboard/get-the-updated-score" ,data )
+            .then(
+                response => resolve(response.data),
+                error => reject( error )
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}
+

@@ -68,7 +68,6 @@ export const getSchoolTeacherClassroom = data => async () => {
 }
 
 export const sendinvite = ( data ) => async () => {
-    console.log( "data for send invite function", data )
     return new Promise( async ( resolve, reject ) => {
         await authAxios().post( 'school-admin/add-teacher-school-admin', data )
             .then(

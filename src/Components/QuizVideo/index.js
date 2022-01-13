@@ -8,8 +8,6 @@ import IsLoadingHOC from '../IsLoadingHOC'
 const QuizVideo = (props) => {
 
     const { current } = useSelector(state => state.app)
-
-    const type = 'pdf'
     const { weekNumber, courseId, currentStepIndex, totalStepIndex, } = current
     const { getModuleData, setLoading } = props
     const dispatch = useDispatch()
@@ -148,14 +146,11 @@ const QuizVideo = (props) => {
                                             />
                                         </div>
                                     )}
-
-
-
                                 {
                                     getFileExtention(documentData[index].file_details) === "txt" ||
                                         getFileExtention(documentData[index].file_details) === "doc" ?
                                         <iframe
-                                            src={"https://docs.google.com/viewer?url=" + documentData[index].file_details + "&embedded=true"}
+                                            src={"https://docs.google.com/gview?url=" + documentData[index].file_details + "&embedded=true"}
                                             width="100%"
                                             height="100%"
                                             id="myId"
@@ -163,6 +158,7 @@ const QuizVideo = (props) => {
                                             title="file"
                                             frameborder='0'
                                             allowtransparency='true'
+                                            target='blank'
                                             position="relative" />
                                         : null
                                 }
