@@ -197,10 +197,9 @@ const Modal = (props) => {
     }
 
     function kFormatter(num) {
-        return Math.abs(num) > 9999 ? Math.sign(num)*((Math.abs(num)/10000).toFixed(2)) + 'k' : Math.sign(num)*Math.abs(num)
+        return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(2)) + 'k' : Math.sign(num)*Math.abs(num)
     }
     
-
     return (
         <Backdrop >
             <motion.div
