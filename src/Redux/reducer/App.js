@@ -6,7 +6,8 @@ let initialState = {
     },
     data: {},
     studentData: [],
-    week_number: ''
+    week_number: '',
+    updatedScore: ""
 }
 
 
@@ -26,9 +27,11 @@ export default function foo(state = initialState, action) {
             return { ...state, character: { ...state.character, ...action.payload } }
         case "GET_STUDENT_DATA_SUCESS":
             return { ...state, studentData: action.payload }
-
         case "SET_WEEK_NUMBER_SUCCESS":
             return { ...state, week_number: action.payload }
+        case "UPDATED_SCORE_DATA":
+            return { ...state, updatedScore: action.payload }
+
         default:
             return state
     }

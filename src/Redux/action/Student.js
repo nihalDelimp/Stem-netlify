@@ -193,3 +193,23 @@ export const getAllStudentScore = (data) => async () => {
             )
     } )
 }
+
+
+export const getStudentUpdatedScore = (data) => async _dispatch  => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().post( "student-dashboard/get-the-updated-score" ,data )
+            .then(
+                response => {
+                    resolve( response.data)
+                    _dispatch( {
+                        type: 'UPDATED_SCORE_DATA',
+                        payload:  response.data.data 
+                    } )
+                },
+                error => reject( error )
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}

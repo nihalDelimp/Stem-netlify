@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { closeModal, getModuleData } from '../../Redux/action/App'
 import { useHistory, useLocation, useParams } from "react-router"
-import { getAllLessonConversation ,quizGameOptionSubmitted } from '../../Redux/action/Student'
+import { getAllLessonConversation ,quizGameOptionSubmitted ,getStudentUpdatedScore } from '../../Redux/action/Student'
 import IsLoadingHOC from '../IsLoadingHOC'
 
 const LessonGames = ( props ) => {
@@ -39,6 +39,12 @@ const LessonGames = ( props ) => {
 
 
 
+    const studentScoreData = async () => {
+        await dispatch(getStudentUpdatedScore({
+            class_code: moduleId,
+            week_number: weekNumber
+        }))    
+    }
 
     const getCoversation = () => {
         setLoading( true )
@@ -125,6 +131,7 @@ const LessonGames = ( props ) => {
   
 
     useEffect( () => {
+        studentScoreData();
         getModuleData( {
             CLG_Index: !CLG_Index ? 1 : CLG_Index,
             CG_index: 0,

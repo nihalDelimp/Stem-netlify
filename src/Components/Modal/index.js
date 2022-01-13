@@ -9,14 +9,14 @@ import { motion } from "framer-motion"
 import Intro from "../Intro"
 import Character from "../Character"
 import { useHistory, useLocation, useParams } from "react-router"
-import { connect, useSelector ,useDispatch } from "react-redux"
+import { connect, useSelector, useDispatch } from "react-redux"
 import { closeModal, getModuleData } from "../../Redux/action/App"
 import Quiz from "../Quiz"
 import AddGameQuestion from "../AddGameQuestion"
 import AddQuizQuestions from "../AddQuizQuestion"
 import LessonGames from "../LessonGames"
 import QuizVideo from "../QuizVideo"
-import { getStudentCharacter ,getAllStudentScore } from "../../Redux/action/Student"
+import { getStudentCharacter } from "../../Redux/action/Student"
 import IsLoadingHOC from "../IsLoadingHOC"
 import Leaderboard from "../Leaderboard"
 
@@ -24,20 +24,19 @@ const Modal = (props) => {
 
     const { current, closeModal, data, getModuleData, getStudentCharacter, selected, setLoading, user } = props
 
-    const { CG_TotalIntro, CG_StepIntro, activeStep, currentStepIndex, weekNumber, CLG_Index ,CG_index , class_code ,IsOptionOpen } = current
+    const { CG_TotalIntro, CG_StepIntro, activeStep, currentStepIndex, weekNumber, CLG_Index, CG_index, class_code, IsOptionOpen } = current
 
     const { lessonSlideDetails } = data
 
     const selectedChar = useSelector(state => state.app.current.selected)
+    const updatedScore = useSelector(state => state.app.updatedScore)
 
-    const [studentScore, setStudentScore] = useState([])
     const [lessonFinished, setLessonFinished] = useState(false)
     const [characterDetail, setCharacterDetail] = useState([])
     const history = useHistory();
     const location = useLocation()
     const params = useParams()
     const dispatch = useDispatch();
-
 
     const config = {
         hidden: {
@@ -64,7 +63,6 @@ const Modal = (props) => {
     useEffect(() => {
         if (user.user_type === "STUDENT") {
             getCharacterDetail()
-            studentScoreData()
         }
         getModuleData({
             route: location.pathname,
@@ -72,30 +70,6 @@ const Modal = (props) => {
             activeStep: !activeStep ? "intro" : activeStep
         })
     }, [activeStep, getModuleData, location.pathname, params.id])
-
-
-
-    const studentScoreData = async () => {
-        setLoading(true)
-        await dispatch(getAllStudentScore({
-            class_code: class_code,
-            week_number: weekNumber
-        }))
-            .then(
-                response => {
-                    setStudentScore(response.data ? response.data.reverse() : [])
-                    setLoading(false)
-                },
-                () => {
-
-                    setLoading(false)
-                }
-            )
-            .catch(
-                error => console.log(error)
-            )
-    }
-
 
 
     const goPreviousStep = () => {
@@ -159,29 +133,29 @@ const Modal = (props) => {
 
         if (activeStep === "lesson-game") {
 
-           if(CG_index !==0 ){
-               if(IsOptionOpen === true){
-                getModuleData({
-                     IsOptionOpen : false
-                })
+            if (CG_index !== 0) {
+                if (IsOptionOpen === true) {
+                    getModuleData({
+                        IsOptionOpen: false
+                    })
                 }
-                else{
+                else {
                     getModuleData({
                         CG_index: CG_index === 0 ? 0 : CG_index - 1,
                     })
-               }
-           }
+                }
+            }
 
             else if (CLG_Index !== 1) {
                 getModuleData({
                     CLG_Index: CLG_Index === 1 ? 1 : CLG_Index - 1,
-                    IsOptionOpen : false
+                    IsOptionOpen: false
                 })
             }
             else {
                 getModuleData({
                     activeStep: "quiz",
-                    CG_length : 0
+                    CG_length: 0
                     //  currentStepIndex: 0,
                 })
             }
@@ -221,6 +195,11 @@ const Modal = (props) => {
                 return
         }
     }
+
+    function kFormatter(num) {
+        return Math.abs(num) > 9999 ? Math.sign(num)*((Math.abs(num)/10000).toFixed(2)) + 'k' : Math.sign(num)*Math.abs(num)
+    }
+    
 
     return (
         <Backdrop >
@@ -274,7 +253,7 @@ const Modal = (props) => {
                     !lessonFinished
                     && activeStep !== "add-game-question"
                     && activeStep !== "add-quiz-question" && (
-                        <div className={"modal--close2 btn btn--circle "}    onClick={handlerClose}>
+                        <div className={"modal--close2 btn btn--circle "} onClick={handlerClose}>
                             <svg width="12" height="12" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fillRule="evenodd" clipRule="evenodd" d="M4.75736 4.02755L8.04136 0.743551L8.77114 1.47333L5.48714 4.75732L8.77114 8.04132L8.04136 8.7711L4.75736 5.4871L1.47337 8.7711L0.743591 8.04132L4.02759 4.75732L0.743591 1.47333L1.47337 0.743551L4.75736 4.02755Z" fill="black" />
                             </svg>
@@ -286,11 +265,11 @@ const Modal = (props) => {
                     <div className="game--info">
                         <div className="game--info--item">
                             <img src={require("../../assets/images/dolor_star.svg").default} alt="" />
-                            <span>$10K</span>
+                            <span>${updatedScore ? kFormatter(updatedScore.quiz_game_money) : ""}</span>
                         </div>
                         <div className="game--info--item">
                             <img src={require("../../assets/images/dolor.svg").default} alt="" />
-                            <span>+81</span>
+                            <span>0</span>
                         </div>
                     </div>
                 )}
