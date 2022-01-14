@@ -51,9 +51,9 @@ const Quiz = (props) => {
 
     }
 
-    const getQuizData = () => {
+    const getQuizData = async() => {
         setLoading(true);
-        dispatch(getAllQuizQuestion({
+       await dispatch(getAllQuizQuestion({
             course_id: courseId,
             week_number: weekNumber
         }))
