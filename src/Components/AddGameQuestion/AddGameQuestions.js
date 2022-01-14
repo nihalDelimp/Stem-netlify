@@ -95,8 +95,8 @@ const GameQuestion = (props) => {
             else if (options[0].option === '' || options[1].option === '' || options[2].option === '' || options[3].option === '') {
                 toast.error("Please enter the option")
             }
-            else if (options[0].is_power === 0 || options[1].is_power === 0 || options[2].is_power === 0 || options[3].is_power === 0) {
-                toast.error("power is required for the option")
+            else if (options[0].is_power == 0 || options[1].is_power == 0 || options[2].is_power == 0 || options[3].is_power == 0) {
+                toast.error("power is required ")
             }
             else {
                 setLoading(true)
@@ -132,8 +132,8 @@ const GameQuestion = (props) => {
             else if (options[0].option === '' || options[1].option === '' || options[2].option === '' || options[3].option === '') {
                 toast.error("Please enter the option")
             }
-            else if (options[0].is_power === 0 || options[1].is_power === 0 || options[2].is_power === 0 || options[3].is_power === 0) {
-                toast.error("power is required for the option")
+            else if (options[0].is_power == 0 || options[1].is_power == 0 || options[2].is_power == 0 || options[3].is_power == 0) {
+                toast.error("power is required ")
             }
             else {
                 setLoading(true)
