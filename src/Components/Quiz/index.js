@@ -13,7 +13,7 @@ const Quiz = (props) => {
 
     const dispatch = useDispatch();
 
-    const [quizData, setQuizData] = useState(quizQuestion ? quizQuestion : []);
+    const [quizData, setQuizData] = useState([]);
 
     useEffect(() => {
         getQuizData()
@@ -81,7 +81,7 @@ const Quiz = (props) => {
     return (
         <div className="quiz">
             <div className="quiz--content">
-                {quizData.length !== 0 ? (
+                { quizData &&  quizData.length > 0 ? (
                     <>
                         <h3 className="quiz--question">{quizData[!currentStepIndex ? 0 : currentStepIndex]?.question}</h3>
                         <div className={`option--group`}>

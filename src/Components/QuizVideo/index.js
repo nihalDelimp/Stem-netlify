@@ -12,7 +12,6 @@ const QuizVideo = (props) => {
     const { getModuleData, setLoading } = props
     const dispatch = useDispatch()
     const [currentVideo, setCurrentVideo] = useState(0)
-    const [loader, setLoader] = useState(true)
     const [documentData, setDocumentData] = useState([])
 
 
@@ -44,6 +43,7 @@ const QuizVideo = (props) => {
 
 
     const getDocuments = async () => {
+        setLoading(true);
         await dispatch(getLessonDocument({
             course_id: courseId,
             week_number: weekNumber
@@ -51,10 +51,11 @@ const QuizVideo = (props) => {
             .then(
                 response => {
                     setDocumentData(response.data)
-                    console.log(response.data[2], "Nihals")
+                    setLoading(false);
                 },
                 () => {
                     setDocumentData([])
+                    setLoading(false);
                 }
             )
             .catch(
@@ -69,7 +70,6 @@ const QuizVideo = (props) => {
     return (
         <div>
             <div className="quiz-video" style={{ display: "flex", justifyContent: "center", height: "85%" }}>
-
 
                 {documentData && documentData.length > 0 ?
                     (documentData.map((_, index) => (
