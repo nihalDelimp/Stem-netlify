@@ -14,7 +14,6 @@ const QuizVideo = (props) => {
     const [currentVideo, setCurrentVideo] = useState(0)
     const [documentData, setDocumentData] = useState([])
 
-
     const handlerContinue = () => {
         if (currentStepIndex < documentData.length - 1) {
             setCurrentVideo(currentVideo + 1)
@@ -50,7 +49,20 @@ const QuizVideo = (props) => {
         }))
             .then(
                 response => {
-                    setDocumentData(response.data)
+                    const videoData = []
+                    const txtData = []
+                    response.data && response.data.map((item, index) => {
+                        if (item.file_type === "mp4") {
+                            videoData.push(item)
+                        }
+                        else {
+                            txtData.push(item)
+
+                        }
+                        const updatedDocs = [...videoData, ...txtData]
+                        setDocumentData(updatedDocs)
+                    })
+
                     setLoading(false);
                 },
                 () => {
@@ -156,7 +168,7 @@ const QuizVideo = (props) => {
                                             id="myId"
                                             display="initial"
                                             title="file"
-                                            frameborder='0'
+                                            frameBorder='0'
                                             allowtransparency='true'
                                             target='blank'
                                             position="relative" />
@@ -179,7 +191,7 @@ const QuizVideo = (props) => {
             <div className="btn--group">
                 <div className="step--indicator">
                     {documentData.map((_, index) => (
-                        <span key={index}
+                        <span key={index+1}
                             className={`indicator--item step${index} ${currentStepIndex > index ? "fill" : ""}`}></span>
                     ))}
                 </div>

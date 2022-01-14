@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import IsLoadingHOC from "../../../Components/IsLoadingHOC";
 import { getClassroomLessons } from "../../../Redux/action/Teacher";
 import { toast } from "react-toastify";
-
 import UnlockPopUp from './unlockPopup';
 
 
@@ -16,7 +15,6 @@ const LessonList = (props) => {
     const [unlockPopUp, setunlockPopUp] = useState(false)
     const [lessonData, setLessonData] = useState({})
 
-    console.log("lesson data", lessons)
 
     useEffect(() => {
         getLessons()
