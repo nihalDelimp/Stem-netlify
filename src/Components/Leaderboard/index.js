@@ -41,9 +41,9 @@ const Leaderboard = (props) => {
 
                 <h2>Last week’s summary</h2>
                 <h4>Company’s valuation</h4>
-                <h2>$ {lastWeekSummary && lastWeekSummary?.power}</h2>
+                <h2>$ {lastWeekSummary ? lastWeekSummary?.power : 0 }</h2>
                 <h4>Remaining budget</h4>
-                <h2>$ {lastWeekSummary && lastWeekSummary?.score}</h2>
+                <h2>$ {lastWeekSummary ? lastWeekSummary?.score : 0}</h2>
                 <button className="back--btn" onClick={() => {
                     dispatch( getModuleData( {
                         activeStep: "quiz-video"
