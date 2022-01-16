@@ -214,9 +214,9 @@ export const getStudentUpdatedScore = (data) => async _dispatch  => {
     } )
 }
 
-export const lastWeekSummaryAction = (data) => async () => {
+export const lastWeekSummaryAction = () => async () => {
     return new Promise( async ( resolve, reject ) => {
-        await authAxios().post( "student-dashboard/get-the-updated-score" ,data )
+        await authAxios().get( "student-dashboard/get-all-final-score"  )
             .then(
                 response => resolve(response.data),
                 error => reject( error )

@@ -9,20 +9,18 @@ const Leaderboard = (props) => {
     const[lastWeekSummary , setLastWeekSummary] = useState('')
     const dispatch = useDispatch()
     const { current } = useSelector(state => state.app)
-    const { weekNumber, courseId, class_code} = current
+    
+    
 
 
     useEffect(() => {
-        // lastWeekSummaryData()
+         lastWeekSummaryData();
     }, [])
 
 
     const lastWeekSummaryData = async() => {
         setLoading(true);
-       await dispatch(lastWeekSummaryAction({
-            class_code: class_code,
-            week_number: weekNumber
-        }))
+       await dispatch(lastWeekSummaryAction())
             .then(
                 response => {
                     setLastWeekSummary(response.data)
@@ -43,9 +41,9 @@ const Leaderboard = (props) => {
 
                 <h2>Last week’s summary</h2>
                 <h4>Company’s valuation</h4>
-                <h2>$ 100,000</h2>
+                <h2>$ {lastWeekSummary && lastWeekSummary?.power}</h2>
                 <h4>Remaining budget</h4>
-                <h2>$ 5,200</h2>
+                <h2>$ {lastWeekSummary && lastWeekSummary?.score}</h2>
                 <button className="back--btn" onClick={() => {
                     dispatch( getModuleData( {
                         activeStep: "quiz-video"

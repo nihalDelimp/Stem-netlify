@@ -264,11 +264,11 @@ const Modal = (props) => {
                     <div className="game--info">
                         <div className="game--info--item">
                             <img src={require("../../assets/images/dolor_star.svg").default} alt="" />
-                            <span>${updatedScore ? kFormatter(updatedScore.quiz_game_money) : ""}</span>
+                            <span>${updatedScore && kFormatter(updatedScore.quiz_game_money) }</span>
                         </div>
                         <div className="game--info--item">
                             <img src={require("../../assets/images/dolor.svg").default} alt="" />
-                            <span>0</span>
+                            <span>{updatedScore && kFormatter(updatedScore.quiz_game_power)}</span>
                         </div>
                     </div>
                 )}

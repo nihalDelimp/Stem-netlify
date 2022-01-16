@@ -25,7 +25,7 @@ const LessonAdd = (props) => {
     const [activeStep, setActiveStep] = useState(0)
     const [courseData, setCourseData] = useState([])
     const { course_documents } = courseData ? courseData : {}
-    console.log("course data in  index.js", courseData)
+  
 
     const { app, course } = useSelector(state => state)
 
