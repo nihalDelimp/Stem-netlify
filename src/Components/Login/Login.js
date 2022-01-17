@@ -37,9 +37,15 @@ const Login = ( props ) => {
                         await login( values )
                             .then(
                                 response => {
-                                    toast.success( response.message )
+                                    const isApproved = true
+                                     toast.success( response.message )
                                     setSubmitting( false );
-                                    history.push( "/" )
+                                    if(isApproved){
+                                        history.push( "/" )
+                                    }
+                                    else{
+                                        history.push( "/reset-password" )
+                                    }
                                     setLoading( false )
                                 },
                                 erroe => {

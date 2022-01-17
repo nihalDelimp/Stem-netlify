@@ -1,6 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 import Invitedlogin from '../Components/Login/InvitedLogin';
 import Login from '../Components/Login/Login';
+import ResetPassword from '../Components/ResetPassword/ResetPassword';
 import Signup from '../Components/Signup';
 import StudentDashboard from '../Container/Student';
 import PrivateLayout from '../Layout/Private';
@@ -16,7 +17,7 @@ import LessonsList from '../Container/Siteadmin/Lessons/LessonsList';
 import LessonAdd from '../Container/Siteadmin/Lessons/LessonAdd/index';
 import SchoolTeacher from '../Container/School/Teacher';
 import Leaderboard from '../Container/Student/Leaderboard';
-import AddTeacher from '../Container/SchooladminDashboard/Classrooms/AddTeacher'
+import AddTeacher from '../Container/School/Teacher/AddTeacher'
 import StudentPerformanceReport from '../Container/Teacher/LessonPerformance/performanceReport'
 import SchoolAdminClassroom from '../Container/School/index'
 
@@ -24,21 +25,21 @@ import SchoolAdminClassroom from '../Container/School/index'
 
 
 
-const ALLUser = Authorization( ['TEACHER', 'STUDENT', 'SCHOOL_ADMIN', "SITE_ADMIN"] );
+const ALLUser = Authorization(['TEACHER', 'STUDENT', 'SCHOOL_ADMIN', "SITE_ADMIN"]);
 // const SiteAdmin = Authorization( ["SITE_ADMIN"] );
-const Student = Authorization( ["STUDENT"] );
-const SiteAdminAndTeacher = Authorization( ["SITE_ADMIN", "TEACHER"] )
+const Student = Authorization(["STUDENT"]);
+const SiteAdminAndTeacher = Authorization(["SITE_ADMIN", "TEACHER"])
 // const TeacherAndSchoolAdmin = Authorization( ["SCHOOL_ADMIN", "TEACHER"] )
- const Teacher = Authorization( ['TEACHER'] )
-const SchoolAdmin = Authorization( ["SCHOOL_ADMIN"] )
-const AllAdmission = Authorization( ["SITE_ADMIN", "SCHOOL_ADMIN", "TEACHER"] )
+const Teacher = Authorization(['TEACHER'])
+const SchoolAdmin = Authorization(["SCHOOL_ADMIN"])
+const AllAdmission = Authorization(["SITE_ADMIN", "SCHOOL_ADMIN", "TEACHER"])
 
 
 
 
 const Routing = () => {
 
-    const role = useSelector( state => state.auth.user.user_type )
+    const role = useSelector(state => state.auth.user.user_type)
 
     return (
         <Switch>
@@ -47,6 +48,13 @@ const Routing = () => {
                 path="/login"
                 component={Login}
                 layout={PublicLayout} />
+
+            <AppRoute
+                exact
+                path="/reset-password"
+                component={ResetPassword}
+                layout={PublicLayout} />
+
             <AppRoute
                 exact
                 path="/invited-login"
@@ -65,9 +73,9 @@ const Routing = () => {
             <PrivateRoute
                 exact
                 path="/"
-                component={ALLUser( role === "SCHOOL_ADMIN"
+                component={ALLUser(role === "SCHOOL_ADMIN"
                     ? SchoolAdminClassroom
-                    : StudentDashboard  )}
+                    : StudentDashboard)}
                 layout={PrivateLayout} />
             <PrivateRoute
                 exact
@@ -77,37 +85,37 @@ const Routing = () => {
             <PrivateRoute
                 exact
                 path="/intro/:id"
-                component={ALLUser( StudentDashboard )}
+                component={ALLUser(StudentDashboard)}
                 layout={PrivateLayout} />
             <PrivateRoute
                 exact
                 path="/character/:id"
-                component={ALLUser( StudentDashboard )}
+                component={ALLUser(StudentDashboard)}
                 layout={PrivateLayout} />
             <PrivateRoute
                 exact
                 path="/quiz/:id"
-                component={ALLUser( StudentDashboard )}
+                component={ALLUser(StudentDashboard)}
                 layout={PrivateLayout} />
             <PrivateRoute
                 exact
                 path="/character/intro/"
-                component={ALLUser( StudentDashboard )}
+                component={ALLUser(StudentDashboard)}
                 layout={PrivateLayout} />
             <PrivateRoute
                 exact
                 path="/character/intro/:id"
-                component={ALLUser( StudentDashboard )}
+                component={ALLUser(StudentDashboard)}
                 layout={PrivateLayout} />
             <PrivateRoute
                 exact
                 path="/calendar"
-                component={ALLUser( StudentDashboard )}
+                component={ALLUser(StudentDashboard)}
                 layout={PrivateLayout} />
             <PrivateRoute
                 exact
                 path="/leaderboard"
-                component={Student( Leaderboard )}
+                component={Student(Leaderboard)}
                 layout={PrivateLayout} />
 
             <PrivateRoute
@@ -116,7 +124,7 @@ const Routing = () => {
                 component={AllAdmission(
                     role === "SCHOOL_ADMIN"
                         ? ClassroomForSchoolAdmin
-                        : Classrooms )}
+                        : Classrooms)}
                 layout={PrivateLayout} />
 
             <PrivateRoute
@@ -127,25 +135,25 @@ const Routing = () => {
                         ? LessonPerformance
                         : role === "SCHOOL_ADMIN"
                             ? SchoolTeacher
-                            : LessonsList )}
+                            : LessonsList)}
                 layout={PrivateLayout} />
 
             <PrivateRoute
                 exact
                 path="/course"
-                component={SiteAdminAndTeacher( LessonsList )}
+                component={SiteAdminAndTeacher(LessonsList)}
                 layout={PrivateLayout} />
-            
+
             <PrivateRoute
                 exact
                 path="/performance-report/:id"
                 component={Teacher(StudentPerformanceReport)}
                 layout={PrivateLayout} />
-        
+
             <PrivateRoute
                 exact
                 path="/lesson-add"
-                component={SiteAdminAndTeacher( LessonAdd )}
+                component={SiteAdminAndTeacher(LessonAdd)}
                 layout={PrivateLayout} />
 
             {/* <PrivateRoute

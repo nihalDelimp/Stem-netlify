@@ -8,7 +8,7 @@ const PopupModel = ( props ) => {
             <div className="popup--card" onClick={( e ) => e.stopPropagation()}>
                 <h3>Alert</h3>
                 <div className="form-check">
-                    <label className="form-check-label" htmlFor="exampleCheck1">This lesson has been not published yet..!</label>
+                    <label className="form-check-label" htmlFor="exampleCheck1">This lesson has not been published yet..!</label>
                 </div>
                 <div className="btn--group">
                     <button className="cancel" onClick={() => setLockedModel(false)}>Cancel</button>

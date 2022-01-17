@@ -167,3 +167,20 @@ export const performanceReportAction = data => async () => {
             )
     })
 }
+
+export const studentReportDetails = data => async () => {
+    return new Promise(async (resolve, reject) => {
+        await authAxios().post(`teacher/get-student-details`, data)
+            .then(
+                response =>
+                    resolve(response.data)
+                ,
+                error =>
+                    reject(error)
+            )
+            .catch(
+                error =>
+                    console.log(error)
+            )
+    })
+}

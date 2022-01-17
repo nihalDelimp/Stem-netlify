@@ -65,7 +65,9 @@ const StudentsList = ( props ) => {
                                         state: {
                                             StudentName: student.name,
                                             classsName: classroom,
-                                            classcode: params.id
+                                            classCode: params.id,
+                                            total_student : studentData.length,
+                                            student_rank : index+1
                                         }
                                     }}
                                 >

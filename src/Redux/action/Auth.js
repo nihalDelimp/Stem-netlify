@@ -61,6 +61,25 @@ export const forgotPassword = data => async _dispatch => {
     } )
 }
 
+export const resetPassword = data => async _dispatch => {
+    return new Promise( async ( resolve, reject ) => {
+        await withoutAuthAxios().post( "/auth/reset-password", data )
+            .then(
+                response => {
+                     resolve( response.data )
+                },
+                error => {
+                    reject( error )
+                }
+            )
+            .catch(
+                error => {
+                    console.log( error );
+                }
+            )
+    } )
+}
+
 
 export const profileListUserDetails = () => async () => {
     return new Promise( async ( resolve, reject ) => {
