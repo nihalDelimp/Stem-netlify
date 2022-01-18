@@ -24,13 +24,13 @@ const Login = ( props ) => {
                             toast.error("Email is required !")
                         }
                         else if (!values.email.match(mailformat)){
-                            toast.error("Email address is invalid !")
+                            toast.error("Email address invalid !")
                         }
                         else if (!values.password){
                             toast.error("Password is required !")
                         }
                         else if (values.password.length<8){
-                            toast.error("Password must be 8 characters long !")
+                            toast.error("Password must be 8 chars long !")
                         }
                         else{
                         setLoading( true )

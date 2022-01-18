@@ -158,7 +158,7 @@ const LessonAdd = (props) => {
                             <div className="grid">
                                 <div className="grid---">
                                     <div className="lesson-add-content_week">
-                                        <Step2 courseData={courseData} getCourseData={getCourseData} />
+                                        <Step2 course_documents={course_documents} getCourseData={getCourseData} />
                                         <Step3 courseData={courseData} getCourseData={getCourseData} />
                                     </div>
                                 </div>

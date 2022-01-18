@@ -145,6 +145,37 @@ const QuizVideo = (props) => {
                                 }
 
                                 {
+                                    getFileExtention(documentData[index].file_details) === "csv" && (
+                                        <div style={{
+                                            width: "95%",
+                                            height: "100%",
+                                            textAlign: "center"
+                                        }} >
+                                            <FileViewer
+                                                fileType={"csv"}
+                                                filePath={documentData[index].file_details}
+                                                onError={onError}
+                                            />
+                                        </div>
+                                    )
+                                }
+
+                               { getFileExtention(documentData[index].file_details) === "xlsx" && (
+                                <div style={{
+                                    width: "95%",
+                                    height: "100%",
+                                    textAlign: "center"
+                                }} >
+                                    <FileViewer
+                                        fileType={"xlsx"}
+                                        filePath={documentData[index].file_details}
+                                        onError={onError}
+                                    />
+                                </div>
+                                )
+                                }
+                                
+                                {
                                     getFileExtention(documentData[index].file_details) === "pdf" && (
                                         <div style={{
                                             width: "95%",
@@ -191,7 +222,7 @@ const QuizVideo = (props) => {
             <div className="btn--group">
                 <div className="step--indicator">
                     {documentData.map((_, index) => (
-                        <span key={index+1}
+                        <span key={index + 1}
                             className={`indicator--item step${index} ${currentStepIndex > index ? "fill" : ""}`}></span>
                     ))}
                 </div>

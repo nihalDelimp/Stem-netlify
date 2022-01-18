@@ -22,10 +22,10 @@ const ResetPassword = (props) => {
                     onSubmit={async (values, { setSubmitting }) => {
                         const { password, confirm_password } = values
                         if (!password) {
-                            toast.error("Password is required !")
+                            toast.error("New Password is required !")
                         }
                         else if (password.length < 8) {
-                            toast.error("Password must be 8 characters long !")
+                            toast.error("New Password must be 8 chars long !")
                         }
                         else if (!confirm_password) {
                             toast.error("Confirm password is required !")
@@ -71,7 +71,7 @@ const ResetPassword = (props) => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.password}
-                                    placeholder="PASSWORD" />
+                                    placeholder="NEW PASSWORD" />
                             </div>
 
                             <div className="form--item">
@@ -82,7 +82,7 @@ const ResetPassword = (props) => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.confirm_password}
-                                    placeholder="CONFIRM-PASSWORD" />
+                                    placeholder="CONFIRM PASSWORD" />
                             </div>
                             <SubmitButton className="btn btn--submit" type="submit" disabled={isSubmitting}
                             >Reset </SubmitButton>

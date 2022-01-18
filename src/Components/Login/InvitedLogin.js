@@ -38,7 +38,7 @@ const InvitedLogin = (props) => {
                             return
                         }
                         else if (!email.match(mailformat)) {
-                            toast.error("Email address is not valid")
+                            toast.error("Email address invalid")
                             return
                         }
                         else if (!name) {
@@ -50,7 +50,7 @@ const InvitedLogin = (props) => {
                             return
                         }
                         else if (password.length < 8) {
-                            toast.error("Password must be 8 characters long !")
+                            toast.error("Password must be 8 chars long !")
                             return
 
                         } else {

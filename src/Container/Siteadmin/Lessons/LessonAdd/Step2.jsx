@@ -8,8 +8,7 @@ import { toast } from 'react-toastify'
 
 const Step2 = (props) => {
 
-    const { courseData, setLoading, getCourseData } = props
-    const { course_documents } = courseData
+    const { course_documents, setLoading, getCourseData } = props
     const dispatch = useDispatch()
     const [firstdoc, setFirstDoc] = useState([])
     const [seconddoc, setSecondDoc] = useState([])
@@ -30,7 +29,7 @@ const Step2 = (props) => {
                     setSecondDoc(item)
                 }
             }
-            if (item.file_type == "jpeg" || item.file_type == "png" || item.file_type == "jpg" || item.file_type == "pdf" || item.file_type == "txt" || item.file_type == "doc" ||item.file_type == "docx") {
+            else {
                 if (textdocs1.length == 0) {
                     setThirdDoc(item)
                     textdocs1.push(item)
@@ -39,7 +38,7 @@ const Step2 = (props) => {
                     setFourthDoc(item)
                 }
             }
-            dispatch({ type: "SAVE_ADDED_DOC", payload: item })
+
         }
         )
     }
@@ -50,7 +49,7 @@ const Step2 = (props) => {
         if (course_documents && course_documents.length > 0) {
             setImageDocURL(course_documents)
         }
-    }, [dispatch])
+    }, [dispatch, course_documents])
 
 
     const clearStoreFile = () => {
@@ -61,25 +60,30 @@ const Step2 = (props) => {
         setFourthDoc([])
     }
 
-    const handlerFileChange = (filedata, id) => {
-        var formData = new FormData();
-        formData.append('file_details', filedata);
-        setLoading(true)
-        dispatch(updatevideodocs(formData, id))
-            .then(
-                response => {
-                    toast.success(response.message)
-                    setLoading(false)
-                    getCourseData()
-                },
-                error => {
-                    toast.error(error.message)
-                    setLoading(false)
-                }
-            )
-            .catch(
-                error => console.log(error)
-            )
+    const handlerFileChange = async (filedata, id) => {
+        if (filedata.type == "text/plain") {
+            window.alert("File type not supported..!")
+        }
+        else {
+            var formData = new FormData();
+            formData.append('file_details', filedata);
+            setLoading(true)
+            await dispatch(updatevideodocs(formData, id))
+                .then(
+                    response => {
+                        toast.success(response.message)
+                        setLoading(false)
+                        getCourseData();
+                    },
+                    error => {
+                        toast.error(error.message)
+                        setLoading(false)
+                    }
+                )
+                .catch(
+                    error => console.log(error)
+                )
+        }
 
     }
 
@@ -102,8 +106,7 @@ const Step2 = (props) => {
                                         clearStoreFile()
                                     } else {
                                         firstdoc.id ?
-                                            handlerFileChange(e.target.files[0], firstdoc.id) &&
-                                            setFirstDoc(e.target.files[0])
+                                            handlerFileChange(e.target.files[0], firstdoc.id)
                                             :
                                             setFirstDoc(e.target.files[0])
                                         dispatch({ type: "SAVE_ADDED_DOC", payload: e.target.files[0] })
@@ -133,8 +136,7 @@ const Step2 = (props) => {
                                         clearStoreFile()
                                     } else {
                                         seconddoc.id ?
-                                            handlerFileChange(e.target.files[0], seconddoc.id) &&
-                                            setSecondDoc(e.target.files[0])
+                                            handlerFileChange(e.target.files[0], seconddoc.id)
                                             :
                                             setSecondDoc(e.target.files[0])
                                         dispatch({ type: "SAVE_ADDED_DOC", payload: e.target.files[0] })
@@ -157,18 +159,23 @@ const Step2 = (props) => {
                         <div className="file--upload">
                             <input
                                 type="file"
-                                accept="application/pdf, image/png, image/jpeg, image/jpg, .txt , .doc ,.docx"
+                                accept="application/pdf, image/png, image/jpeg, image/jpg, text/plain, text/csv, .docx, .xlsx "
                                 onChange={e => {
                                     if (e.target.files.length === 0) {
-                                        clearStoreFile()
+                                        clearStoreFile();
                                     } else {
-                                        thirddoc.id ?
-                                            handlerFileChange(e.target.files[0], thirddoc.id) &&
-                                            setThirdDoc(e.target.files[0])
-
-                                            :
-                                            setThirdDoc(e.target.files[0])
-                                        dispatch({ type: "SAVE_ADDED_DOC", payload: e.target.files[0] })
+                                        if (thirddoc.id) {
+                                            handlerFileChange(e.target.files[0], thirddoc.id)
+                                        }
+                                        else {
+                                            if (e.target.files[0].type === "text/plain") {
+                                                window.alert("File type not supported..!")
+                                            }
+                                            else {
+                                                setThirdDoc(e.target.files[0])
+                                                dispatch({ type: "SAVE_ADDED_DOC", payload: e.target.files[0] })
+                                            }
+                                        }
                                     }
                                 }}
                             />
@@ -188,16 +195,23 @@ const Step2 = (props) => {
                         <div className="file--upload">
                             <input
                                 type="file"
-                                accept="application/pdf, image/png, image/jpeg, image/jpg, .txt ,.doc ,.docx "
+                                accept="application/pdf, image/png, image/jpeg, image/jpg, text/plain, text/csv, .docx , ,.xlsx "
                                 onChange={e => {
                                     if (e.target.files.length === 0) {
-                                        clearStoreFile()
+                                        clearStoreFile();
                                     } else {
-                                        fourthdoc.id ? handlerFileChange(e.target.files[0], fourthdoc.id) &&
-                                            setFourthDoc(e.target.files[0])
-                                            :
-                                            setFourthDoc(e.target.files[0])
-                                        dispatch({ type: "SAVE_ADDED_DOC", payload: e.target.files[0] })
+                                        if (fourthdoc.id) {
+                                            handlerFileChange(e.target.files[0], fourthdoc.id)
+                                        }
+                                        else {
+                                            if (e.target.files[0].type === "text/plain") {
+                                                window.alert("File type not supported..!")
+                                            }
+                                            else {
+                                                setFourthDoc(e.target.files[0])
+                                                dispatch({ type: "SAVE_ADDED_DOC", payload: e.target.files[0] })
+                                            }
+                                        }
                                     }
                                 }}
                             />
