@@ -7,14 +7,12 @@ import { toast } from 'react-toastify'
 
 
 const Step2 = (props) => {
-
     const { course_documents, setLoading, getCourseData } = props
     const dispatch = useDispatch()
     const [firstdoc, setFirstDoc] = useState([])
     const [seconddoc, setSecondDoc] = useState([])
     const [thirddoc, setThirdDoc] = useState([])
     const [fourthdoc, setFourthDoc] = useState([])
-
 
     const setImageDocURL = (course_documents) => {
         const videodocs1 = []
@@ -51,7 +49,6 @@ const Step2 = (props) => {
         }
     }, [dispatch, course_documents])
 
-
     const clearStoreFile = () => {
         dispatch({ type: "REMOVE_ADDED_DOC" })
         setFirstDoc([])
@@ -86,7 +83,6 @@ const Step2 = (props) => {
         }
 
     }
-
     return (
         <div className="upload-video-text">
             <div className="lesson-add-content-header">

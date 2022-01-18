@@ -89,11 +89,12 @@ const GameQuestion = (props) => {
     }
 
     const updatedHandler = async() =>{
+        console.log("optiosssforGame" , options)
             if (!state.question) {
                 toast.error("Please enter the question ?")
             }
             else if (options[0].option === '' || options[1].option === '' || options[2].option === '' || options[3].option === '') {
-                toast.error("Please enter the option")
+                toast.error("Option must be filled")
             }
             else if (options[0].is_power == 0 || options[1].is_power == 0 || options[2].is_power == 0 || options[3].is_power == 0) {
                 toast.error("power is required ")
