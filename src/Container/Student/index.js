@@ -10,6 +10,7 @@ import { getAllLesson, getCharacters, getIntro } from '../../Redux/action/Studen
 import { useJwt } from "react-jwt";
 import { IsloggedinHOC } from '../../Components/IsLoggedinHOC'
 import PopupModel from './popupModel'
+ import lock_icon from "../../assets/images/lock_icon.png"
 
 
 const Dashboard = (props) => {
@@ -122,7 +123,13 @@ const Dashboard = (props) => {
                                                             : "#F6C940"}`
                                                         : `#979494`}`
                                                 }}
-                                            >
+                                            >     
+                                               { item.week_number > unlockedWeek && <div 
+                                                 style={{
+                                                 textAlign : "end",
+                                                 margin: "-8px"}} >
+                                                 <img src= {lock_icon}   />
+                                                 </div>}
                                                 <span className="text--outline">
                                                     Module {index + 1}
                                                 </span>

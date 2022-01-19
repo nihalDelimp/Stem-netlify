@@ -214,8 +214,6 @@ export const getLessonConversation = data => async () => {
 }
 
 export const DeleteLessonSlideConversation = ( id ) => async () => {
-    console.log( "id in delete conversastion", id )
-    // let id = data.id
     return new Promise( async ( resolve, reject ) => {
         await authAxios().delete( `/site-admin/delete-lesson-conversation/${id}` )
             .then(

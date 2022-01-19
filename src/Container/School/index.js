@@ -1,36 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import ArrowDownImg from "../../assets/images/arrow_down.svg"
-
 import plusIcon from "../../assets/images/plus.svg"
-import checkRight from "../../assets/images/check_right.svg"
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllClassroom } from '../../Redux/action/Classroom'
 import IsLoadingHOC from '../../Components/IsLoadingHOC'
-import { getTeacherClassrooms } from '../../Redux/action/Teacher'
 import {getTeacherList } from '../../Redux/action/SchoolAdmin'
-import CreateClassroom from '../School/Classroom/Create'
-import DeleteClassroom from '../School/Classroom/Delete'
+import DeleteTeacher from './deleteTeacher'
 
 const SchoolAdminClassroom = ( props ) => {
     const { setLoading } = props;
     const role = useSelector( state => state.auth.user.user_type )
-    const [isActive, setIsActive] = useState( false )
     const [isDotsActive, setDotIsActive] = useState( false )
-    const [dropdownState, setdropdownState] = useState( 1 );
     const [deletePopUp, setDeletePopUp] = useState( false )
-    const [createPopUp, setCreatePopUp] = useState( false )
-
     const [teacherListData, setTeacherListData] = useState( [] )
     const [deleteData, setDeleteData] = useState( {} )
-
-    const toggleDropdownList = ( index ) => {
-        setdropdownState( index );
-    }
-
     const dispatch = useDispatch()
 
-    const getTeachersList = async () => {
+
+    const getTeachersListData = async () => {
         setLoading( true )
         await dispatch( getTeacherList() )
             .then(
@@ -47,7 +33,7 @@ const SchoolAdminClassroom = ( props ) => {
     }
 
     useEffect( () => {
-        getTeachersList();
+        getTeachersListData();
     }, [] )
 
 
@@ -75,7 +61,7 @@ const SchoolAdminClassroom = ( props ) => {
                                 {role === "SCHOOL_ADMIN" && (
                                     <div className="addclass--room-button">
                                         <Link to= "/addTeacher"  style={{ color: "#000", textDecoration: "none" }}  >
-                                        <button className="addclasroom--btn" onClick={() => setCreatePopUp( true )}>
+                                        <button className="addclasroom--btn">
                                             <span>Add Teacher/School Admin</span> <span className="button--icon">
                                                 <img src={plusIcon} alt="" /></span>
                                             </button>
@@ -123,7 +109,7 @@ const SchoolAdminClassroom = ( props ) => {
                                         ) )
                                     )
                                 }
-                                {deletePopUp && <DeleteClassroom getTeachersList={getTeachersList} deleteData={deleteData} setDeletePopUp={setDeletePopUp} />}
+                                {deletePopUp && <DeleteTeacher getTeachersListData={getTeachersListData} deleteData={deleteData} setDeletePopUp={setDeletePopUp} />}
                             </div>
                         </div>
                     </div>

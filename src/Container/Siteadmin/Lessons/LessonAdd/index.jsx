@@ -13,20 +13,14 @@ import IsLoadingHOC from '../../../../Components/IsLoadingHOC'
 
 const LessonAdd = (props) => {
     const { setLoading } = props;
-
     const history = useHistory();
-
     const dispatch = useDispatch()
-
     const { week, classCode, id } = history.location.state;
     const {coursedetails}  = useSelector(state => state.course)
     const {courseId}  = coursedetails ? coursedetails : {}
-
     const [activeStep, setActiveStep] = useState(0)
     const [courseData, setCourseData] = useState([])
     const { course_documents } = courseData ? courseData : {}
-  
-
     const { app, course } = useSelector(state => state)
 
 

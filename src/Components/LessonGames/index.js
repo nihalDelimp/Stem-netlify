@@ -171,7 +171,7 @@ const LessonGames = ( props ) => {
                                                     <div className="game--value--option">
                                                         <div className="game--value--item">
                                                             <img src={require( "../../assets/images/dolor_star.svg" ).default} alt="" />
-                                                            <span>{"?"}</span>
+                                                            <span>{item.is_money}</span>
                                                         </div>
 
                                                         {/* <div className="game--value--item">

@@ -80,3 +80,17 @@ export const sendinvite = ( data ) => async () => {
     } )
 }
 
+
+export const deleteTeacherAction = data => async () => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().delete( `/school-admin/remove-teacher-details/${data}`)
+            .then(
+                response => resolve( response.data ),
+                error => reject( error )
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}
+

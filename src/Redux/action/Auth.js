@@ -7,7 +7,7 @@ export const login = data => async _dispatch => {
                 response => {
                      resolve( response.data )
                     _dispatch( { type: "USER_DATA_UPDATE", payload: response.data.data.user } );
-                    _dispatch( { type: "SAVE_TOKEN", payload: response.data.data.token } )
+                    _dispatch( { type: "SAVE_TOKEN", payload: response.data.data.token ? response.data.data.token : null } )
                 },
                 error => {
                     reject( error )

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { SubmitButton } from '../Buttons'
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
+import { connect , useSelector } from 'react-redux';
 import { resetPassword } from '../../Redux/action/Auth';
 import { toast } from "react-toastify"
 import { Input } from '../Inputs';
@@ -10,7 +10,8 @@ import IsLoadingHOC from '../IsLoadingHOC';
 
 const ResetPassword = (props) => {
     const { resetPassword, setLoading } = props
-    const history = useHistory()
+    const user_id =  useSelector(state => state.auth.user.id)
+    const history = useHistory();
    
     return (
         <div className="card card--form">
@@ -40,7 +41,7 @@ const ResetPassword = (props) => {
                                     response => {
                                         toast.success(response.message)
                                         setSubmitting(false);
-                                        history.push("/")
+                                        history.push("/login")
                                         setLoading(false)
                                     },
                                     erroe => {
