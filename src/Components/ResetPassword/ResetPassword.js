@@ -36,7 +36,7 @@ const ResetPassword = (props) => {
                         }
                         else {
                             setLoading(true)
-                            await resetPassword(values)
+                            await resetPassword( user_id,values)
                                 .then(
                                     response => {
                                         toast.success(response.message)

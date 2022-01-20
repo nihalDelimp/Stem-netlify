@@ -37,9 +37,8 @@ const AddTeacher = () => {
         ))
                 .then(
                     response => {
-                        toast.success( response.message )
+                        toast.success("Mail sent successfully")
                         history.push('/')
-                       
                     },
                     error => {
                         toast.error(error.response.data.message);

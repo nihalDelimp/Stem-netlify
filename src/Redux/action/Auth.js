@@ -61,9 +61,9 @@ export const forgotPassword = data => async _dispatch => {
     } )
 }
 
-export const resetPassword = data => async _dispatch => {
+export const resetPassword = (id,data) => async _dispatch => {
     return new Promise( async ( resolve, reject ) => {
-        await withoutAuthAxios().post( "/auth/reset-password", data )
+        await withoutAuthAxios().put( `/auth/reset-user-password/${id}`, data )
             .then(
                 response => {
                      resolve( response.data )
