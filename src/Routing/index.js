@@ -2,6 +2,8 @@ import { Route, Switch } from 'react-router-dom';
 import Invitedlogin from '../Components/Login/InvitedLogin';
 import Login from '../Components/Login/Login';
 import ResetPassword from '../Components/ResetPassword/ResetPassword';
+import ForgotPassword from '../Components/ForgetPassword/ForgetPassword';
+import ChangePassword from '../Components/ChangePassword/ChangePassword';
 import Signup from '../Components/Signup';
 import StudentDashboard from '../Container/Student';
 import PrivateLayout from '../Layout/Private';
@@ -23,8 +25,6 @@ import SchoolAdminClassroom from '../Container/School/index'
 
 
 
-
-
 const ALLUser = Authorization(['TEACHER', 'STUDENT', 'SCHOOL_ADMIN', "SITE_ADMIN"]);
 // const SiteAdmin = Authorization( ["SITE_ADMIN"] );
 const Student = Authorization(["STUDENT"]);
@@ -35,10 +35,7 @@ const SchoolAdmin = Authorization(["SCHOOL_ADMIN"])
 const AllAdmission = Authorization(["SITE_ADMIN", "SCHOOL_ADMIN", "TEACHER"])
 
 
-
-
 const Routing = () => {
-
     const role = useSelector(state => state.auth.user.user_type)
 
     return (
@@ -48,13 +45,21 @@ const Routing = () => {
                 path="/login"
                 component={Login}
                 layout={PublicLayout} />
-
             <AppRoute
                 exact
                 path="/reset-password"
                 component={ResetPassword}
                 layout={PublicLayout} />
-
+            <AppRoute
+                exact
+                path="/forgot-password"
+                component={ForgotPassword}
+                layout={PublicLayout} />
+            <AppRoute
+                exact
+                path="/change-password"
+                component={ChangePassword}
+                layout={PublicLayout} />
             <AppRoute
                 exact
                 path="/invited-login"
