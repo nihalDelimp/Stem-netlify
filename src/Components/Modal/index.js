@@ -249,8 +249,7 @@ const Modal = (props) => {
                 }
 
                 {
-                    !lessonFinished
-                    && activeStep !== "add-game-question"
+                     activeStep !== "add-game-question"
                     && activeStep !== "add-quiz-question" && (
                         <div className={"modal--close2 btn btn--circle "} onClick={handlerClose}>
                             <svg width="12" height="12" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -266,10 +265,10 @@ const Modal = (props) => {
                             <img src={require("../../assets/images/dolor_star.svg").default} alt="" />
                             <span>${updatedScore && kFormatter(updatedScore.quiz_game_money) }</span>
                         </div>
-                        <div className="game--info--item">
+                        {/* <div className="game--info--item">
                             <img src={require("../../assets/images/dolor.svg").default} alt="" />
                             <span>{updatedScore && kFormatter(updatedScore.quiz_game_power)}</span>
-                        </div>
+                        </div> */}
                     </div>
                 )}
                 {characterDetail && selectedChar && activeStep === "intro" || activeStep === "lesson-game" ? (
