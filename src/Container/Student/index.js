@@ -10,7 +10,7 @@ import { getAllLesson, getCharacters, getIntro } from '../../Redux/action/Studen
 import { useJwt } from "react-jwt";
 import { IsloggedinHOC } from '../../Components/IsLoggedinHOC'
 import PopupModel from './popupModel'
- import lock_icon from "../../assets/images/lock_icon.png"
+ import lock_icon from "../../assets/images/lock_icon2.png"
 
 
 const Dashboard = (props) => {
