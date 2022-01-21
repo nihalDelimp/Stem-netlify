@@ -118,7 +118,7 @@ const Signup = ( props ) => {
                     </div>
                     <SubmitButton className="btn btn--submit" type="submit">Enter</SubmitButton>
                 </form>
-                <Link to="/login">Back</Link>
+                <Link  style={{ textDecoration: "none" }} to="/login">Back</Link>
             </div>
         </div>
     )

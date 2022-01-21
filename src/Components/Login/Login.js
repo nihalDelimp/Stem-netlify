@@ -94,8 +94,8 @@ const Login = ( props ) => {
                         </form>
                     )}
                 </Formik>
-                <Link to="/signup">Sign up new account</Link>
-                <Link to="/forgot-password">Forgot password</Link>
+                <Link  style={{ textDecoration: "none" }} to="/signup">Sign up new account</Link>
+                <Link   style={{textDecoration: "none" }} to="/forgot-password">Forgot password</Link>
                 {/* <Link to="/invited-login">I have an invite link!</Link> */}
             </div>
         </div>

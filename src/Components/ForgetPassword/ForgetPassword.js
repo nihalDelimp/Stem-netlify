@@ -77,7 +77,7 @@ const ForgetPassword = ( props ) => {
                         </form>
                     )}
                 </Formik>
-                <Link to="/login">Sign In</Link>
+                <Link  style={{ textDecoration: "none" }} to="/login">Back</Link>
             </div>
         </div>
     )
