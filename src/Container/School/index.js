@@ -3,39 +3,42 @@ import plusIcon from "../../assets/images/plus.svg"
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import IsLoadingHOC from '../../Components/IsLoadingHOC'
-import {getTeacherList } from '../../Redux/action/SchoolAdmin'
+import { getTeacherList } from '../../Redux/action/SchoolAdmin'
 import DeleteTeacher from './deleteTeacher'
 
-const SchoolAdminClassroom = ( props ) => {
+const SchoolAdminClassroom = (props) => {
     const { setLoading } = props;
-    const role = useSelector( state => state.auth.user.user_type )
-    const [isDotsActive, setDotIsActive] = useState( false )
-    const [deletePopUp, setDeletePopUp] = useState( false )
-    const [teacherListData, setTeacherListData] = useState( [] )
-    const [deleteData, setDeleteData] = useState( {} )
+    const role = useSelector(state => state.auth.user.user_type)
+    const [isDotsActive, setDotIsActive] = useState(false)
+    const [deletePopUp, setDeletePopUp] = useState(false)
+    const [teacherListData, setTeacherListData] = useState([])
+    const [deleteData, setDeleteData] = useState({})
     const dispatch = useDispatch()
 
-
     const getTeachersListData = async () => {
-        setLoading( true )
-        await dispatch( getTeacherList() )
+        setLoading(true)
+        await dispatch(getTeacherList())
             .then(
                 response => {
-                    setLoading( false )
-                    setTeacherListData( response.data )
+                    setLoading(false)
+                    setTeacherListData(response.data)
                 },
                 () =>
-                    setLoading( false )
+                    setLoading(false)
             )
             .catch(
-                error => console.log( error )
+                error => console.log(error)
             )
     }
 
-    useEffect( () => {
+    useEffect(() => {
         getTeachersListData();
-    }, [] )
+    }, [])
 
+    const toUpperCaseName = (name) => {
+        const upperName = name.charAt(0).toUpperCase() + name.slice(1)
+        return upperName
+    }
 
     return (
         <>
@@ -60,13 +63,13 @@ const SchoolAdminClassroom = ( props ) => {
                             <div className="addclass--ct">
                                 {role === "SCHOOL_ADMIN" && (
                                     <div className="addclass--room-button">
-                                        <Link to= "/addTeacher"  style={{ color: "#000", textDecoration: "none" }}  >
-                                        <button className="addclasroom--btn">
-                                            <span>Add Teacher/School Admin</span> <span className="button--icon">
-                                                <img src={plusIcon} alt="" /></span>
+                                        <Link to="/addTeacher" style={{ color: "#000", textDecoration: "none" }}  >
+                                            <button className="addclasroom--btn">
+                                                <span>Add Teacher/School Admin</span> <span className="button--icon">
+                                                    <img src={plusIcon} alt="" /></span>
                                             </button>
                                         </Link>
-                                       
+
                                     </div>
                                 )}
                             </div>
@@ -77,15 +80,15 @@ const SchoolAdminClassroom = ( props ) => {
                             <div className="classrooms">
                                 {
                                     teacherListData && (
-                                        teacherListData.map( ( item, index ) => (
+                                        teacherListData.map((item, index) => (
                                             <div className="class--name--wrapper" key={index}>
                                                 <div className="class--name">
-                                                    <Link to = "#" className="class--number" >
-                                                        <img src={require( "../../assets/images/polygon_green.svg" ).default} alt="" />
-                                                        <h3>{item.name}</h3>
+                                                    <Link to="#" className="class--number" >
+                                                        <img src={require("../../assets/images/polygon_green.svg").default} alt="" />
+                                                        <h3>{toUpperCaseName(item.name)}</h3>
                                                     </Link>
-                                                    <button onClick={() => setDotIsActive( !isDotsActive )} className="dots--icon">
-                                                        <img src={require( "../../assets/images/3dots.svg" ).default} />
+                                                    <button onClick={() => setDotIsActive(!isDotsActive)} className="dots--icon">
+                                                        <img src={require("../../assets/images/3dots.svg").default} />
                                                         <div className="dots--drop--down">
                                                             <div className="dropdown--item">
                                                                 <div className="dropdown--list">
@@ -93,10 +96,10 @@ const SchoolAdminClassroom = ( props ) => {
                                                                         {/* <li ><span> Rename</span></li> */}
                                                                         <li
                                                                             onClick={() => {
-                                                                                setDeletePopUp( true )
-                                                                                setDeleteData( {
+                                                                                setDeletePopUp(true)
+                                                                                setDeleteData({
                                                                                     id: item.id
-                                                                                } )
+                                                                                })
                                                                             }}
                                                                         ><span> Delete Teacher</span></li>
                                                                     </ul>
@@ -106,7 +109,7 @@ const SchoolAdminClassroom = ( props ) => {
                                                     </button>
                                                 </div>
                                             </div>
-                                        ) )
+                                        ))
                                     )
                                 }
                                 {deletePopUp && <DeleteTeacher getTeachersListData={getTeachersListData} deleteData={deleteData} setDeletePopUp={setDeletePopUp} />}
@@ -119,4 +122,4 @@ const SchoolAdminClassroom = ( props ) => {
     )
 }
 
-export default IsLoadingHOC( SchoolAdminClassroom );
+export default IsLoadingHOC(SchoolAdminClassroom);

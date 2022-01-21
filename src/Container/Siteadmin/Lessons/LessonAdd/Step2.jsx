@@ -105,7 +105,7 @@ const Step2 = (props) => {
                                             handlerFileChange(e.target.files[0], firstdoc.id)
                                             :
                                             setFirstDoc(e.target.files[0])
-                                        dispatch({ type: "SAVE_ADDED_DOC", payload: e.target.files[0] })
+                                        dispatch({ type: "SAVE_ADDED_FIRST_DOC", payload: e.target.files[0] })
 
                                     }
                                 }}
@@ -135,7 +135,7 @@ const Step2 = (props) => {
                                             handlerFileChange(e.target.files[0], seconddoc.id)
                                             :
                                             setSecondDoc(e.target.files[0])
-                                        dispatch({ type: "SAVE_ADDED_DOC", payload: e.target.files[0] })
+                                        dispatch({ type: "SAVE_ADDED_SECOND_DOC", payload: e.target.files[0] })
                                     }
                                 }}
                             />
@@ -169,7 +169,7 @@ const Step2 = (props) => {
                                             }
                                             else {
                                                 setThirdDoc(e.target.files[0])
-                                                dispatch({ type: "SAVE_ADDED_DOC", payload: e.target.files[0] })
+                                                dispatch({ type: "SAVE_ADDED_THIRD_DOC", payload: e.target.files[0] })
                                             }
                                         }
                                     }
@@ -205,7 +205,7 @@ const Step2 = (props) => {
                                             }
                                             else {
                                                 setFourthDoc(e.target.files[0])
-                                                dispatch({ type: "SAVE_ADDED_DOC", payload: e.target.files[0] })
+                                                dispatch({ type: "SAVE_ADDED_FOURTH_DOC", payload: e.target.files[0] })
                                             }
                                         }
                                     }

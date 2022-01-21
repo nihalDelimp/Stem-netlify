@@ -51,6 +51,11 @@ const StudentsList = ( props ) => {
             )
     }
 
+    const  toUpperCaseName = (name) =>{
+        const upperName = name.charAt(0).toUpperCase() + name.slice(1)
+         return upperName
+      }
+
     return (
         <div className="classrooms-student">
             
@@ -71,7 +76,7 @@ const StudentsList = ( props ) => {
                                         }
                                     }}
                                 >
-                                    <h3>{student.name}</h3>
+                                    <h3>{toUpperCaseName(student.name)}</h3>
                                 </Link>
                             </div>
                             <div className="dots--icon"

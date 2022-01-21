@@ -44,6 +44,11 @@ const Leaderboard = (props) => {
 
     }, [])
 
+    const toUpperCaseName = (name) => {
+        const upperName = name.charAt(0).toUpperCase() + name.slice(1)
+        return upperName
+    }
+
     return (
         <div className="container">
             <div className="LeaderNew--section">
@@ -59,19 +64,22 @@ const Leaderboard = (props) => {
                         <div className='Leaderboard--winners-trophy'>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/silver.png").default}></img>
-                                <h3>{leaderboardData && leaderboardData[1] ? leaderboardData[1]?.student_details[0]?.name : "N/A"}</h3>
+                                <h3>{leaderboardData && leaderboardData[1] ? 
+                                 toUpperCaseName(leaderboardData[1]?.student_details[0]?.name) : "N/A"}</h3>
                                 <h4>Company valuation: </h4>
                                 <h5>{leaderboardData && leaderboardData[1] ? leaderboardData[1]?.quiz_game_power : "N/A"}</h5>
                             </div>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/gold.png").default}></img>
-                                <h3>{leaderboardData && leaderboardData[0] ? leaderboardData[0]?.student_details[0]?.name : "N/A"}</h3>
+                                <h3>{leaderboardData && leaderboardData[0] ? 
+                                toUpperCaseName(leaderboardData[0]?.student_details[0]?.name) : "N/A"}</h3>
                                 <h4>Company valuation: </h4>
                                 <h5>{leaderboardData && leaderboardData[0] ? leaderboardData[0]?.quiz_game_power : "N/A"}</h5>
                             </div>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/bronze.png").default}></img>
-                                <h3>{leaderboardData && leaderboardData[2] ? leaderboardData[2]?.student_details[0]?.name : "N/A"}</h3>
+                                <h3>{leaderboardData && leaderboardData[2] ? 
+                                toUpperCaseName(leaderboardData[2]?.student_details[0]?.name) : "N/A"}</h3>
                                 <h4>Company valuation: </h4>
                                 <h5>{leaderboardData && leaderboardData[2] ? leaderboardData[2]?.quiz_game_power : "N/A"}</h5>
                             </div>
@@ -107,7 +115,7 @@ const Leaderboard = (props) => {
                                             <div className='winner-ranks'>
                                                 <h3>{index + 1}</h3>
                                                 <img src={require("../../../assets/images/user_img.png").default}></img>
-                                                <h4>{item.student_details[0]?.name}</h4>
+                                                <h4>{toUpperCaseName(item.student_details[0]?.name)}</h4>
                                             </div>
                                             <div className='winner-datas'>
                                                 <div className='winner-budget'>

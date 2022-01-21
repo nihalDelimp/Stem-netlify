@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@progress/kendo-drawing": "^1.16.1",
+    "@progress/kendo-licensing": "^1.2.1",
+    "@progress/kendo-react-pdf": "^5.0.0",
     "@react-pdf-viewer/core": "^2.4.1",
     "@react-pdf-viewer/default-layout": "^3.0.0",
     "@testing-library/jest-dom": "^5.11.4",
@@ -15,7 +18,7 @@
     "node-sass": "4.14.1",
     "pdfjs-dist": "^2.6.347",
     "react": "^17.0.2",
-    "react-datepicker": "^4.6.0",
+    "react-datepicker": "^4.2.1",
     "react-dom": "^17.0.2",
     "react-file-viewer": "^1.2.1",
     "react-jwt": "^1.1.4",

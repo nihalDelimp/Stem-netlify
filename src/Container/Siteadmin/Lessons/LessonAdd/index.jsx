@@ -16,12 +16,15 @@ const LessonAdd = (props) => {
     const history = useHistory();
     const dispatch = useDispatch()
     const { week, classCode, id } = history.location.state;
-    const {coursedetails}  = useSelector(state => state.course)
-    const {courseId}  = coursedetails ? coursedetails : {}
+    const { coursedetails } = useSelector(state => state.course)
+    const { courseId } = coursedetails ? coursedetails : {}
     const [activeStep, setActiveStep] = useState(0)
     const [courseData, setCourseData] = useState([])
     const { course_documents } = courseData ? courseData : {}
     const { app, course } = useSelector(state => state)
+    const { firstDocs, secondDocs, thirdDocs, fourthDocs } = course ? course : {}
+
+
 
 
     const submitHandler = async () => {
@@ -34,12 +37,13 @@ const LessonAdd = (props) => {
             }, 1000)
         }
         else {
-            if (course.addedDoc.length > 3) {
+            if (firstDocs && secondDocs && thirdDocs && fourthDocs) {
                 setLoading(true)
                 var formData = new FormData();
-                for (let i = 0; i < course.addedDoc.length; i++) {
-                    formData.append('file_details', course.addedDoc[i]);
-                }
+                formData.append('file_details', firstDocs);
+                formData.append('file_details', secondDocs);
+                formData.append('file_details', thirdDocs);
+                formData.append('file_details', fourthDocs);
                 formData.append('class_code', classCode);
                 formData.append('week_number', week);
                 await dispatch(createCourse(formData))
@@ -82,7 +86,7 @@ const LessonAdd = (props) => {
     }
 
     useEffect(() => {
-        if (id || courseId ) {
+        if (id || courseId) {
             getCourseData()
         }
     }, [])
@@ -115,8 +119,8 @@ const LessonAdd = (props) => {
                                     </Link>
                                 </li>
                                 <li>
-                                <Link to= {`/classroom/${classCode}`} style={{ color: "#000", textDecoration: "none" }}>
-                                    <span>Lessons</span>
+                                    <Link to={`/classroom/${classCode}`} style={{ color: "#000", textDecoration: "none" }}>
+                                        <span>Lessons</span>
                                     </Link>
                                 </li>
                                 <li><span>Lessons Add</span></li>
