@@ -137,7 +137,7 @@ const Leaderboard = (props) => {
                                         alignItems: "center",
                                         gridColumn: "span 2"
                                     }}>
-                                        <h2 style={{ fontWeight: "normal", opacity: "0.25" }}>No Students are registered with this class</h2>
+                                        <h2 style={{ fontWeight: "normal", opacity: "0.25" }}>Students did not completed Active module with this class</h2>
                                     </div>)
                                 }
                             </div>
