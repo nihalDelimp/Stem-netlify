@@ -454,6 +454,10 @@
                 background: #2AC227;
                 color: #fff;
             }
+            &.update{
+                background-color: #EF5B2C;
+                color: #fff;
+            }
             &:disabled{
                 opacity: 0.5;
                 cursor: not-allowed;

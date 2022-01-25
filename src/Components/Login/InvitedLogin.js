@@ -50,7 +50,7 @@ const InvitedLogin = (props) => {
                             return
                         }
                         else if (password.length < 8) {
-                            toast.error("Password must be 8 chars long !")
+                            toast.error("Password must be 8 chars long!")
                             return
 
                         } else {

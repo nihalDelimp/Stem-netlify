@@ -7,7 +7,8 @@ export const login = data => async _dispatch => {
                 response => {
                      resolve( response.data )
                     _dispatch( { type: "USER_DATA_UPDATE", payload: response.data.data.user } );
-                    _dispatch( { type: "SAVE_TOKEN", payload: response.data.data.token ? response.data.data.token : null } )
+                    _dispatch( { type: "SAVE_TOKEN", payload: response.data.data.token ? response.data.data.token : null } );
+                    _dispatch( { type: "USER_PASSWORD", payload: data.password } );
                 },
                 error => {
                     reject( error )
@@ -102,9 +103,27 @@ export const resetPassword = (id,data) => async _dispatch => {
 }
 
 
-export const profileListUserDetails = () => async () => {
+export const updateUsersProfile = (data) => async () => {
     return new Promise( async ( resolve, reject ) => {
-        await authAxios().post( "profile/list-user-details" )
+        await authAxios().put( "/auth/update-user-profile", data )
+            .then(
+                response => {
+                    resolve( response.data )
+                },
+                error =>{
+                 reject( error )
+                }
+
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}
+
+export const profileListUserDetails = (data) => async () => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().post( "profile/list-user-details" ,data )
             .then(
                 response => resolve( response.data ),
                 error => reject( error )

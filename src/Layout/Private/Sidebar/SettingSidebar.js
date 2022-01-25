@@ -1,33 +1,43 @@
-import { motion, AnimatePresence } from 'framer-motion'
 import React, { useState, useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { LogOut } from '../../../Redux/action/App'
-import { Link, useHistory, useParams } from 'react-router-dom'
 import { profileListUserDetails } from '../../../Redux/action/Auth'
 import { toast } from 'react-toastify'
+import PopupModel from './PopupModel'
+import PopupModel2 from './popupModel2'
+import showPwdImg from '../../../assets/images/show-password.svg';
+import hidePwdImg from '../../../assets/images/hide-password.svg';
+
 
 const SettingSidebar = () => {
-    const history = useHistory();
-    const dispatch = useDispatch();
+    const user_password = useSelector(state => state.auth.user_password)
     const [editPass, setEditPass] = useState(false);
+    const [currentPass, setCurrentPass] = useState("");
+    const [current_name, setCurrentName] = useState("");
+    const [user_name, setUserName] = useState(null);
+    const [model, SetModel] = useState(false);
+    const [model2, SetModel2] = useState(false);
     const [editDisplayName, setEditDisplayName] = useState(false);
     const [email, setEmail] = useState("");
-
+    const [isRevealPwd, setIsRevealPwd] = useState(false);
     const passInputRef = useRef()
     const nameInputRef = useRef()
+    const dispatch = useDispatch();
+
 
     const CloseBar = () => {
         document.querySelector(".setting--sidebar").classList.remove('activeSettingbar');
     }
 
 
-    const listProfileData = () => {
+    const profileData = () => {
         dispatch(profileListUserDetails())
             .then(
                 response => {
                     setEmail(response.data.email)
-                    nameInputRef.current.value = response.data.name
-                    passInputRef.current.value = "........"
+                    setCurrentPass(user_password)
+                    setCurrentName(response.data.name)
+                    setUserName(response.data.name)
                 },
                 (error) => {
                     console.log(error);
@@ -40,27 +50,11 @@ const SettingSidebar = () => {
 
 
     useEffect(() => {
-        listProfileData();
-    })
+        profileData();
+    }, [user_password])
 
-
-    // const handlerChangePassword = async (e) => {
-    //        await dispatch(renameClassroom({ class_name: e }, history.location.state.id))
-    //             .then(
-    //                 response => {
-    //                     toast.success(response.message)
-    //                 },
-    //                 error => {
-    //                     console.log(error.response.data);
-    //                 }
-    //             )
-    //             .catch(
-    //                 error => console.log(error)
-    //             )
-    // }
 
     return (
-
         <>
             <div className='grid'>
                 <div className='grid---'>
@@ -79,11 +73,38 @@ const SettingSidebar = () => {
                                     </div>
                                     <div className='inputGroup register--password'>
                                         <label>Password</label>
-                                        <input type="password" ref={passInputRef}  ></input>
+                                        <div className="pwd-container">
+                                            <input name='currentPass' value={currentPass} type={isRevealPwd ? "text" : "password"} ref={passInputRef}
+                                                onChange={(e) => setCurrentPass(e.target.value)}
+                                            ></input>
+                                            <img
+                                                title={isRevealPwd ? "Hide password" : "Show password"}
+                                                src={isRevealPwd ? hidePwdImg : showPwdImg}
+                                                onClick={() => {
+                                                    setIsRevealPwd(prevState => !prevState)
+                                                    passInputRef.current.focus()
+                                                }
+                                                }
+                                            />
+                                        </div>
+
                                         <div className='edit-email'>
                                             {editPass ?
                                                 <button style={{ color: 'blue', borderBottomColor: "blue" }} type='button' onClick={() => {
-                                                    setEditPass(false)
+                                                    if (user_password === currentPass) {
+                                                        setEditPass(false)
+                                                    }
+                                                    else if (!currentPass) {
+                                                        toast.error("Password can not be empty!")
+                                                        setCurrentPass(user_password)
+                                                        setEditPass(false)
+                                                    }
+                                                    else {
+                                                        SetModel(true)
+                                                        setEditPass(false)
+                                                    }
+
+
                                                 }} >save</button>
                                                 :
                                                 <button type='button' onClick={() => {
@@ -91,17 +112,31 @@ const SettingSidebar = () => {
                                                     setEditPass(true)
                                                 }}
                                                 >edit</button>}
-
                                         </div>
                                     </div>
                                     <div className='inputGroup register--name'>
                                         <label>Display name</label>
-
-                                        <input type="name" ref={nameInputRef} ></input>
+                                        <div className="pwd-container">
+                                            <input type="name" ref={nameInputRef} value={current_name}
+                                                onChange={(e) => setCurrentName(e.target.value)}
+                                            ></input>
+                                        </div>
                                         <div className='edit-email'>
                                             {editDisplayName ?
                                                 <button style={{ color: 'blue', borderBottomColor: "blue" }} type='button' onClick={() => {
-                                                    setEditDisplayName(false)
+                                                    if (current_name == user_name) {
+                                                        setEditDisplayName(false)
+                                                    }
+                                                    else if (!current_name) {
+                                                        toast.error("User name can not be empty!")
+                                                        setCurrentName(user_name)
+                                                        setEditDisplayName(false)
+                                                    }
+                                                    else {
+                                                        SetModel2(true)
+                                                        setEditDisplayName(false)
+                                                    }
+
                                                 }} >save</button>
                                                 :
                                                 <button type='button' onClick={() => {
@@ -119,13 +154,12 @@ const SettingSidebar = () => {
                             <button className='help-btn'>Help</button>
                         </div>
                     </div>
-
                 </div>
             </div>
+            {model && <PopupModel SetModel={SetModel} currentPass={currentPass} setCurrentPass={setCurrentPass} />}
+            {model2 && <PopupModel2 current_name={current_name} user_name={user_name} SetModel2={SetModel2} setCurrentName={setCurrentName} profileData={profileData} />}
         </>
-
     )
 
 }
-
 export default SettingSidebar;

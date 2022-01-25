@@ -87,7 +87,7 @@
             }
         }
         input {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 400;
             border: none;
             @media (max-width:550px) {
@@ -192,5 +192,25 @@
         left: 0;
     }
 }
+
+.pwd-container {
+    position: relative;
+    width: 350px;
+  }
+  
+  .pwd-container input {
+    padding: 5px 30px 5px 10px;
+    
+  }
+
+
+.pwd-container img {
+    cursor: pointer;
+    position: absolute;
+    width: 20px;
+    right: 20px;
+     top: 6px;
+  }
+
 
 

@@ -24,20 +24,20 @@ const ChangePassword = (props) => {
                         const {exist_password , password, confirm_password } = values
                        
                         if  (!exist_password) {
-                            toast.error("Exist Password is required !")
+                            toast.error("Exist Password is required!")
                         }
 
                          else if (!password) {
-                            toast.error("New Password is required !")
+                            toast.error("New Password is required!")
                         }
                         else if (password.length < 8) {
-                            toast.error("New Password must be 8 chars long !")
+                            toast.error("New Password must be 8 chars long!")
                         }
                         else if (!confirm_password) {
-                            toast.error("Confirm password is required !")
+                            toast.error("Confirm password is required!")
                         }
                         else if (!(password === confirm_password)) {
-                            toast.error("Passwords did not match !")
+                            toast.error("Passwords did not match!")
                         }
                         else {
                             setLoading(true)

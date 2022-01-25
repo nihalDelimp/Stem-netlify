@@ -26,13 +26,13 @@ const ResetPassword = (props) => {
                             toast.error("New Password is required !")
                         }
                         else if (password.length < 8) {
-                            toast.error("New Password must be 8 chars long !")
+                            toast.error("New Password must be 8 chars long!")
                         }
                         else if (!confirm_password) {
-                            toast.error("Confirm password is required !")
+                            toast.error("Confirm password is required!")
                         }
                         else if (!(password === confirm_password)) {
-                            toast.error("Passwords did not match !")
+                            toast.error("Passwords did not match!")
                         }
                         else {
                             setLoading(true)
