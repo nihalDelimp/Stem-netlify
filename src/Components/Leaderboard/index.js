@@ -33,15 +33,19 @@ const Leaderboard = (props) => {
             )
     }
 
+    function kFormatter(num) {
+        return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(2)) + 'k' : Math.sign(num)*Math.abs(num)
+    }
+
     return (
         <div className="leaderboard">
             <div className="leaderboard--content">
 
                 <h2>Last week’s summary</h2>
                 <h4>Company’s valuation</h4>
-                <h2>$ {power}</h2>
+                <h2>$ {kFormatter(power)}</h2>
                 <h4>Remaining budget</h4>
-                <h2>$ {score ?  score : 100000}</h2>
+                <h2>$ {score ?  kFormatter(score) : kFormatter(100000)}</h2>
                 <button className="back--btn" onClick={() => {
                     dispatch( getModuleData( {
                         activeStep: "quiz-video"
