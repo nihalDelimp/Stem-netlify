@@ -82,7 +82,11 @@ const StudentPerformanceReport = (props) => {
         return upperName
     }
 
-    //--------   Download Docs html  file in PDF ---- //
+    function kFormatter(num) {
+        return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(2)) + 'k' : Math.sign(num)*Math.abs(num)
+    }
+
+    //--------   Download Docs html file in PDF ---- //
     class DocService {
         createPdf = (html) => {
             savePDF(html, {
@@ -178,7 +182,7 @@ const StudentPerformanceReport = (props) => {
                                                 </div>
                                                 <div className='curent-ranking-data'>
                                                     <h5>Company valuation</h5>
-                                                    <h3><span>{power ? power : 0}</span></h3>
+                                                    <h3><span>{power ? kFormatter(power) : 0}</span></h3>
                                                 </div>
                                             </div>
                                             <div className='current-ranking'>
@@ -187,7 +191,7 @@ const StudentPerformanceReport = (props) => {
                                                 </div>
                                                 <div className='curent-ranking-data'>
                                                     <h5>Remaining budget</h5>
-                                                    <h3><span>{score ? score : 0}</span></h3>
+                                                    <h3><span>{score ? kFormatter(score) : kFormatter(100000)}</span></h3>
                                                 </div>
                                             </div>
                                         </div>
