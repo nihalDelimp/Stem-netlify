@@ -28,12 +28,7 @@ export default function foo(state = initialState, action) {
         case "SAVE_ADDED_FOURTH_DOC":
             return { ...state, fourthDocs: action.payload }
         case "REMOVE_ADDED_DOC":
-            return { ...state, addedDoc: [],
-                firstDocs: "",
-                secondDocs: "",
-                thirdDocs: "",
-                fourthDocs: ""
-             }
+            return { ...state, addedDoc: [] }
         case "REMOVE_COURSE_DATA":
             return {
                 addedQuiz: [],
