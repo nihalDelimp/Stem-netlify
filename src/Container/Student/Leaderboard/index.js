@@ -71,21 +71,21 @@ const Leaderboard = (props) => {
                                 <h3>{leaderboardData && leaderboardData[1] ? 
                                  toUpperCaseName(leaderboardData[1]?.student_details[0]?.name) : "N/A"}</h3>
                                 <h4>Company valuation: </h4>
-                                <h5>{leaderboardData && leaderboardData[1] ? kFormatter(leaderboardData[1]?.quiz_game_power) : "N/A"}</h5>
+                                <h5>{leaderboardData && leaderboardData[1] ? leaderboardData[1]?.quiz_game_power : "N/A"}</h5>
                             </div>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/gold.png").default}></img>
                                 <h3>{leaderboardData && leaderboardData[0] ? 
                                 toUpperCaseName(leaderboardData[0]?.student_details[0]?.name) : "N/A"}</h3>
                                 <h4>Company valuation: </h4>
-                                <h5>{leaderboardData && leaderboardData[0] ? kFormatter(leaderboardData[0]?.quiz_game_power) : "N/A"}</h5>
+                                <h5>{leaderboardData && leaderboardData[0] ? leaderboardData[0]?.quiz_game_power : "N/A"}</h5>
                             </div>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/bronze.png").default}></img>
                                 <h3>{leaderboardData && leaderboardData[2] ? 
                                 toUpperCaseName(leaderboardData[2]?.student_details[0]?.name) : "N/A"}</h3>
                                 <h4>Company valuation: </h4>
-                                <h5>{leaderboardData && leaderboardData[2] ? kFormatter(leaderboardData[2]?.quiz_game_power) : "N/A"}</h5>
+                                <h5>{leaderboardData && leaderboardData[2] ? leaderboardData[2]?.quiz_game_power : "N/A"}</h5>
                             </div>
                         </div>
                         <div className='new--leaderboard_tabs'>
@@ -128,7 +128,7 @@ const Leaderboard = (props) => {
                                                 </div>
                                                 <div className='winner-price'>
                                                     <span>$ </span>
-                                                    <span>{kFormatter(item?.quiz_game_money)}</span>
+                                                    <span>{item?.quiz_game_money}</span>
                                                 </div>
                                             </div>
                                         </div>
