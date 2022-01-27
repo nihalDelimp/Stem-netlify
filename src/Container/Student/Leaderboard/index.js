@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import IsLoadingHOC from '../../../Components/IsLoadingHOC'
 import { getAllStudentScore } from '../../../Redux/action/Student'
 import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
+import NumberFormat from 'react-number-format';
 
 const Leaderboard = (props) => {
     const { setLoading } = props
@@ -50,7 +51,7 @@ const Leaderboard = (props) => {
     }
 
     function kFormatter(num) {
-        return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(2)) + 'k' : Math.sign(num)*Math.abs(num)
+        return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(2)) + 'k' : Math.sign(num) * Math.abs(num)
     }
 
     return (
@@ -68,24 +69,42 @@ const Leaderboard = (props) => {
                         <div className='Leaderboard--winners-trophy'>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/silver.png").default}></img>
-                                <h3>{leaderboardData && leaderboardData[1] ? 
-                                 toUpperCaseName(leaderboardData[1]?.student_details[0]?.name) : "N/A"}</h3>
+                                <h3>{leaderboardData && leaderboardData[1] ?
+                                    toUpperCaseName(leaderboardData[1]?.student_details[0]?.name) : "N/A"}</h3>
                                 <h4>Company valuation: </h4>
-                                <h5>{leaderboardData && leaderboardData[1] ? leaderboardData[1]?.quiz_game_power : "N/A"}</h5>
+                                <h5>{leaderboardData && leaderboardData[1] ?
+                                 <NumberFormat thousandSeparator={true}
+                                 className="foo"
+                                 displayType={'text'}
+                                 value={leaderboardData[1]?.quiz_game_power} />
+                                  : "N/A"}
+                                  </h5>
                             </div>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/gold.png").default}></img>
-                                <h3>{leaderboardData && leaderboardData[0] ? 
-                                toUpperCaseName(leaderboardData[0]?.student_details[0]?.name) : "N/A"}</h3>
+                                <h3>{leaderboardData && leaderboardData[0] ?
+                                    toUpperCaseName(leaderboardData[0]?.student_details[0]?.name) : "N/A"}</h3>
                                 <h4>Company valuation: </h4>
-                                <h5>{leaderboardData && leaderboardData[0] ? leaderboardData[0]?.quiz_game_power : "N/A"}</h5>
+                                <h5>{leaderboardData && leaderboardData[0] ? 
+                                 <NumberFormat thousandSeparator={true}
+                                 className="foo"
+                                 displayType={'text'}
+                                 value={leaderboardData[0]?.quiz_game_power} />
+                                 : "N/A"}
+                                 </h5>
                             </div>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/bronze.png").default}></img>
-                                <h3>{leaderboardData && leaderboardData[2] ? 
-                                toUpperCaseName(leaderboardData[2]?.student_details[0]?.name) : "N/A"}</h3>
+                                <h3>{leaderboardData && leaderboardData[2] ?
+                                    toUpperCaseName(leaderboardData[2]?.student_details[0]?.name) : "N/A"}</h3>
                                 <h4>Company valuation: </h4>
-                                <h5>{leaderboardData && leaderboardData[2] ? leaderboardData[2]?.quiz_game_power : "N/A"}</h5>
+                                <h5>{leaderboardData && leaderboardData[2] ? 
+                                <NumberFormat thousandSeparator={true}
+                                className="foo"
+                                displayType={'text'}
+                                value={leaderboardData[2]?.quiz_game_power} />
+                                 : "N/A"}
+                                 </h5>
                             </div>
                         </div>
                         <div className='new--leaderboard_tabs'>
@@ -127,8 +146,14 @@ const Leaderboard = (props) => {
                                                     <span></span>
                                                 </div>
                                                 <div className='winner-price'>
-                                                    <span>$ </span>
-                                                    <span>{item?.quiz_game_money}</span>
+                                                    <span>$</span>
+
+                                                    <NumberFormat thousandSeparator={true}
+                                                        className="foo"
+                                                        displayType={'text'}
+                                                        value={item?.quiz_game_money} />
+
+                                                    {/* <span>{item?.quiz_game_money}</span> */}
                                                 </div>
                                             </div>
                                         </div>

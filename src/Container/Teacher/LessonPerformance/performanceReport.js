@@ -11,6 +11,7 @@ const StudentPerformanceReport = (props) => {
     const [performanceReport, setPerformanceReport] = useState([])
     const [studentsReportDetail, SetStudentsReportDetail] = useState({})
     const { score, power } = studentsReportDetail ? studentsReportDetail : {}
+    const [studentFinalScore, sitStudentFinalScore] = useState([])
     const dispatch = useDispatch()
     const location = useLocation()
     const params = useParams()
@@ -51,6 +52,7 @@ const StudentPerformanceReport = (props) => {
             .then(
                 response => {
                     SetStudentsReportDetail(response.data)
+                    sitStudentFinalScore(response.data.student_final_score)
                     setLoading(false);
                 },
                 () => {
@@ -64,13 +66,16 @@ const StudentPerformanceReport = (props) => {
 
 
     const AverageGrade = (score) => {
-        if (score > 100000) {
-            let gain = score - 100000;
+        const sum = score.reduce((a, b) => a + b.quiz_game_money, 0);
+        const avg = (sum / score.length).toFixed(2) || 0;
+        console.log(avg ,"avggggggggg")
+        if (avg > 100000) {
+            let gain = avg - 100000;
             let gainPercentage = ((gain * 100) / 100000).toFixed(2);
             return gainPercentage;
         }
         else {
-            let loss = 100000 - score;
+            let loss = 100000 - avg;
             let lossPercentage = -((loss * 100) / 100000).toFixed(2);
             return lossPercentage;
         }
@@ -83,7 +88,7 @@ const StudentPerformanceReport = (props) => {
     }
 
     function kFormatter(num) {
-        return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(2)) + 'k' : Math.sign(num)*Math.abs(num)
+        return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(2)) + 'k' : Math.sign(num) * Math.abs(num)
     }
 
     //--------   Download Docs html file in PDF ---- //
@@ -100,7 +105,7 @@ const StudentPerformanceReport = (props) => {
     const createPdf = (html) => Doc.createPdf(html);
 
 
-   
+
 
     return (
         <>
@@ -173,7 +178,7 @@ const StudentPerformanceReport = (props) => {
                                                 </div>
                                                 <div className='curent-ranking-data'>
                                                     <h5>Average grade</h5>
-                                                    <h3><span> {score ? AverageGrade(score) : 0} %</span></h3>
+                                                    <h3><span> {studentFinalScore && studentFinalScore.length >0 ? AverageGrade(studentFinalScore) : "0"} %</span></h3>
                                                 </div>
                                             </div>
                                             <div className='current-ranking'>
@@ -202,7 +207,7 @@ const StudentPerformanceReport = (props) => {
                                                     <h5><span>Last update:</span> <span>15/10/2022</span></h5>
                                                 </div>
                                                 <div className='percentage'>
-                                                    <h3>{score ? AverageGrade(score) : 0}%</h3>
+                                                    <h3>{studentFinalScore && studentFinalScore.length >0 ? AverageGrade(studentFinalScore) : "0" }%</h3>
                                                 </div>
                                                 <div className='progress--bar'>
                                                     <img src={require("../../../assets/images/progress_bar_img.png").default}></img>
