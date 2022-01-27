@@ -27,7 +27,7 @@ export default function foo(state = initialState, action) {
             return { ...state, character: { ...state.character, ...action.payload } }
         case "GET_STUDENT_DATA_SUCESS":
             return { ...state, studentData: action.payload }
-        case "SET_WEEK_NUMBER_SUCCESS":
+        case "SET_ACTIVE_WEEK_NUMBER":
             return { ...state, week_number: action.payload }
         case "UPDATED_SCORE_DATA":
             return { ...state, updatedScore: action.payload }

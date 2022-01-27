@@ -43,10 +43,10 @@ const Dashboard = (props) => {
                         setLessonData(response.data ? response.data : [])
                         setLoading(false)
                         dispatch({ type: "SET_CLASS_CODE_SUCCESS", payload: response.data[0].class_code })
-                        response.data && response.data.map((item, index) => {
+                        response.data && response.data.map(item => {
                             if (!item.lesson_locked) {
                                 SetUnlockedWeek(item.week_number)
-                                dispatch({ type: "SET_WEEK_NUMBER_SUCCESS", payload: item.week_number })
+                                dispatch({ type: "SET_ACTIVE_WEEK_NUMBER", payload: item.week_number })
                             }
 
                         })

@@ -15,7 +15,7 @@ const StudentPerformanceReport = (props) => {
     const dispatch = useDispatch()
     const location = useLocation()
     const params = useParams()
-    const { StudentName, classsName, classCode, total_student, student_rank } = location.state ? location.state : {}
+    const { StudentName, classsName, classCode, total_student, student_rank ,week_number } = location.state ? location.state : {}
 
 
     useEffect(() => {
@@ -68,7 +68,6 @@ const StudentPerformanceReport = (props) => {
     const AverageGrade = (score) => {
         const sum = score.reduce((a, b) => a + b.quiz_game_money, 0);
         const avg = (sum / score.length).toFixed(2) || 0;
-        console.log(avg ,"avggggggggg")
         if (avg > 100000) {
             let gain = avg - 100000;
             let gainPercentage = ((gain * 100) / 100000).toFixed(2);
