@@ -11,6 +11,7 @@ const TeacherAndSchoolAdminDetails = (props) => {
     const [displayName, setDisplsayName] = useState("");
     const [contactEmail, setContactEmail] = useState("");
     const [userType, setUserType] = useState("");
+    const [roll, setRoll] = useState("")
     const [classDetails, setClassdetails] = useState([]);
     const dispatch = useDispatch();
     const params = useParams();
@@ -26,13 +27,15 @@ const TeacherAndSchoolAdminDetails = (props) => {
         await dispatch(getTeacherandSchoolAdminDetails({ id: params.id }))
             .then(
                 response => {
+                    setLoading(false)
                     const details = response.data.user_details
                     const teacherClassDetail = response.data.teacher_class_details ? response.data.teacher_class_details : []
                     setDisplsayName(details.name)
                     setContactEmail(details.email)
                     setClassdetails(teacherClassDetail)
-                    setUserType(details.user_type === "TEACHER" ? "Teacher" : "School admin ")
-                    setLoading(false)
+                    setUserType(details.user_type === "TEACHER" ? "Teacher's " : "School admin's")
+                    setRoll(details.user_type)
+
                 },
                 () =>
                     setLoading(false)
@@ -62,7 +65,7 @@ const TeacherAndSchoolAdminDetails = (props) => {
                                         </Link>
                                     </li>
                                     <li>
-                                        <span>{userType} detail </span>
+                                        <span>{userType} details </span>
                                     </li>
                                 </ul>
                             </div>
@@ -102,56 +105,64 @@ const TeacherAndSchoolAdminDetails = (props) => {
                                 </div>
                             </div>
 
-                            { userType === "Teacher" && <div className="grid---"  >
-                                <div style={{
-                                    margin: "15px",
-                                    fontSize: "22px",
-                                    display: "flex",
-                                    fontWeight: "normal"
-                                }}>
-                                    <h3>Classroom Details </h3>
-                                </div>
-
-                                <div className="classrooms">
-                                    {
-                                        classDetails && classDetails.length > 0 ?
-                                            classDetails.map((item, index) => (
-                                                <div className="class--name--wrapper" key={index}>
-                                                    <div className="class--name">
-                                                        <Link style={{ padding: "12px" }} className="class--number"
-                                                            to={{
-                                                                pathname: `/classroom/${item.class_code}`,
-                                                                state: {
-                                                                    classroom: item.class_name,
-                                                                    id: item.id,
-                                                                    classCode: item.class_code,
-                                                                    user_id: item.user_id
-                                                                }
-                                                            }}
-                                                        >
-                                                            <img src={require("../../assets/images/polygon_green.svg").default} alt="" />
-                                                            <h3>{toUpperCaseName(item.class_name)}</h3>
-                                                        </Link>
-                                                    </div>
+                            {roll === "TEACHER" &&
+                                <div className="container">
+                                    <section className="body--inner-wrapper">
+                                        <div className="grid">
+                                            <div className="grid---"  >
+                                                <div style={{
+                                                    margin: "15px",
+                                                    fontSize: "22px",
+                                                    display: "flex",
+                                                    fontWeight: "normal"
+                                                }}>
+                                                    <h3>Classroom Details </h3>
                                                 </div>
-                                            )) :
-                                            <div style={{
-                                                height: "100px",
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                gridColumn: "span 3"
-                                            }}>
-                                                <h2 style={{ fontWeight: "normal", opacity: "0.25" }}>No class found</h2>
+
+                                                <div className="classrooms">
+                                                    {
+                                                        classDetails && classDetails.length > 0 ?
+                                                            classDetails.map((item, index) => (
+                                                                <div className="class--name--wrapper" key={index}>
+                                                                    <div className="class--name">
+                                                                        <Link style={{ padding: "12px" , minWidth : "165px" }} className="class--number"
+                                                                            to={{
+                                                                                pathname: `/classroom/${item.class_code}`,
+                                                                                state: {
+                                                                                    classroom: item.class_name,
+                                                                                    id: item.id,
+                                                                                    classCode: item.class_code,
+                                                                                    user_id: item.user_id
+                                                                                }
+                                                                            }}
+                                                                        >
+                                                                            <img src={require("../../assets/images/polygon_green.svg").default} alt="img" />
+                                                                            <h3>{toUpperCaseName(item.class_name)}</h3>
+                                                                        </Link>
+                                                                    </div>
+                                                                </div>
+                                                            )) :
+                                                            <div style={{
+                                                                height: "100px",
+                                                                display: "flex",
+                                                                justifyContent: "center",
+                                                                alignItems: "center",
+                                                                gridColumn: "span 3"
+                                                            }}>
+                                                                <h2 style={{ fontWeight: "normal", opacity: "0.25" }}>No class found</h2>
+                                                            </div>
+                                                    }
+                                                </div>
                                             </div>
-                                    }
+                                        </div>
+                                    </section>
                                 </div>
-                            </div>}
+                            }
                         </div>
                     </div>
                     <div className='send--invite-section'>
                         <div className='send--invite-wrapper'>
-                            <button type='button' style={{backgroundColor: "#808080"}} onClick={() => history.push("/")}>Back</button>
+                            <button type='button' style={{ backgroundColor: "#808080" }} onClick={() => history.push("/")}>Back</button>
                         </div>
                     </div>
                 </div>

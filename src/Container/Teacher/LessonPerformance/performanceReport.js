@@ -269,7 +269,7 @@ const StudentPerformanceReport = (props) => {
                                                     item.week_number <= week_number ?
                                                         (<div key={index + 1} className='overall-avg-table'>
                                                             <div className='Overall-avarage-title'>
-                                                                <h2>{index + 1}</h2>
+                                                                <h2>Week {index + 1}</h2>
                                                             </div>
 
                                                             <div className='percentage'>
