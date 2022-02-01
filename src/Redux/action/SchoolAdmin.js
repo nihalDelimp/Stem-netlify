@@ -106,3 +106,71 @@ export const getTeacherandSchoolAdminDetails = ( data ) => async () => {
             )
     } )
 }
+
+export const getClassroomStudents = data => async () => {
+    return new Promise(async (resolve, reject) =>
+        await authAxios().post(`/school-admin/student-list-specific-class`, data)
+            .then(
+                response =>
+                    resolve(response.data)
+                ,
+                error =>
+                    reject(error)
+            )
+            .catch(
+                error =>
+                    console.log(error)
+            ))
+}
+
+
+export const getClassroomLessons = data => async () => {
+    return new Promise(async (resolve, reject) =>
+        await authAxios().post(`/school-admin/list-class-courses`, data)
+            .then(
+                response =>
+                    resolve(response.data)
+                ,
+                error =>
+                    reject(error)
+            )
+            .catch(
+                error =>
+                    console.log(error)
+            ))
+}
+
+
+export const currentRankAction = data => async () => {
+    return new Promise(async (resolve, reject) => {
+        await authAxios().post(`/school-admin/get-student-ranks`, data)
+            .then(
+                response =>
+                    resolve(response.data)
+                ,
+                error =>
+                    reject(error)
+            )
+            .catch(
+                error =>
+                    console.log(error)
+            )
+    })
+}
+
+export const studentReportDetails = data => async () => {
+    return new Promise(async (resolve, reject) => {
+        await authAxios().post(`/school-admin/get-student-details`, data)
+            .then(
+                response =>
+                    resolve(response.data)
+                ,
+                error =>
+                    reject(error)
+            )
+            .catch(
+                error =>
+                    console.log(error)
+            )
+    })
+}

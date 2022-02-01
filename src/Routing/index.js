@@ -23,6 +23,8 @@ import AddTeacher from '../Container/School/Teacher/AddTeacher'
 import StudentPerformanceReport from '../Container/Teacher/LessonPerformance/performanceReport'
 import SchoolAdminClassroom from '../Container/School/index'
 import TeacherAndSchoolAdminDetails from '../Container/School/teacherAndSchoolAdminDetails';
+import LessonAndStudent from '../Container/School/LessonAndStudent/LessonAndStudent';
+import studentReport from '../Container/School/LessonAndStudent/studentReport';
 
 
 
@@ -30,7 +32,7 @@ const ALLUser = Authorization(['TEACHER', 'STUDENT', 'SCHOOL_ADMIN', "SITE_ADMIN
 // const SiteAdmin = Authorization( ["SITE_ADMIN"] );
 const Student = Authorization(["STUDENT"]);
 const SiteAdminAndTeacher = Authorization(["SITE_ADMIN", "TEACHER"])
-// const TeacherAndSchoolAdmin = Authorization( ["SCHOOL_ADMIN", "TEACHER"] )
+const TeacherAndSchoolAdmin = Authorization(["SCHOOL_ADMIN", "TEACHER"])
 const Teacher = Authorization(['TEACHER'])
 const SchoolAdmin = Authorization(["SCHOOL_ADMIN"])
 const AllAdmission = Authorization(["SITE_ADMIN", "SCHOOL_ADMIN", "TEACHER"])
@@ -147,7 +149,7 @@ const Routing = () => {
                     role === "TEACHER"
                         ? LessonPerformance
                         : role === "SCHOOL_ADMIN"
-                            ? SchoolTeacher
+                            ? LessonAndStudent
                             : LessonsList)}
                 layout={PrivateLayout} />
 
@@ -161,6 +163,12 @@ const Routing = () => {
                 exact
                 path="/performance-report/:id"
                 component={Teacher(StudentPerformanceReport)}
+                layout={PrivateLayout} />
+
+            <PrivateRoute
+                exact
+                path="/student-report/:id"
+                component={SchoolAdmin(studentReport)}
                 layout={PrivateLayout} />
 
             <PrivateRoute

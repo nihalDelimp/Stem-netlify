@@ -1,6 +1,6 @@
-import React,{useState ,useEffect} from 'react'
-import {useDispatch } from 'react-redux'
-import { Link ,useParams } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useHistory } from 'react-router-dom'
 import IsLoadingHOC from '../../Components/IsLoadingHOC'
@@ -8,30 +8,30 @@ import { getTeacherandSchoolAdminDetails } from '../../Redux/action/SchoolAdmin'
 
 const TeacherAndSchoolAdminDetails = (props) => {
     const { setLoading } = props;
-    const [displayName, setDisplsayName] = useState( "" );
-    const [contactEmail, setContactEmail] = useState( "" );
+    const [displayName, setDisplsayName] = useState("");
+    const [contactEmail, setContactEmail] = useState("");
     const [userType, setUserType] = useState("");
     const [classDetails, setClassdetails] = useState([]);
     const dispatch = useDispatch();
     const params = useParams();
     const history = useHistory();
-   
-    
+
+
     useEffect(() => {
-         getDetails();
+        getDetails();
     }, [])
 
     const getDetails = async () => {
         setLoading(true)
-        await dispatch(getTeacherandSchoolAdminDetails({id : params.id}))
+        await dispatch(getTeacherandSchoolAdminDetails({ id: params.id }))
             .then(
                 response => {
-                    const details =  response.data.user_details
-                    const teacherClassDetail = response.data.teacher_class_details ?  response.data.teacher_class_details : []
+                    const details = response.data.user_details
+                    const teacherClassDetail = response.data.teacher_class_details ? response.data.teacher_class_details : []
                     setDisplsayName(details.name)
                     setContactEmail(details.email)
                     setClassdetails(teacherClassDetail)
-                    setUserType(details.user_type === "TEACHER" ? "Teacher" :"School admin ")
+                    setUserType(details.user_type === "TEACHER" ? "Teacher" : "School admin ")
                     setLoading(false)
                 },
                 () =>
@@ -47,20 +47,20 @@ const TeacherAndSchoolAdminDetails = (props) => {
         return upperName
     }
 
-  
-    return(
+
+    return (
         <>
             <div className="container">
                 <div className="add--teacger--section">
-                     <div className="grid">
+                    <div className="grid">
                         <div className="grid---">
                             <div className="page--sub-title">
                                 <ul>
                                     <li>
-                                    <Link to = "/" style={{ color: "#000", textDecoration: "none" }} >
-                                        <span>Dashboard</span>
+                                        <Link to="/" style={{ color: "#000", textDecoration: "none" }} >
+                                            <span>Dashboard</span>
                                         </Link>
-                                        </li>
+                                    </li>
                                     <li>
                                         <span>{userType} detail </span>
                                     </li>
@@ -68,9 +68,9 @@ const TeacherAndSchoolAdminDetails = (props) => {
                             </div>
                         </div>
                     </div>
-                   <div className='add--teacher-wrapper'>
-                       <div className='add--teacher-inner'>
-                           <div className='teacher--details'>
+                    <div className='add--teacher-wrapper'>
+                        <div className='add--teacher-inner'>
+                            <div className='teacher--details'>
                                 <div className='display-teacher--name'>
                                     <form>
                                         <div className='teacher-form-wrapper'>
@@ -82,9 +82,9 @@ const TeacherAndSchoolAdminDetails = (props) => {
                                                     value={displayName}
                                                     placeholder='Name'
                                                     disabled
-                                                    onChange={e => setDisplsayName( e.target.value )}
+                                                    onChange={e => setDisplsayName(e.target.value)}
                                                 />
-                                                   
+
                                             </div>
                                             <div className='form-group'>
                                                 <label for="email1">Email</label>
@@ -94,55 +94,66 @@ const TeacherAndSchoolAdminDetails = (props) => {
                                                     value={contactEmail}
                                                     placeholder='Email'
                                                     disabled
-                                                    onChange={e => setContactEmail( e.target.value )}
-                                               />
+                                                    onChange={e => setContactEmail(e.target.value)}
+                                                />
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
 
-                        <div className="grid---">
-                                    <div style={{margin : "15px",
-                                    fontSize : "22px",
+                            { userType === "Teacher" && <div className="grid---"  >
+                                <div style={{
+                                    margin: "15px",
+                                    fontSize: "22px",
                                     display: "flex",
                                     fontWeight: "normal"
                                 }}>
-                                         <h3>Classroom Details </h3>
-                                    </div>
-                                    
-                            <div className="classrooms">
-                                {
-                                  classDetails && classDetails.length > 0 ? 
-                                        classDetails.map((item, index) => (
-                                            <div className="class--name--wrapper" key={index}>
-                                                <div className="class--name">
-                                                    <Link  style={{padding: "12px"}} to = "#" className="class--number" >
-                                                        <img src={require("../../assets/images/polygon_green.svg").default} alt="" />
-                                                        <h3>{toUpperCaseName(item.class_name)}</h3>
-                                                    </Link>
+                                    <h3>Classroom Details </h3>
+                                </div>
+
+                                <div className="classrooms">
+                                    {
+                                        classDetails && classDetails.length > 0 ?
+                                            classDetails.map((item, index) => (
+                                                <div className="class--name--wrapper" key={index}>
+                                                    <div className="class--name">
+                                                        <Link style={{ padding: "12px" }} className="class--number"
+                                                            to={{
+                                                                pathname: `/classroom/${item.class_code}`,
+                                                                state: {
+                                                                    classroom: item.class_name,
+                                                                    id: item.id,
+                                                                    classCode: item.class_code,
+                                                                    user_id: item.user_id
+                                                                }
+                                                            }}
+                                                        >
+                                                            <img src={require("../../assets/images/polygon_green.svg").default} alt="" />
+                                                            <h3>{toUpperCaseName(item.class_name)}</h3>
+                                                        </Link>
+                                                    </div>
                                                 </div>
-                                            </div> 
-                                        )) :
-                                        <div style={{
-                                            height: "100px",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            gridColumn: "span 3"
-                                        }}>
-                                            <h2 style={{ fontWeight: "normal", opacity: "0.25" }}>No class found</h2>
-                                        </div>
-                                }
-                            </div>
+                                            )) :
+                                            <div style={{
+                                                height: "100px",
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                gridColumn: "span 3"
+                                            }}>
+                                                <h2 style={{ fontWeight: "normal", opacity: "0.25" }}>No class found</h2>
+                                            </div>
+                                    }
+                                </div>
+                            </div>}
                         </div>
-                       </div>
-                   </div>
-                   <div className='send--invite-section'>
+                    </div>
+                    <div className='send--invite-section'>
                         <div className='send--invite-wrapper'>
-                            <button type='button' className='btn---cancel' onClick={()=> history.push( "/" )}  >Back</button>
+                            <button type='button' style={{backgroundColor: "#808080"}} onClick={() => history.push("/")}>Back</button>
                         </div>
-                   </div> 
+                    </div>
                 </div>
             </div>
         </>

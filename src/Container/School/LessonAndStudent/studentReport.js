@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { currentRankAction, studentReportDetails } from "../../../Redux/action/Teacher";
+import { currentRankAction, studentReportDetails } from "../../../Redux/action/SchoolAdmin";
 import IsLoadingHOC from '../../../Components/IsLoadingHOC';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import firstImage from "../../../assets/images/1.png"
@@ -17,7 +17,7 @@ import { savePDF } from '@progress/kendo-react-pdf';
 import PdfContainer from './pdfContainer';
 import moment from 'moment';
 
-const StudentPerformanceReport = (props) => {
+const StudentReport = (props) => {
     const { setLoading } = props
     const [currentRank, setCurrentRank] = useState('');
     const [studentsReportDetail, SetStudentsReportDetail] = useState({})
@@ -148,8 +148,8 @@ const StudentPerformanceReport = (props) => {
                             <div className="page--sub-title">
                                 <ul>
                                     <li>
-                                        <Link to="/classroom" style={{ color: "#000", textDecoration: "none" }}>
-                                            <span>Classroom</span>
+                                        <Link to="/" style={{ color: "#000", textDecoration: "none" }}>
+                                            <span>Dashboard</span>
                                         </Link>
                                     </li>
 
@@ -389,4 +389,4 @@ const StudentPerformanceReport = (props) => {
     )
 }
 
-export default IsLoadingHOC(StudentPerformanceReport);
+export default IsLoadingHOC(StudentReport);

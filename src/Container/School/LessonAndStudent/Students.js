@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react"
 import { useDispatch ,useSelector } from "react-redux"
 import { useParams, useLocation } from "react-router-dom"
-import { toast } from "react-toastify"
 import { Link } from 'react-router-dom'
 import IsLoadingHOC from "../../../Components/IsLoadingHOC"
-import { getClassroomStudents } from '../../../Redux/action/Teacher'
-import DeleteStudent from './deleteStudent'
-
+import { getClassroomStudents } from '../../../Redux/action/SchoolAdmin'
 
 const StudentsList = ( props ) => {
 
@@ -15,8 +12,6 @@ const StudentsList = ( props ) => {
     const params = useParams()
     const location = useLocation()
     const { classroom, classcode } = location.state
-    const [deletePopUp, setDeletePopUp] = useState(false)
-    const [deleteData, setDeleteData] = useState({})
     const studentData = useSelector(state => state.app.studentData)
     
 
@@ -42,14 +37,14 @@ const StudentsList = ( props ) => {
                         )
                     } )
                     dispatch({ type: "GET_STUDENT_DATA_SUCESS", payload: students } )
-                    
+                   
                 },
                 () => {
                     setLoading( false )
                 }
             )
             .catch(
-                error => console.log( error )
+                error => console.log( error ), 
             )
     }
 
@@ -60,15 +55,15 @@ const StudentsList = ( props ) => {
 
     return (
         <div className="classrooms-student">
-            
             <div className="classrooms">
-                {studentData && studentData.length > 0 ? studentData.map( ( student, index ) => (
+                {studentData &&  studentData.length > 0 ?
+                 studentData.map( ( student, index ) => (
                     <div className="class--name--wrapper" key={index}>
                         <div className="class--name">
                             <div className="class--number">
                                 <Link
                                     to={{
-                                        pathname: `/performance-report/${student.id}`,
+                                        pathname: `/student-report/${student.id}`,
                                         state: {
                                             StudentName: student.name,
                                             classsName: classroom,
@@ -82,17 +77,7 @@ const StudentsList = ( props ) => {
                                 </Link>
                             </div>
                             <div className="dots--icon"
-                                onClick={() => {
-                                    setDeletePopUp( true )
-                                    setDeleteData( {
-                                        classCode: params.id,
-                                        id: student.id
-
-                                    } )
-                                }}
                             >
-
-                                <span>Remove</span>
                             </div>
                         </div>
                     </div>
@@ -106,8 +91,8 @@ const StudentsList = ( props ) => {
                 }}>
                     <h2 style={{ fontWeight: "normal", opacity: "0.25" }}>Students not found </h2>
                 </div>
+                
                 }
-                {deletePopUp && <DeleteStudent getStudents={getStudents} deleteData={deleteData} setDeletePopUp={setDeletePopUp} />}
 
             </div>
         </div>

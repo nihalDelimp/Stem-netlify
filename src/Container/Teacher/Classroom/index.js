@@ -145,7 +145,8 @@ const Classrooms = (props) => {
                                             <div className="class--name--wrapper" key={index}>
                                                 <div className="class--name">
                                                     <Link
-                                                        className="class--number" to={{
+                                                        className="class--number"
+                                                         to={{
                                                             pathname: `classroom/${item.class_code}`,
                                                             state: {
                                                                 classroom: item.class_name,
