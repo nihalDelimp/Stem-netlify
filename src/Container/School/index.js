@@ -55,7 +55,7 @@ const SchoolAdminClassroom = (props) => {
                         <div className="grid-">
                             <div className="page--sub-title">
                                 <ul>
-                                    <li><span>Teachers</span></li>
+                                    <li><span>Teachers and School Admin </span></li>
                                 </ul>
                             </div>
                         </div>
@@ -75,6 +75,7 @@ const SchoolAdminClassroom = (props) => {
                             </div>
                         </div>
                     </div>
+
                     <div className="grid">
                         <div className="grid---">
                             <div className="classrooms">
@@ -83,10 +84,11 @@ const SchoolAdminClassroom = (props) => {
                                         teacherListData.map((item, index) => (
                                             <div className="class--name--wrapper" key={index}>
                                                 <div className="class--name">
-                                                    <Link to="#" className="class--number" >
+                                                    <Link to = {`adminDetails/${item.id}`} className="class--number" >
                                                         <img src={require("../../assets/images/polygon_green.svg").default} alt="" />
                                                         <h3>{toUpperCaseName(item.name)}</h3>
                                                     </Link>
+
                                                     <button onClick={() => setDotIsActive(!isDotsActive)} className="dots--icon">
                                                         <img src={require("../../assets/images/3dots.svg").default} />
                                                         <div className="dots--drop--down">
@@ -107,8 +109,9 @@ const SchoolAdminClassroom = (props) => {
                                                             </div>
                                                         </div>
                                                     </button>
+
                                                 </div>
-                                            </div>
+                                            </div> 
                                         ))
                                     )
                                 }

@@ -166,15 +166,15 @@ const CreateNewClassroom = (props) => {
                                                 </td>
                                                 <td>
                                                     <Link
-                                                        //  to={`/classroom/${classroom.teacher_id.user_id}`}
                                                         to={{
-                                                            pathname: `/classroom/${classroom.teacher_id.user_id}`,
+                                                            pathname: `/adminDetails/${classroom.teacher_id.user_id}`,
                                                             state: {
                                                                 classCode: classroom.class_code,
                                                                 classname: classroom.class_name,
                                                                 size: classroom.student_count,
                                                                 progress: classroom.course_name,
-                                                                assginedteacher: classroom.teacher_name.name
+                                                                assginedteacher: classroom.teacher_name.name,
+                                                                user_type :  "Teacher" 
                                                             }
                                                         }}
                                                         style={{

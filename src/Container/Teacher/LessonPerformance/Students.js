@@ -18,7 +18,7 @@ const StudentsList = ( props ) => {
     const [deletePopUp, setDeletePopUp] = useState(false)
     const [deleteData, setDeleteData] = useState({})
     const studentData = useSelector(state => state.app.studentData)
-    const week_number = useSelector(state => state.app.week_number)
+    
 
     useEffect( () => {
         getStudents()
@@ -74,7 +74,6 @@ const StudentsList = ( props ) => {
                                             classCode: params.id,
                                             total_student : studentData.length,
                                             student_rank : index+1,
-                                            week_number : week_number
                                         }
                                     }}
                                 >

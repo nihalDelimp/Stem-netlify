@@ -22,6 +22,7 @@ import Leaderboard from '../Container/Student/Leaderboard';
 import AddTeacher from '../Container/School/Teacher/AddTeacher'
 import StudentPerformanceReport from '../Container/Teacher/LessonPerformance/performanceReport'
 import SchoolAdminClassroom from '../Container/School/index'
+import TeacherAndSchoolAdminDetails from '../Container/School/teacherAndSchoolAdminDetails';
 
 
 
@@ -87,6 +88,13 @@ const Routing = () => {
                 path="/addTeacher"
                 component={SchoolAdmin(AddTeacher)}
                 layout={PrivateLayout} />
+
+            <PrivateRoute
+                exact
+                path="/adminDetails/:id"
+                component={SchoolAdmin(TeacherAndSchoolAdminDetails)}
+                layout={PrivateLayout} />
+
             <PrivateRoute
                 exact
                 path="/intro/:id"
@@ -160,12 +168,6 @@ const Routing = () => {
                 path="/lesson-add"
                 component={SiteAdminAndTeacher(LessonAdd)}
                 layout={PrivateLayout} />
-
-            {/* <PrivateRoute
-                exact
-                path="/lessonperformance"
-                component={LessonPerformance}
-                layout={PrivateLayout} /> */}
 
             <Route
                 path="*"

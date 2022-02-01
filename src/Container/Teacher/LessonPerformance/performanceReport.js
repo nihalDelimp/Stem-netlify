@@ -1,37 +1,53 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { performanceReportAction, studentReportDetails } from "../../../Redux/action/Teacher"
-import IsLoadingHOC from '../../../Components/IsLoadingHOC'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { currentRankAction, studentReportDetails } from "../../../Redux/action/Teacher";
+import IsLoadingHOC from '../../../Components/IsLoadingHOC';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import firstImage from "../../../assets/images/1.png"
+import secondImage from "../../../assets/images/2.png"
+import thirdImage from "../../../assets/images/3.png"
+import fourthImage from "../../../assets/images/4.png"
+import fiveImage from "../../../assets/images/5.png"
+import sixImage from "../../../assets/images/6.png"
+import sevenImage from "../../../assets/images/7.png"
+import eightImage from "../../../assets/images/8.png"
+import nineImage from "../../../assets/images/9.png"
+import tenImage from "../../../assets/images/10.png"
 import { savePDF } from '@progress/kendo-react-pdf';
 import PdfContainer from './pdfContainer';
+import moment from 'moment';
 
 const StudentPerformanceReport = (props) => {
     const { setLoading } = props
-    const [performanceReport, setPerformanceReport] = useState([])
+    const [currentRank, setCurrentRank] = useState('');
     const [studentsReportDetail, SetStudentsReportDetail] = useState({})
     const { score, power } = studentsReportDetail ? studentsReportDetail : {}
-    const [studentFinalScore, sitStudentFinalScore] = useState([])
-    const dispatch = useDispatch()
-    const location = useLocation()
-    const params = useParams()
-    const { StudentName, classsName, classCode, total_student, student_rank ,week_number } = location.state ? location.state : {}
+    const [studentFinalScore, sitStudentFinalScore] = useState([]);
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const params = useParams();
+    const { StudentName, classsName, classCode, total_student, student_rank } = location.state ? location.state : {}
+    const { lessons, week_number } = useSelector(state => state.app)
+    const [avgScore, setAvgScore] = useState("0");
+    const [updatedDate, setUpdatedDate] = useState(new Date())
 
 
     useEffect(() => {
-        // performanceReportData()
+        studentcurrentRank()
         studentReportDetailsData();
+
     }, [])
 
 
-    const performanceReportData = async () => {
+    const studentcurrentRank = async () => {
         setLoading(true);
-        await dispatch(performanceReportAction({
+        await dispatch(currentRankAction({
             class_code: classCode,
+            week_number: week_number
         }))
             .then(
                 response => {
-                    setPerformanceReport(response.data)
+                    setCurrentRank(response)
                     setLoading(false);
                 },
                 () => {
@@ -43,7 +59,6 @@ const StudentPerformanceReport = (props) => {
             )
     }
 
-
     const studentReportDetailsData = async () => {
         setLoading(true);
         await dispatch(studentReportDetails({
@@ -53,6 +68,17 @@ const StudentPerformanceReport = (props) => {
                 response => {
                     SetStudentsReportDetail(response.data)
                     sitStudentFinalScore(response.data.student_final_score)
+                    response.data.student_final_score && response.data.student_final_score.map(item => {
+                        if (item.week_number == week_number) {
+                            setAvgScore(item.quiz_score)
+                            setUpdatedDate(item.updated_at)
+                        }
+                        else {
+                            setAvgScore(item.quiz_score)
+                            setUpdatedDate(item.updated_at)
+
+                        }
+                    })
                     setLoading(false);
                 },
                 () => {
@@ -157,7 +183,7 @@ const StudentPerformanceReport = (props) => {
                                     <div className='performence--report--header'>
                                         <div className='performence-title'>
                                             <h3>{toUpperCaseName(StudentName)}'s Performance report</h3>
-                                            <h5>updated by week 5</h5>
+                                            {week_number && <h5>updated by week {week_number}</h5>}
                                         </div>
                                     </div>
                                     <div className='performence-report-card'>
@@ -177,7 +203,7 @@ const StudentPerformanceReport = (props) => {
                                                 </div>
                                                 <div className='curent-ranking-data'>
                                                     <h5>Average grade</h5>
-                                                    <h3><span> {studentFinalScore && studentFinalScore.length >0 ? AverageGrade(studentFinalScore) : "0"} %</span></h3>
+                                                    <h3><span> {studentFinalScore && studentFinalScore.length > 0 ? AverageGrade(studentFinalScore) : "0"} %</span></h3>
                                                 </div>
                                             </div>
                                             <div className='current-ranking'>
@@ -200,218 +226,118 @@ const StudentPerformanceReport = (props) => {
                                             </div>
                                         </div>
                                         <div className='performence-report-card-data'>
-                                            <div className='overall-avg-table'>
-                                                <div className='Overall-avarage-title'>
-                                                    <h3>Overall avarage</h3>
-                                                    <h5><span>Last update:</span> <span>15/10/2022</span></h5>
-                                                </div>
-                                                <div className='percentage'>
-                                                    <h3>{studentFinalScore && studentFinalScore.length >0 ? AverageGrade(studentFinalScore) : "0" }%</h3>
-                                                </div>
-                                                <div className='progress--bar'>
-                                                    <img src={require("../../../assets/images/progress_bar_img.png").default}></img>
-                                                </div>
-                                                <div className='st--marks'>
-                                                    <div className='mean'>
-                                                        <span>Mean:</span>
-                                                        <span>68</span>
+                                            {week_number &&
+                                                <div className='overall-avg-table'>
+                                                    <div className='Overall-avarage-title'>
+                                                        <h3>Overall avarage</h3>
+                                                        <h5><span>Last update:</span> <span>{moment(updatedDate).format("DD/MM/YYYY")}</span></h5>
                                                     </div>
-                                                    <div className='mean'>
-                                                        <span>Max:</span>
-                                                        <span>100</span>
+                                                    <div className='percentage'>
+                                                        <h3>{avgScore ? avgScore : "0"}%</h3>
                                                     </div>
-                                                    <div className='mean'>
-                                                        <span>Min:</span>
-                                                        <span>10</span>
+                                                    <div className='progress--bar'>
+                                                        {avgScore <= 0 && (<img src={firstImage}></img>)}
+                                                        {avgScore == 10 && (<img src={firstImage}></img>)}
+                                                        {avgScore == 20 && (<img src={secondImage}></img>)}
+                                                        {avgScore == 30 && (<img src={thirdImage}></img>)}
+                                                        {avgScore == 40 && (<img src={fourthImage}></img>)}
+                                                        {avgScore == 50 && (<img src={fiveImage}></img>)}
+                                                        {avgScore == 60 && (<img src={sixImage}></img>)}
+                                                        {avgScore == 70 && (<img src={sevenImage}></img>)}
+                                                        {avgScore == 80 && (<img src={eightImage}></img>)}
+                                                        {avgScore == 90 && (<img src={nineImage}></img>)}
+                                                        {avgScore == 100 && (<img src={tenImage}></img>)}
                                                     </div>
-                                                </div>
-                                            </div>
+                                                    <div className='st--marks'>
+                                                        <div className='mean'>
+                                                            <span>Mean:</span>
+                                                            <span>{avgScore ? avgScore : "0"}</span>
+                                                        </div>
+                                                        <div className='mean'>
+                                                            <span>Max:</span>
+                                                            <span>100</span>
+                                                        </div>
+                                                        <div className='mean'>
+                                                            <span>Min:</span>
+                                                            <span>10</span>
+                                                        </div>
+                                                    </div>
+                                                </div>}
 
                                             <div className='performence-week-report'>
+                                                {lessons && lessons.length > 0 ? lessons.map((item, index) =>
+                                                    item.week_number <= week_number ?
+                                                        (<div key={index + 1} className='overall-avg-table'>
+                                                            <div className='Overall-avarage-title'>
+                                                                <h2>{index + 1}</h2>
+                                                            </div>
 
-                                                <div className='overall-avg-table'>
-                                                    <div className='Overall-avarage-title'>
-                                                        <h2>Week 1</h2>
-                                                    </div>
-                                                    <div className='percentage'>
-                                                        <h4>75%</h4>
-                                                    </div>
-                                                    <div className='progress--bar'>
-                                                        <img src={require("../../../assets/images/progress_bar_img.png").default}></img>
-                                                    </div>
-                                                    <div className='st--marks'>
-                                                        <div className='mean'>
-                                                            <span>Mean:</span>
-                                                            <span>68</span>
-                                                        </div>
-                                                        <div className='mean'>
-                                                            <span>Max:</span>
-                                                            <span>100</span>
-                                                        </div>
-                                                        <div className='mean'>
-                                                            <span>Min:</span>
-                                                            <span>0</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                            <div className='percentage'>
+                                                                <h4>{studentFinalScore && studentFinalScore[index] ? studentFinalScore[index].quiz_score : "0"}%</h4>
+                                                            </div>
+                                                            <div className='progress--bar'>
+                                                                {studentFinalScore && studentFinalScore[index] && studentFinalScore[index].quiz_score <= 0 && (<img src={firstImage}></img>)}
+                                                                {studentFinalScore && studentFinalScore[index] && studentFinalScore[index].quiz_score == 10 && (<img src={firstImage}></img>)}
+                                                                {studentFinalScore && studentFinalScore[index] && studentFinalScore[index].quiz_score == 20 && (<img src={secondImage}></img>)}
+                                                                {studentFinalScore && studentFinalScore[index] && studentFinalScore[index].quiz_score == 30 && (<img src={thirdImage}></img>)}
+                                                                {studentFinalScore && studentFinalScore[index] && studentFinalScore[index].quiz_score == 40 && (<img src={fourthImage}></img>)}
+                                                                {studentFinalScore && studentFinalScore[index] && studentFinalScore[index].quiz_score == 50 && (<img src={fiveImage}></img>)}
+                                                                {studentFinalScore && studentFinalScore[index] && studentFinalScore[index].quiz_score == 60 && (<img src={sixImage}></img>)}
+                                                                {studentFinalScore && studentFinalScore[index] && studentFinalScore[index].quiz_score == 70 && (<img src={sevenImage}></img>)}
+                                                                {studentFinalScore && studentFinalScore[index] && studentFinalScore[index].quiz_score == 80 && (<img src={eightImage}></img>)}
+                                                                {studentFinalScore && studentFinalScore[index] && studentFinalScore[index].quiz_score == 90 && (<img src={nineImage}></img>)}
+                                                                {studentFinalScore && studentFinalScore[index] && studentFinalScore[index].quiz_score == 100 && (<img src={tenImage}></img>)}
+                                                                {studentFinalScore && !studentFinalScore[index] && (<img src={firstImage}></img>)}
+                                                            </div>
+                                                            <div className='st--marks'>
+                                                                <div className='mean'>
+                                                                    <span>Mean:</span>
+                                                                    <span>{studentFinalScore && studentFinalScore[index] ? studentFinalScore[index].quiz_score : "0"}</span>
+                                                                </div>
+                                                                <div className='mean'>
+                                                                    <span>Max:</span>
+                                                                    <span>100</span>
+                                                                </div>
+                                                                <div className='mean'>
+                                                                    <span>Min:</span>
+                                                                    <span>0</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>)
 
-                                                <div className='overall-avg-table'>
-                                                    <div className='Overall-avarage-title'>
-                                                        <h2>Week 2</h2>
-                                                    </div>
-                                                    <div className='percentage'>
-                                                        <h4>75%</h4>
-                                                    </div>
-                                                    <div className='progress--bar'>
-                                                        <img src={require("../../../assets/images/progress_bar_img.png").default}></img>
-                                                    </div>
-                                                    <div className='st--marks'>
-                                                        <div className='mean'>
-                                                            <span>Mean:</span>
-                                                            <span>68</span>
-                                                        </div>
-                                                        <div className='mean'>
-                                                            <span>Max:</span>
-                                                            <span>100</span>
-                                                        </div>
-                                                        <div className='mean'>
-                                                            <span>Min:</span>
-                                                            <span>0</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                        :
 
-                                                <div className='overall-avg-table'>
-                                                    <div className='Overall-avarage-title'>
-                                                        <h2>Week 3</h2>
-                                                    </div>
-                                                    <div className='percentage'>
-                                                        <h4>75%</h4>
-                                                    </div>
-                                                    <div className='progress--bar'>
-                                                        <img src={require("../../../assets/images/progress_bar_img.png").default}></img>
-                                                    </div>
-                                                    <div className='st--marks'>
-                                                        <div className='mean'>
-                                                            <span>Mean:</span>
-                                                            <span>68</span>
-                                                        </div>
-                                                        <div className='mean'>
-                                                            <span>Max:</span>
-                                                            <span>100</span>
-                                                        </div>
-                                                        <div className='mean'>
-                                                            <span>Min:</span>
-                                                            <span>0</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                        (<div key={index + 1} className='overall-avg-table'>
+                                                            <div className='Overall-avarage-title'>
+                                                                <h2>{index + 1}</h2>
+                                                            </div>
 
-                                                <div className='overall-avg-table'>
-                                                    <div className='Overall-avarage-title'>
-                                                        <h2>Week 4</h2>
-                                                    </div>
-                                                    <div className='percentage'>
-                                                        <h4>75%</h4>
-                                                    </div>
-                                                    <div className='progress--bar'>
-                                                        <img src={require("../../../assets/images/progress_bar_img.png").default}></img>
-                                                    </div>
-                                                    <div className='st--marks'>
-                                                        <div className='mean'>
-                                                            <span>Mean:</span>
-                                                            <span>68</span>
-                                                        </div>
-                                                        <div className='mean'>
-                                                            <span>Max:</span>
-                                                            <span>100</span>
-                                                        </div>
-                                                        <div className='mean'>
-                                                            <span>Min:</span>
-                                                            <span>0</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                            <div style={{ margin: "0px" }} className='ranking--history'>
+                                                                <div className='ranking--table'>
+                                                                    <table>
+                                                                        <tr>
+                                                                            <td>--</td>
+                                                                            <td>--</td>
+                                                                            <td>--</td>
+                                                                            <td>--</td>
+                                                                            <td>--</td>
 
-                                                <div className='overall-avg-table'>
-                                                    <div className='Overall-avarage-title'>
-                                                        <h2>Week 5</h2>
-                                                    </div>
-                                                    <div className='percentage'>
-                                                        <h4>75%</h4>
-                                                    </div>
-                                                    <div className='progress--bar'>
-                                                        <img src={require("../../../assets/images/progress_bar_img.png").default}></img>
-                                                    </div>
-                                                    <div className='st--marks'>
-                                                        <div className='mean'>
-                                                            <span>Mean: </span>
-                                                            <span>68</span>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div className='mean'>
-                                                            <span>Max: </span>
-                                                            <span>100</span>
-                                                        </div>
-                                                        <div className='mean'>
-                                                            <span>Min: </span>
-                                                            <span>0</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div className='overall-avg-table'>
-                                                    <div className='Overall-avarage-title'>
-                                                        <h2>Week 6</h2>
-                                                    </div>
-                                                    <div className='percentage'>
-                                                        <h4>75%</h4>
-                                                    </div>
-                                                    <div className='progress--bar'>
-                                                        <img src={require("../../../assets/images/progress_bar_img.png").default}></img>
-                                                    </div>
-                                                    <div className='st--marks'>
-                                                        <div className='mean'>
-                                                            <span>Mean: </span>
-                                                            <span>68</span>
-                                                        </div>
-                                                        <div className='mean'>
-                                                            <span>Max: </span>
-                                                            <span>100</span>
-                                                        </div>
-                                                        <div className='mean'>
-                                                            <span>Min: </span>
-                                                            <span>0</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div className='overall-avg-table'>
-                                                    <div className='Overall-avarage-title'>
-                                                        <h2>Week 7</h2>
-                                                    </div>
-                                                    <div className='percentage'>
-                                                        <h4>75%</h4>
-                                                    </div>
-                                                    <div className='progress--bar'>
-                                                        <img src={require("../../../assets/images/progress_bar_img.png").default}></img>
-                                                    </div>
-                                                    <div className='st--marks'>
-                                                        <div className='mean'>
-                                                            <span>Mean: </span>
-                                                            <span>68</span>
-                                                        </div>
-                                                        <div className='mean'>
-                                                            <span>Max: </span>
-                                                            <span>100</span>
-                                                        </div>
-                                                        <div className='mean'>
-                                                            <span>Min: </span>
-                                                            <span>0</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
+                                                        )) :
+                                                    (<div style={{
+                                                        height: "300px",
+                                                        display: "flex",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        gridColumn: "span 2"
+                                                    }}>
+                                                        <h2 style={{ fontWeight: "normal", opacity: "0.25" }}>No Lesson found with this class</h2>
+                                                    </div>)
+                                                }
                                             </div>
 
                                             <div className='ranking--history'>
@@ -457,13 +383,10 @@ const StudentPerformanceReport = (props) => {
                             </div>
                         </div>
                     </PdfContainer>
-
                 </section>
             </div>
         </>
-
     )
-
 }
 
 export default IsLoadingHOC(StudentPerformanceReport);

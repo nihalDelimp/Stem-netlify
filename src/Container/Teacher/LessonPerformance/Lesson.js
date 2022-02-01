@@ -28,6 +28,7 @@ const LessonList = (props) => {
             .then(
                 response => {
                     setLessons(response.data);
+                    dispatch({ type: "SET_TEACHER_LESSONS", payload: response.data})
                     response.data && response.data.map(item =>{
                         if(item.lesson_locked === false){
                             dispatch({ type: "SET_ACTIVE_WEEK_NUMBER", payload: item.week_number })
@@ -47,9 +48,8 @@ const LessonList = (props) => {
     return (
         <div className="classrooms-student">
             <div className="classrooms">
-                {
+                {  lessons && lessons.length > 0 ?
                     lessons.map((lesson, index) =>  ( 
-                        
                         <div className="class--name--wrapper" key={index}>
                             
                             <div className="class--name">
@@ -74,7 +74,18 @@ const LessonList = (props) => {
                                 </div>
                             </div>
                         </div>
-                    ))
+                    )):
+                    (
+                        <div style={{
+                            height: "300px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            gridColumn: "span 2"
+                        }}>
+                            <h2 style={{ fontWeight: "normal", opacity: "0.25" }}>No Lessons found </h2>
+                        </div>
+                    )
                 }
                 {
                     unlockPopUp &&

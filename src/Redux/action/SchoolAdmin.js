@@ -94,3 +94,15 @@ export const deleteTeacherAction = data => async () => {
     } )
 }
 
+export const getTeacherandSchoolAdminDetails = ( data ) => async () => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().post( '/school-admin/get-teacher-school-admin-details', data )
+            .then(
+                response => resolve( response.data ),
+                error => reject( error )
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}

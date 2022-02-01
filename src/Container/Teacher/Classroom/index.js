@@ -48,6 +48,7 @@ const Classrooms = (props) => {
 
     useEffect(() => {
         getClassroom();
+        dispatch({ type: "CLEAN_TEACHER_LESSONS"})
     }, [])
 
 

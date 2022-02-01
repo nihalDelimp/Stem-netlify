@@ -151,9 +151,9 @@ export const unlockedLesson = (id, data) => async () => {
     })
 }
 
-export const performanceReportAction = data => async () => {
+export const currentRankAction = data => async () => {
     return new Promise(async (resolve, reject) => {
-        await authAxios().post(`teacher/list-class-courses`, data)
+        await authAxios().post(`teacher/get-student-ranks`, data)
             .then(
                 response =>
                     resolve(response.data)

@@ -7,9 +7,9 @@ let initialState = {
     data: {},
     studentData: [],
     week_number: '',
-    updatedScore: ""
+    updatedScore: "",
+    lessons: []
 }
-
 
 
 export default function foo(state = initialState, action) {
@@ -22,7 +22,6 @@ export default function foo(state = initialState, action) {
             return { ...state, data: { ...state.data, ...action.payload } }
         case "CLOSE_MODAL":
             return { ...state, current: action.payload }
-
         case "SAVE_CHARACTER_DATA":
             return { ...state, character: { ...state.character, ...action.payload } }
         case "GET_STUDENT_DATA_SUCESS":
@@ -31,6 +30,10 @@ export default function foo(state = initialState, action) {
             return { ...state, week_number: action.payload }
         case "UPDATED_SCORE_DATA":
             return { ...state, updatedScore: action.payload }
+        case "SET_TEACHER_LESSONS":
+            return { ...state, lessons: action.payload }
+        case "CLEAN_TEACHER_LESSONS":
+            return { ...state, lessons: [] ,  week_number: '' }
 
         default:
             return state
