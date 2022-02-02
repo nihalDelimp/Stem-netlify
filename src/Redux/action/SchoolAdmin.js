@@ -158,6 +158,24 @@ export const currentRankAction = data => async () => {
     })
 }
 
+export const weeklyRankAction = data => async () => {
+    return new Promise(async (resolve, reject) => {
+        await authAxios().post(`school-admin/get-weekly-student-rank`, data)
+            .then(
+                response =>
+                    resolve(response.data)
+                ,
+                error =>
+                    reject(error)
+            )
+            .catch(
+                error =>
+                    console.log(error)
+            )
+    })
+}
+
+
 export const studentReportDetails = data => async () => {
     return new Promise(async (resolve, reject) => {
         await authAxios().post(`/school-admin/get-student-details`, data)

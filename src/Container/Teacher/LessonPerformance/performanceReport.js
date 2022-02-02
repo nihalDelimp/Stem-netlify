@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { currentRankAction, studentReportDetails } from "../../../Redux/action/Teacher";
+import { currentRankAction, studentReportDetails, weeklyRankAction } from "../../../Redux/action/Teacher";
 import IsLoadingHOC from '../../../Components/IsLoadingHOC';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import firstImage from "../../../assets/images/1.png"
@@ -19,22 +19,26 @@ import moment from 'moment';
 
 const StudentPerformanceReport = (props) => {
     const { setLoading } = props
-    const [currentRank, setCurrentRank] = useState('');
+    const [currentRank, setCurrentRank] = useState([]);
+    const [rank, setRanks] = useState('')
+    const [totalStudent, setTotalStudent] = useState('')
+    const [weeklyRank, setWeeklyRank] = useState([])
     const [studentsReportDetail, SetStudentsReportDetail] = useState({})
     const { score, power } = studentsReportDetail ? studentsReportDetail : {}
     const [studentFinalScore, sitStudentFinalScore] = useState([]);
     const dispatch = useDispatch();
     const location = useLocation();
     const params = useParams();
-    const { StudentName, classsName, classCode, total_student, student_rank } = location.state ? location.state : {}
+    const { StudentName, classsName, classCode } = location.state ? location.state : {}
     const { lessons, week_number } = useSelector(state => state.app)
     const [avgScore, setAvgScore] = useState("0");
     const [updatedDate, setUpdatedDate] = useState(new Date())
-
+   
 
     useEffect(() => {
-        studentcurrentRank()
+        studentcurrentRank();
         studentReportDetailsData();
+        weeklyStudentRank();
 
     }, [])
 
@@ -47,8 +51,38 @@ const StudentPerformanceReport = (props) => {
         }))
             .then(
                 response => {
-                    setCurrentRank(response)
+
+                    setCurrentRank(response.data)
+                    setTotalStudent(response.count)
+                    const rankData = response.data
+                    rankData.map(item => {
+                        if (item.student_id == params.id) {
+                            setRanks(item.student_id_rank)
+                        }
+                    })
                     setLoading(false);
+                },
+                () => {
+                    setLoading(false);
+                }
+            )
+            .catch(
+                error => console.log(error)
+            )
+    }
+
+
+    const weeklyStudentRank = async () => {
+        setLoading(true);
+        await dispatch(weeklyRankAction({
+            class_code: classCode,
+            student_id: params.id,
+            week_number
+        }))
+            .then(
+                response => {
+                    setLoading(false);
+                    setWeeklyRank(response.data)
                 },
                 () => {
                     setLoading(false);
@@ -106,7 +140,6 @@ const StudentPerformanceReport = (props) => {
         }
     }
 
-
     const toUpperCaseName = (name) => {
         const upperName = name.charAt(0).toUpperCase() + name.slice(1)
         return upperName
@@ -128,9 +161,6 @@ const StudentPerformanceReport = (props) => {
     }
     const Doc = new DocService();
     const createPdf = (html) => Doc.createPdf(html);
-
-    console.log(avgScore, "avgScore")
-
 
     return (
         <>
@@ -194,7 +224,7 @@ const StudentPerformanceReport = (props) => {
                                                 </div>
                                                 <div className='curent-ranking-data'>
                                                     <h5>Current ranking in class</h5>
-                                                    <h3><span>{student_rank}</span> <span className='sub-rank'>/{total_student}</span></h3>
+                                                    <h3><span>{rank ? rank : "N/A"}</span> <span className='sub-rank'>/{totalStudent}</span></h3>
                                                 </div>
                                             </div>
                                             <div className='current-ranking'>
@@ -344,6 +374,7 @@ const StudentPerformanceReport = (props) => {
                                                 <h3>Ranking history</h3>
                                                 <div className='ranking--table'>
                                                     <table>
+
                                                         <tr>
                                                             <td>Week</td>
                                                             <td>1</td>
@@ -359,21 +390,16 @@ const StudentPerformanceReport = (props) => {
                                                             <td>11</td>
                                                             <td>12</td>
                                                         </tr>
+
                                                         <tr>
                                                             <td>Rank (out of 30)</td>
-                                                            <td>5</td>
-                                                            <td>4</td>
-                                                            <td>8</td>
-                                                            <td>7</td>
-                                                            <td>6</td>
+                                                           { weeklyRank && weeklyRank.map((item ,index) =>
+                                                           item.student_id_rank.length > 0 && item.student_id_rank ?
+                                                            <td>{item.student_id_rank[0].student_rank ? item.student_id_rank[0].student_rank : "N/A"  }</td> :
                                                             <td>--</td>
-                                                            <td>--</td>
-                                                            <td>--</td>
-                                                            <td>--</td>
-                                                            <td>--</td>
-                                                            <td>--</td>
-                                                            <td>--</td>
+                                                            ) } 
                                                         </tr>
+
                                                     </table>
                                                 </div>
                                             </div>

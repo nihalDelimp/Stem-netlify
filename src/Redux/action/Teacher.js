@@ -153,7 +153,24 @@ export const unlockedLesson = (id, data) => async () => {
 
 export const currentRankAction = data => async () => {
     return new Promise(async (resolve, reject) => {
-        await authAxios().post(`teacher/get-student-ranks`, data)
+        await authAxios().post(`/teacher/get-student-ranks`, data)
+            .then(
+                response =>
+                    resolve(response.data)
+                ,
+                error =>
+                    reject(error)
+            )
+            .catch(
+                error =>
+                    console.log(error)
+            )
+    })
+}
+
+export const weeklyRankAction = data => async () => {
+    return new Promise(async (resolve, reject) => {
+        await authAxios().post(`/teacher/get-weekly-student-rank`, data)
             .then(
                 response =>
                     resolve(response.data)
