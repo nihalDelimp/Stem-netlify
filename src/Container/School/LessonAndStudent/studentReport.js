@@ -309,7 +309,7 @@ const StudentReport = (props) => {
 
                                                         (<div key={index + 1} className='overall-avg-table'>
                                                             <div className='Overall-avarage-title'>
-                                                                <h2>Week {index + 1}</h2>
+                                                                <h2>week{index + 1}</h2>
                                                             </div>
 
                                                             <div style={{ margin: "0px" }} className='ranking--history'>
