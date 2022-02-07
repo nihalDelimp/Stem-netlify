@@ -5,7 +5,7 @@ export default (props) => {
     const createPdf = () => props.createPdf(bodyRef.current);
 
     const  toUpperCaseName = (name) =>{
-        const upperName = name.charAt(0).toUpperCase() + name.slice(1)
+        const upperName = name && name.charAt(0).toUpperCase() + name.slice(1)
          return upperName
       }
       

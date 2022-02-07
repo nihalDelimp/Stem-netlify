@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentRankAction, studentReportDetails, weeklyRankAction } from "../../../Redux/action/Teacher";
 import IsLoadingHOC from '../../../Components/IsLoadingHOC';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams, useHistory } from 'react-router-dom';
 import firstImage from "../../../assets/images/1.png"
 import secondImage from "../../../assets/images/2.png"
 import thirdImage from "../../../assets/images/3.png"
@@ -16,29 +16,34 @@ import tenImage from "../../../assets/images/10.png"
 import { savePDF } from '@progress/kendo-react-pdf';
 import PdfContainer from './pdfContainer';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 const StudentPerformanceReport = (props) => {
     const { setLoading } = props
-    const [currentRank, setCurrentRank] = useState([]);
     const [rank, setRanks] = useState('')
     const [totalStudent, setTotalStudent] = useState('')
     const [weeklyRank, setWeeklyRank] = useState([])
     const [studentsReportDetail, SetStudentsReportDetail] = useState({})
     const { score, power } = studentsReportDetail ? studentsReportDetail : {}
-    const [studentFinalScore, sitStudentFinalScore] = useState([]);
+    const [studentFinalScore, setStudentFinalScore] = useState([]);
     const dispatch = useDispatch();
     const location = useLocation();
     const params = useParams();
+    const history = useHistory()
     const { StudentName, classsName, classCode } = location.state ? location.state : {}
     const { lessons, week_number } = useSelector(state => state.app)
     const [avgScore, setAvgScore] = useState("0");
     const [updatedDate, setUpdatedDate] = useState(new Date())
-   
+
 
     useEffect(() => {
         studentcurrentRank();
         studentReportDetailsData();
         weeklyStudentRank();
+        if (!StudentName || !classCode) {
+            toast.error("Student data not found")
+            history.push("/classroom")
+        }
 
     }, [])
 
@@ -51,8 +56,6 @@ const StudentPerformanceReport = (props) => {
         }))
             .then(
                 response => {
-
-                    setCurrentRank(response.data)
                     setTotalStudent(response.count)
                     const rankData = response.data
                     rankData.map(item => {
@@ -101,19 +104,17 @@ const StudentPerformanceReport = (props) => {
             .then(
                 response => {
                     SetStudentsReportDetail(response.data)
-                    sitStudentFinalScore(response.data.student_final_score)
-                    response.data.student_final_score && response.data.student_final_score.map(item => {
-                        if (item.week_number == week_number) {
-                            setAvgScore(item.quiz_score)
-                            setUpdatedDate(item.updated_at)
-                        }
-                        else {
-                            setAvgScore(item.quiz_score)
-                            setUpdatedDate(item.updated_at)
-
-                        }
-                    })
                     setLoading(false);
+                    const totel = response.data.student_final_score
+                    if(totel.length > 0){
+                        setStudentFinalScore(totel)
+                        const sum = totel.reduce((a, b) => a + b.quiz_score, 0);
+                        const avg = (sum / totel.length).toFixed(0) || 0;
+                        const updatedDate = totel.slice(-1)
+                        setUpdatedDate(updatedDate[0]?.updated_at)
+                        setAvgScore(avg)
+                        }
+
                 },
                 () => {
                     setLoading(false);
@@ -124,24 +125,23 @@ const StudentPerformanceReport = (props) => {
             )
     }
 
-
     const AverageGrade = (score) => {
         const sum = score.reduce((a, b) => a + b.quiz_game_money, 0);
         const avg = (sum / score.length).toFixed(2) || 0;
         if (avg > 100000) {
             let gain = avg - 100000;
-            let gainPercentage = ((gain * 100) / 100000).toFixed(2);
+            let gainPercentage = ((gain * 100) / 100000).toFixed(1);
             return gainPercentage;
         }
         else {
             let loss = 100000 - avg;
-            let lossPercentage = -((loss * 100) / 100000).toFixed(2);
+            let lossPercentage = -((loss * 100) / 100000).toFixed(1);
             return lossPercentage;
         }
     }
 
     const toUpperCaseName = (name) => {
-        const upperName = name.charAt(0).toUpperCase() + name.slice(1)
+        const upperName = name && name.charAt(0).toUpperCase() + name.slice(1)
         return upperName
     }
 
@@ -161,6 +161,7 @@ const StudentPerformanceReport = (props) => {
     }
     const Doc = new DocService();
     const createPdf = (html) => Doc.createPdf(html);
+
 
     return (
         <>
@@ -267,16 +268,16 @@ const StudentPerformanceReport = (props) => {
                                                     </div>
                                                     <div className='progress--bar'>
                                                         {avgScore <= 0 && (<img src={firstImage}></img>)}
-                                                        {avgScore == 10 && (<img src={firstImage}></img>)}
-                                                        {avgScore == 20 && (<img src={secondImage}></img>)}
-                                                        {avgScore == 30 && (<img src={thirdImage}></img>)}
-                                                        {avgScore == 40 && (<img src={fourthImage}></img>)}
-                                                        {avgScore == 50 && (<img src={fiveImage}></img>)}
-                                                        {avgScore == 60 && (<img src={sixImage}></img>)}
-                                                        {avgScore == 70 && (<img src={sevenImage}></img>)}
-                                                        {avgScore == 80 && (<img src={eightImage}></img>)}
-                                                        {avgScore == 90 && (<img src={nineImage}></img>)}
-                                                        {avgScore == 100 && (<img src={tenImage}></img>)}
+                                                        {avgScore > 0 && avgScore <= 10 && (<img src={firstImage}></img>)}
+                                                        {avgScore > 10 && avgScore <= 20 && (<img src={secondImage}></img>)}
+                                                        {avgScore > 20 && avgScore <= 30 && (<img src={thirdImage}></img>)}
+                                                        {avgScore > 30 && avgScore <= 40 && (<img src={fourthImage}></img>)}
+                                                        {avgScore > 40 && avgScore <= 50 && (<img src={fiveImage}></img>)}
+                                                        {avgScore > 50 && avgScore <= 60 && (<img src={sixImage}></img>)}
+                                                        {avgScore > 60 && avgScore <= 70 && (<img src={sevenImage}></img>)}
+                                                        {avgScore > 70 && avgScore <= 80 && (<img src={eightImage}></img>)}
+                                                        {avgScore > 80 && avgScore <= 90 && (<img src={nineImage}></img>)}
+                                                        {avgScore > 90 && avgScore <= 100 && (<img src={tenImage}></img>)}
                                                     </div>
                                                     <div className='st--marks'>
                                                         <div className='mean'>
@@ -345,14 +346,16 @@ const StudentPerformanceReport = (props) => {
                                                             <div style={{ margin: "0px" }} className='ranking--history'>
                                                                 <div className='ranking--table'>
                                                                     <table>
-                                                                        <tr>
-                                                                            <td>--</td>
-                                                                            <td>--</td>
-                                                                            <td>--</td>
-                                                                            <td>--</td>
-                                                                            <td>--</td>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>--</td>
+                                                                                <td>--</td>
+                                                                                <td>--</td>
+                                                                                <td>--</td>
+                                                                                <td>--</td>
 
-                                                                        </tr>
+                                                                            </tr>
+                                                                        </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
@@ -374,32 +377,32 @@ const StudentPerformanceReport = (props) => {
                                                 <h3>Ranking history</h3>
                                                 <div className='ranking--table'>
                                                     <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Week</td>
+                                                                <td>1</td>
+                                                                <td>2</td>
+                                                                <td>3</td>
+                                                                <td>4</td>
+                                                                <td>5</td>
+                                                                <td>6</td>
+                                                                <td>7</td>
+                                                                <td>8</td>
+                                                                <td>9</td>
+                                                                <td>10</td>
+                                                                <td>11</td>
+                                                                <td>12</td>
+                                                            </tr>
 
-                                                        <tr>
-                                                            <td>Week</td>
-                                                            <td>1</td>
-                                                            <td>2</td>
-                                                            <td>3</td>
-                                                            <td>4</td>
-                                                            <td>5</td>
-                                                            <td>6</td>
-                                                            <td>7</td>
-                                                            <td>8</td>
-                                                            <td>9</td>
-                                                            <td>10</td>
-                                                            <td>11</td>
-                                                            <td>12</td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>Rank (out of 30)</td>
-                                                           { weeklyRank && weeklyRank.map((item ,index) =>
-                                                           item.student_id_rank.length > 0 && item.student_id_rank ?
-                                                            <td>{item.student_id_rank[0].student_rank ? item.student_id_rank[0].student_rank : "N/A"  }</td> :
-                                                            <td>--</td>
-                                                            ) } 
-                                                        </tr>
-
+                                                            <tr>
+                                                                <td>Rank (out of 30)</td>
+                                                                {weeklyRank && weeklyRank.map((item, index) =>
+                                                                    item.student_id_rank.length > 0 && item.student_id_rank ?
+                                                                        <td key={index + 1} >{item.student_id_rank[0].student_rank ? item.student_id_rank[0].student_rank : "N/A"}</td> :
+                                                                        <td key={index + 1} >--</td>
+                                                                )}
+                                                            </tr>
+                                                        </tbody>
                                                     </table>
                                                 </div>
                                             </div>
