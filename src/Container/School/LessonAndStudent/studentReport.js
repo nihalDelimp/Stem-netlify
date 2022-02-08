@@ -17,6 +17,7 @@ import { savePDF } from '@progress/kendo-react-pdf';
 import PdfContainer from './pdfContainer';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import NumberFormat from 'react-number-format';
 
 const StudentReport = (props) => {
     const { setLoading } = props
@@ -169,7 +170,7 @@ const StudentReport = (props) => {
                 <div className="grid">
                     <div className="grid---">
                         <div className="page--title">
-                            <h2>Classroom management system</h2>
+                            <h2>Classroom Management System</h2>
                         </div>
                     </div>
                 </div>
@@ -243,7 +244,15 @@ const StudentReport = (props) => {
                                                 </div>
                                                 <div className='curent-ranking-data'>
                                                     <h5>Company valuation</h5>
-                                                    <h3><span>{power ? kFormatter(power) : 0}</span></h3>
+                                                    <h3>
+                                                    <NumberFormat thousandSeparator={true}
+                                                        prefix={'$'}
+                                                        className="foo"
+                                                        displayType={'text'}
+                                                        value={power ? power : "0"} />
+
+                                                        {/* <span>{power ? kFormatter(power) : 0}</span> */}
+                                                        </h3>
                                                 </div>
                                             </div>
                                             <div className='current-ranking'>
@@ -252,7 +261,15 @@ const StudentReport = (props) => {
                                                 </div>
                                                 <div className='curent-ranking-data'>
                                                     <h5>Remaining budget</h5>
-                                                    <h3><span>{score ? kFormatter(score) : kFormatter(100000)}</span></h3>
+                                                    <h3>
+                                                    <NumberFormat thousandSeparator={true}
+                                                       prefix={'$'}
+                                                        className="foo"
+                                                        displayType={'text'}
+                                                        value={score ? score  : "0"} />
+                    
+                                                    {/* <span>{score ? kFormatter(score) : kFormatter(100000)}</span> */}
+                                                    </h3>
                                                 </div>
                                             </div>
                                         </div>

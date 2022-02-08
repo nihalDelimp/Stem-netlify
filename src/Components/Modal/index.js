@@ -19,6 +19,7 @@ import QuizVideo from "../QuizVideo"
 import { getStudentCharacter } from "../../Redux/action/Student"
 import IsLoadingHOC from "../IsLoadingHOC"
 import Leaderboard from "../Leaderboard"
+import NumberFormat from 'react-number-format';
 
 const Modal = (props) => {
 
@@ -197,9 +198,9 @@ const Modal = (props) => {
     }
 
     function kFormatter(num) {
-        return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(2)) + 'k' : Math.sign(num)*Math.abs(num)
+        return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(2)) + 'k' : Math.sign(num) * Math.abs(num)
     }
-    
+
     return (
         <Backdrop >
             <motion.div
@@ -249,7 +250,7 @@ const Modal = (props) => {
                 }
 
                 {
-                     activeStep !== "add-game-question"
+                    activeStep !== "add-game-question"
                     && activeStep !== "add-quiz-question" && (
                         <div className={"modal--close2 btn btn--circle "} onClick={handlerClose}>
                             <svg width="12" height="12" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -263,7 +264,14 @@ const Modal = (props) => {
                     <div className="game--info">
                         <div className="game--info--item">
                             <img src={require("../../assets/images/dolor_star.svg").default} alt="" />
-                            <span>${updatedScore && kFormatter(updatedScore.quiz_game_money) }</span>
+                            {/* <span>${updatedScore && kFormatter(updatedScore.quiz_game_money) }</span> */}
+                            <span>
+                                <NumberFormat thousandSeparator={true}
+                                    prefix={'$'}
+                                    className="foo"
+                                    displayType={'text'}
+                                    value={updatedScore && updatedScore.quiz_game_money } />
+                            </span>
                         </div>
                         {/* <div className="game--info--item">
                             <img src={require("../../assets/images/dolor.svg").default} alt="" />

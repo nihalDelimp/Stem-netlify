@@ -1,24 +1,25 @@
-import React , {useEffect , useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { getModuleData } from '../../Redux/action/App'
 import { lastWeekSummaryAction } from "../../Redux/action/Student"
 import IsLoadingHOC from '../IsLoadingHOC'
+import NumberFormat from 'react-number-format';
 
 const Leaderboard = (props) => {
-    const {setLoading} = props
-    const[lastWeekSummary , setLastWeekSummary] = useState({})
-    const {power , score} = lastWeekSummary ? lastWeekSummary : {}
+    const { setLoading } = props
+    const [lastWeekSummary, setLastWeekSummary] = useState({})
+    const { power, score } = lastWeekSummary ? lastWeekSummary : {}
     const dispatch = useDispatch()
-    
+
 
     useEffect(() => {
-         lastWeekSummaryData();
+        lastWeekSummaryData();
     }, [])
 
 
-    const lastWeekSummaryData = async() => {
+    const lastWeekSummaryData = async () => {
         setLoading(true);
-       await dispatch(lastWeekSummaryAction())
+        await dispatch(lastWeekSummaryAction())
             .then(
                 response => {
                     setLastWeekSummary(response.data)
@@ -34,7 +35,7 @@ const Leaderboard = (props) => {
     }
 
     function kFormatter(num) {
-        return Math.abs(num) > 999 ? Math.sign(num)*((Math.abs(num)/1000).toFixed(2)) + 'k' : Math.sign(num)*Math.abs(num)
+        return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(2)) + 'k' : Math.sign(num) * Math.abs(num)
     }
 
     return (
@@ -43,17 +44,31 @@ const Leaderboard = (props) => {
 
                 <h2>Last week’s summary</h2>
                 <h4>Company’s valuation</h4>
-                <h2>$ {kFormatter(power)}</h2>
+                {/* <h2>$ {kFormatter(power)}</h2> */}
+                <h2>
+                    <NumberFormat thousandSeparator={true}
+                        prefix={'$'}
+                        className="foo"
+                        displayType={'text'}
+                        value={power ? power  : "0"} />
+                </h2>
                 <h4>Remaining budget</h4>
-                <h2>$ {score ?  kFormatter(score) : kFormatter(100000)}</h2>
+                {/* <h2>$ {score ? kFormatter(score) : kFormatter(100000)}</h2> */}
+                <h2>
+                    <NumberFormat thousandSeparator={true}
+                        prefix={'$'}
+                        className="foo"
+                        displayType={'text'}
+                        value={score ? score  : "0"} />
+                </h2>
                 <button className="back--btn" onClick={() => {
-                    dispatch( getModuleData( {
+                    dispatch(getModuleData({
                         activeStep: "quiz-video"
-                    } ) )
+                    }))
                 }}>Let’s start!</button>
             </div>
         </div>
     )
 }
 
-export default   IsLoadingHOC(Leaderboard)
+export default IsLoadingHOC(Leaderboard)

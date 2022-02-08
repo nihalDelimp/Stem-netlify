@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { connect, useDispatch } from 'react-redux'
 import { closeModal, getModuleData } from '../../Redux/action/App'
-import { useHistory, useLocation, useParams } from "react-router"
-import { getAllLessonConversation ,quizGameOptionSubmitted ,getStudentUpdatedScore } from '../../Redux/action/Student'
+import { useHistory } from "react-router"
+import { getAllLessonConversation, quizGameOptionSubmitted, getStudentUpdatedScore } from '../../Redux/action/Student'
 import IsLoadingHOC from '../IsLoadingHOC'
 
-const LessonGames = ( props ) => {
-
+const LessonGames = (props) => {
     const {
         getModuleData,
         current,
@@ -23,42 +22,41 @@ const LessonGames = ( props ) => {
         CLG_Index,
         CG_length,
         CG_index,
-        IsOptionOpen ,
+        IsOptionOpen,
         weekNumber,
-         courseId ,
-         moduleId,
+        courseId,
+        moduleId,
     } = current
     const { lessonSlide, lessonConvOption, LessonQuestionDetail } = data
 
 
     // const [IsOptionOpen, setIsOptionOpen] = useState( false )
-    const [IsLessonOver, setIsLessonOver] = useState( "" )
+    const [IsLessonOver, setIsLessonOver] = useState("")
 
     const dispatch = useDispatch()
     const history = useHistory();
 
 
-
-    const studentScoreData = async () => {
-        await dispatch(getStudentUpdatedScore({
+    const studentScoreData = () => {
+        dispatch(getStudentUpdatedScore({
             class_code: moduleId,
             week_number: weekNumber
-        }))    
+        }))
     }
 
-    const getCoversation = () => {
-        setLoading( true )
-        dispatch( getAllLessonConversation( {
+    const getCoversation = async () => {
+        setLoading(true)
+        await dispatch(getAllLessonConversation({
             "course_id": courseId,
             "question_index": !CLG_Index ? 1 : CLG_Index
-        } ) )
+        }))
             .then(
                 response => {
-                    setLoading( false )
-                    getModuleData( {
-                        IsOptionOpen : false
-                    } )
-                    dispatch( {
+                    setLoading(false)
+                    getModuleData({
+                        IsOptionOpen: false
+                    })
+                    dispatch({
                         type: "SAVE_DATA",
                         payload: {
                             lessonSlide: response.data.lesson_slide[1],
@@ -66,24 +64,25 @@ const LessonGames = ( props ) => {
                             lessonConvOption: response.data.option_details,
                             LessonQuestionDetail: response.data.question_details
                         }
-                    } )
-                    getModuleData( {
+                    })
+                    getModuleData({
                         CG_length: response.data.lesson_slide[1].length,
-                    } )
+                    })
                 },
                 error => {
-                    setIsLessonOver( error.response.data.message );
-                    setLoading( false )
-                    getModuleData( {
+                    setIsLessonOver(error.response.data.message);
+                    setLoading(false)
+                    getModuleData({
                         CLG_Index: undefined,
                         CG_index: undefined,
-                    } )
+                    })
                 }
             )
-            .catch( error => console.log( error ) )
+            .catch(error => console.log(error))
     }
-    const handlerGoToNextGame = (option_id , question_id ) => {
-        dispatch( {
+
+    const handlerGoToNextGame = async (option_id, question_id) => {
+        dispatch({
             type: "SAVE_DATA",
             payload: {
                 lessonSlide: "",
@@ -91,58 +90,66 @@ const LessonGames = ( props ) => {
                 lessonConvOption: "",
                 LessonQuestionDetail: ""
             }
-        } )
-        getModuleData( {
+        })
+        getModuleData({
             CLG_Index: CLG_Index + 1,
-        } )
-        dispatch(quizGameOptionSubmitted({
-            option_id : option_id ,
+        })
+        await dispatch(quizGameOptionSubmitted({
+            option_id: option_id,
             course_id: courseId,
-            class_code : moduleId ,
-            week_number: weekNumber , 
-            question_id : question_id
+            class_code: moduleId,
+            week_number: weekNumber,
+            question_id: question_id
 
         }))
-
+            .then(response =>
+                studentScoreData()
+                ,
+                error =>
+                    console.log(error)
+            )
+            .catch(error => console.log(error))
     }
 
 
     const handlerContinue = () => {
-        if ( CG_length - 1 > CG_index ) {
-           
-            getModuleData( {
+        if (CG_length - 1 > CG_index) {
+
+            getModuleData({
                 CG_index: CG_index + 1
-            } )
+            })
         } else {
-            getModuleData( {
-                IsOptionOpen : true
-            } )
+            getModuleData({
+                IsOptionOpen: true
+            })
         }
     }
 
 
     const handlerGoToHome = () => {
-        closeModal( {
+        closeModal({
             isModalOpen: false,
-        } )
-        return history.push( "/leaderboard" )
+        })
+        return history.push("/leaderboard")
     }
 
-  
-
-    useEffect( () => {
+    useEffect(() => {
         studentScoreData();
-        getModuleData( {
+    }, [])
+
+    useEffect(() => {
+        getModuleData({
             CLG_Index: !CLG_Index ? 1 : CLG_Index,
             CG_index: 0,
-        } )
-        if(!IsLessonOver){
+        })
+        if (!IsLessonOver) {
             getCoversation();
         }
-        if ( IsLessonOver === " No data present." ) {
-            setLessonFinished( true )
+        if (IsLessonOver === " No data present.") {
+            setLessonFinished(true)
         }
-    }, [CLG_Index ] )
+    }, [CLG_Index])
+
 
     return (
         <>
@@ -161,16 +168,16 @@ const LessonGames = ( props ) => {
                                         {LessonQuestionDetail && LessonQuestionDetail.question}
                                     </div>
                                     <div className="game--group">
-                                        {lessonConvOption && lessonConvOption.map( ( item, index ) => {
+                                        {lessonConvOption && lessonConvOption.map((item, index) => {
                                             return (
                                                 <div className="game--item"
                                                     key={index}
-                                                    onClick={() => handlerGoToNextGame(item.id ,item.question_id)}
+                                                    onClick={() => handlerGoToNextGame(item.id, item.question_id)}
                                                 >
                                                     <p className="game--item--title">{item.options}</p>
                                                     <div className="game--value--option">
                                                         <div className="game--value--item">
-                                                            <img src={require( "../../assets/images/dolor_star.svg" ).default} alt="" />
+                                                            <img src={require("../../assets/images/dolor_star.svg").default} alt="" />
                                                             <span>{item.is_money}</span>
                                                         </div>
 
@@ -181,7 +188,7 @@ const LessonGames = ( props ) => {
                                                     </div>
                                                 </div>
                                             )
-                                        } )}
+                                        })}
 
                                     </div>
                                 </div>
@@ -229,6 +236,6 @@ const mapStateToProps = state => {
     return { current, data }
 }
 
-export default connect( mapStateToProps, { getModuleData, closeModal } )( IsLoadingHOC( LessonGames ) )
+export default connect(mapStateToProps, { getModuleData, closeModal })(IsLoadingHOC(LessonGames))
 
 

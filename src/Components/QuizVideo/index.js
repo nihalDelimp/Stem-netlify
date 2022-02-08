@@ -89,7 +89,7 @@ const QuizVideo = (props) => {
                             <Fragment key={index + 1}>
                                 {
                                     getFileExtention(documentData[index].file_details) === "mp4" && (
-                                        <video width="95%" height="100%" controls key={index}>
+                                        <video width="95%" height="100%" controls key={index} controlsList="nodownload" >
                                             <source src={documentData[index].file_details} type="video/mp4" />
                                             Your browser does not support the video tag.
                                         </video>

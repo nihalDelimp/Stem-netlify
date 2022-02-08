@@ -111,6 +111,7 @@ const CreateRoom = ( props ) => {
                             <div className="input-field-classroom">
                                 <input
                                     type="text"
+                                    value={values.class_name}
                                     onChange={e => setValues( {
                                         ...values,
                                         class_name: e.target.value
@@ -125,6 +126,7 @@ const CreateRoom = ( props ) => {
                                 {/* <DatePicker selected={startDate} onChange={( date ) => setStartDate( date )} /> */}
                                 <input
                                     type="date"
+                                    value={values.schedule_date}
                                     onChange={e => setValues( {
                                         ...values,
                                         schedule_date: e.target.value
@@ -153,6 +155,7 @@ const CreateRoom = ( props ) => {
                                 {/* <DatePicker selected={endtDate} onChange={( date ) => setEndDate( date )} /> */}
                                 <input
                                     type="date"
+                                    value={values.class_end_at}
                                     onChange={e => setValues( {
                                         ...values,
                                         class_end_at: e.target.value

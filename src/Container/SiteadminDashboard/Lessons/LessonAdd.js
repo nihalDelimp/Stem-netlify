@@ -11,7 +11,7 @@ const LessonAdd = () => {
                 <div className="grid">
                     <div className="grid---">
                         <div className="page--title">
-                            <h2>Course management system</h2>
+                            <h2>Course Management System</h2>
                         </div>
                     </div>
                 </div>
