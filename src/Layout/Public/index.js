@@ -1,4 +1,5 @@
-import bg from "../../assets/images/bg.png"
+ import bg from "../../assets/images/bg.png"
+// import bg from "../../assets/images/bg2.jpg"
 
 const PublicLayout = ( { children } ) => {
 

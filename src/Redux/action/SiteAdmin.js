@@ -373,3 +373,70 @@ export const updatevideodocs = ( fileData ,id ) => async () => {
             )
     } )
 }
+
+export const addNewSchool = ( data ) => async () => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().post( '/school-dashboard/create-new-school', data )
+            .then(
+                response => resolve( response.data ),
+                error => reject( error )
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}
+
+export const getSchoolListAction = () => async () => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().get( '/school-dashboard/list-all-school')
+            .then(
+                response => resolve( response.data ),
+                error => reject( error )
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}
+
+export const deleteSchoolAction = ( id ) => async () => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().delete( `/school-dashboard/delete-school-details/${id}` )
+            .then(
+                response => resolve( response.data ),
+                error => reject( error )
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}
+
+
+export const editSchoolAction = (id , data ) => async () => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().put( `/school-dashboard/edit-school-details/${id}`, data )
+            .then(
+                response => resolve( response.data ),
+                error => reject( error )
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}
+
+export const getSchoolDetailAction = (id) => async () => {
+    return new Promise( async ( resolve, reject ) => {
+        await authAxios().get( `/school-dashboard/get-school-details/${id}` )
+            .then(
+                response => resolve( response.data ),
+                error => reject( error )
+            )
+            .catch(
+                error => console.log( error )
+            )
+    } )
+}
+

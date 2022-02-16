@@ -125,7 +125,7 @@ const TeacherAndSchoolAdminDetails = (props) => {
                                                             classDetails.map((item, index) => (
                                                                 <div className="class--name--wrapper" key={index}>
                                                                     <div className="class--name">
-                                                                        <Link style={{ padding: "12px" , minWidth : "165px" }} className="class--number"
+                                                                        <Link style={{ padding: "12px", minWidth: "165px" }} className="class--number"
                                                                             to={{
                                                                                 pathname: `/classroom/${item.class_code}`,
                                                                                 state: {

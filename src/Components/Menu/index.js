@@ -26,14 +26,14 @@ const Menu = () => {
                     <span>Dashboard</span>
                 </Link>
             </li>
-            {/* <li className="menu--item">
+            <li className="menu--item">
                 <Link to="/calendar" className={`menu--link ${location.pathname === "/calendar" ? "active" : ""}`}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd" d="M8 6H6V5H4V8H20V5H18V6H16V5H8V6ZM20 10H4V20H20V10ZM16 3H8V2H6V3H4C2.89543 3 2 3.89543 2 5V20C2 21.1046 2.89543 22 4 22H20C21.1046 22 22 21.1046 22 20V5C22 3.89543 21.1046 3 20 3H18V2H16V3ZM7 14V12H9V14H7ZM11 14H13V12H11V14ZM15 14V12H17V14H15ZM7 16V18H9V16H7ZM13 18H11V16H13V18Z" fill="#FFCA2A" />
                     </svg>
                     <span>Calendar</span>
                 </Link>
-            </li> */}
+            </li>
             {role === "STUDENT" && (
                 <li className="menu--item">
                     <Link to=  { !ModalOpen ? "/leaderboard" : "#"  } className={`menu--link ${location.pathname === "/leaderboard" ? "active" : ""}`}>
@@ -44,8 +44,6 @@ const Menu = () => {
                     </Link>
                 </li>
             )}
-
-
             {role === "SITE_ADMIN" || role === "SCHOOL_ADMIN" || role === "TEACHER" ?
                 (<li className="menu--item">
                     <Link to="/classroom" className={`menu--link ${location.pathname === "/classroom" ? "active" : ""}`}>
@@ -56,9 +54,19 @@ const Menu = () => {
                     </Link>
                 </li>) : null}
 
+                {role === "SITE_ADMIN" && (
+                <li className="menu--item">
+                    <Link to="/school" className={`menu--link ${location.pathname === "/school" ? "active" : ""}`}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M21 22H6C4.34315 22 3 20.6569 3 19V5C3 3.34315 4.34315 2 6 2H21V18C20.4477 18 20 18.4477 20 19C20 19.5523 20.4477 20 21 20V22ZM18 19C18 18.6494 18.0602 18.3128 18.1707 18H6C5.44772 18 5 18.4477 5 19C5 19.5523 5.44772 20 6 20H18.1707C18.0602 19.6872 18 19.3506 18 19ZM6 4H19V16H6C5.64936 16 5.31278 16.0602 5 16.1707V5C5 4.44772 5.44772 4 6 4Z" fill="#FFCA2A" />
+                        </svg>
+                        <span>School Management</span>
+                    </Link>
+                </li>)}
 
 
-            {/* {user_type === "SITE_ADMIN" && (
+
+            {/* {role === "SITE_ADMIN" && (
                 <li className="menu--item">
                     <Link to="/course" className={`menu--link ${location.pathname === "/course" ? "active" : ""}`}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,7 +76,7 @@ const Menu = () => {
                     </Link>
                 </li>
             )} */}
-
+            
         </ul>
     )
 }

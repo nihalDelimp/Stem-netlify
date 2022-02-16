@@ -25,11 +25,11 @@ import SchoolAdminClassroom from '../Container/School/index'
 import TeacherAndSchoolAdminDetails from '../Container/School/teacherAndSchoolAdminDetails';
 import LessonAndStudent from '../Container/School/LessonAndStudent/LessonAndStudent';
 import studentReport from '../Container/School/LessonAndStudent/studentReport';
-
+import Schools from '../Container/Siteadmin/SchoolManagement';
 
 
 const ALLUser = Authorization(['TEACHER', 'STUDENT', 'SCHOOL_ADMIN', "SITE_ADMIN"]);
-// const SiteAdmin = Authorization( ["SITE_ADMIN"] );
+const SiteAdmin = Authorization(["SITE_ADMIN"]);
 const Student = Authorization(["STUDENT"]);
 const SiteAdminAndTeacher = Authorization(["SITE_ADMIN", "TEACHER"])
 const TeacherAndSchoolAdmin = Authorization(["SCHOOL_ADMIN", "TEACHER"])
@@ -89,6 +89,12 @@ const Routing = () => {
                 exact
                 path="/addTeacher"
                 component={SchoolAdmin(AddTeacher)}
+                layout={PrivateLayout} />
+
+            <PrivateRoute
+                exact
+                path="/school"
+                component={SiteAdmin(Schools)}
                 layout={PrivateLayout} />
 
             <PrivateRoute
