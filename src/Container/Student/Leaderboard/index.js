@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { connect, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import IsLoadingHOC from '../../../Components/IsLoadingHOC'
 import { getAllStudentScore } from '../../../Redux/action/Student'
 import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
@@ -14,7 +12,7 @@ const Leaderboard = (props) => {
     const classCode = useSelector(state => state.auth.classCode)
     const week_number = useSelector(state => state.app.week_number)
 
-    
+
     const dispatch = useDispatch();
     const NewLeaderTab = (index) => {
         setCurrentTab(index)
@@ -73,38 +71,38 @@ const Leaderboard = (props) => {
                                     toUpperCaseName(leaderboardData[1]?.student_details[0]?.name) : "N/A"}</h3>
                                 <h4>Company valuation: </h4>
                                 <h5>{leaderboardData && leaderboardData[1] ?
-                                 <NumberFormat thousandSeparator={true}
-                                 className="foo"
-                                 displayType={'text'}
-                                 value={leaderboardData[1]?.quiz_game_power} />
-                                  : "N/A"}
-                                  </h5>
+                                    <NumberFormat thousandSeparator={true}
+                                        className="foo"
+                                        displayType={'text'}
+                                        value={leaderboardData[1]?.quiz_game_power} />
+                                    : "N/A"}
+                                </h5>
                             </div>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/gold.png").default}></img>
                                 <h3>{leaderboardData && leaderboardData[0] ?
                                     toUpperCaseName(leaderboardData[0]?.student_details[0]?.name) : "N/A"}</h3>
                                 <h4>Company valuation: </h4>
-                                <h5>{leaderboardData && leaderboardData[0] ? 
-                                 <NumberFormat thousandSeparator={true}
-                                 className="foo"
-                                 displayType={'text'}
-                                 value={leaderboardData[0]?.quiz_game_power} />
-                                 : "N/A"}
-                                 </h5>
+                                <h5>{leaderboardData && leaderboardData[0] ?
+                                    <NumberFormat thousandSeparator={true}
+                                        className="foo"
+                                        displayType={'text'}
+                                        value={leaderboardData[0]?.quiz_game_power} />
+                                    : "N/A"}
+                                </h5>
                             </div>
                             <div className='winners-trophy-rank'>
                                 <img src={require("../../../assets/images/bronze.png").default}></img>
                                 <h3>{leaderboardData && leaderboardData[2] ?
                                     toUpperCaseName(leaderboardData[2]?.student_details[0]?.name) : "N/A"}</h3>
                                 <h4>Company valuation: </h4>
-                                <h5>{leaderboardData && leaderboardData[2] ? 
-                                <NumberFormat thousandSeparator={true}
-                                className="foo"
-                                displayType={'text'}
-                                value={leaderboardData[2]?.quiz_game_power} />
-                                 : "N/A"}
-                                 </h5>
+                                <h5>{leaderboardData && leaderboardData[2] ?
+                                    <NumberFormat thousandSeparator={true}
+                                        className="foo"
+                                        displayType={'text'}
+                                        value={leaderboardData[2]?.quiz_game_power} />
+                                    : "N/A"}
+                                </h5>
                             </div>
                         </div>
                         <div className='new--leaderboard_tabs'>
@@ -121,7 +119,6 @@ const Leaderboard = (props) => {
                                     <span>Year</span>
                                 </li>
                                 <li className={currentLeaderTab === 3 ? "active-leadertab" : " "}
-
                                 // onClick={() => NewLeaderTab( 3 )}
                                 >
                                     <span>Region</span>
@@ -133,7 +130,7 @@ const Leaderboard = (props) => {
 
                                 {leaderboardData && leaderboardData.length > 0
                                     ?
-                                    leaderboardData && leaderboardData.length > 0 && leaderboardData.map((item, index) =>
+                                    leaderboardData.map((item, index) =>
                                         <div className='new--leaderboard_tabs-data' key={item.id} >
                                             <div className='winner-ranks'>
                                                 <h3>{index + 1}</h3>
@@ -147,13 +144,22 @@ const Leaderboard = (props) => {
                                                 </div>
                                                 <div className='winner-price'>
                                                     <span>$</span>
-
                                                     <NumberFormat thousandSeparator={true}
                                                         className="foo"
                                                         displayType={'text'}
                                                         value={item?.quiz_game_money} />
-
                                                     {/* <span>{item?.quiz_game_money}</span> */}
+                                                </div>
+                                                <div className='winner-budget'>
+                                                    <span>Revenue: </span>
+                                                    <span></span>
+                                                </div>
+                                                <div className='winner-price'>
+                                                    <span>$</span>
+                                                    <NumberFormat thousandSeparator={true}
+                                                        className="foo"
+                                                        displayType={'text'}
+                                                        value={item?.quiz_game_power} />
                                                 </div>
                                             </div>
                                         </div>
@@ -251,7 +257,6 @@ const Leaderboard = (props) => {
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     )
