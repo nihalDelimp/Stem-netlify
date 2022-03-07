@@ -1,0 +1,174 @@
+.student--name-panels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .student--name_details {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        h3 {
+            font-size: 26px;
+        }
+    }
+    .student--name_details-download {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        img {
+            cursor: pointer;
+        }
+    }
+}
+
+.performence--report-student {
+    padding: 2rem;
+    background-color: #fff;
+    box-shadow: 2px 5px 10px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    .performence-title {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        h3 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        h5 {
+            font-size: 12px;
+            font-weight: 400;
+            font-style: italic;
+        }
+    }
+    .performence-report-card {
+        display: flex;
+        gap: 15px;
+        .performence-report-sidebar {
+            width: 35%;
+            padding: 3rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            .current-ranking {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                .ranking--img {
+                    img {
+                        width: 42px;
+                    }
+                }
+                .curent-ranking-data {
+                    h5 {
+                        font-size: 12px;
+                        font-weight: 500;
+                    }
+                    h3 {
+                        font-size: 36px;
+                        font-weight: 500;
+                        .sub-rank {
+                            font-size: 12px;
+                            font-weight: 500;
+                        }
+                    }
+                }
+            }
+        }
+        .performence-report-card-data {
+            width: 65%;
+            padding-top: 1rem;
+            @media (max-width:1270px) {
+                overflow-x: auto;
+            }
+            .overall-avg-table {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                & > div {
+                    width: max-content;
+                }
+                .progress--bar {
+                    flex-grow: 1;
+                    display: flex;
+                    justify-content: flex-end;
+                }
+                .Overall-avarage-title {
+                    min-width: 140px;
+                    h3 {
+                        font-size: 18px;
+                        font-weight: 600;
+                    }
+                    h5 {
+                        font-size: 10px;
+                        font-weight: 400;
+                        margin-top: 5px;
+                    }
+                    h2 {
+                        font-size: 14px;
+                        font-weight: 600;
+                    }
+                }
+                .st--marks {
+                    display: flex;
+                    gap: 15px;
+                    & > div {
+                        display: flex;
+                        gap: 3px;
+                        span {
+                            font-size: 12px;
+                            font-weight: 400;
+                        }
+                    }
+                }
+                .percentage {
+                    h3 {
+                        font-size: 18px;
+                    }
+                    h4 {
+                        font-size: 14px;
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+    }
+}
+.performence-week-report {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+    border-top: 1px solid #000;
+    margin-top: 1.5rem;
+    padding: 1rem 0;
+    width: auto;
+    height: 400px;
+    overflow: auto;
+    
+    
+}
+.ranking--history {
+    margin-top: 2rem;
+    h3 {
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .ranking--table {
+        table {
+            width: 100%;
+            min-width: 500px;
+            tr {
+                td {
+                    padding: 10px;
+                    font-size: 13px;
+                    font-weight: 400;
+                }
+                td:nth-child(1) {
+                    font-size: 12px;
+                    font-weight: 400;
+                    padding: 10px !important;
+                    padding-left: 0px !important;
+                }
+            }
+        }
+    }
+}

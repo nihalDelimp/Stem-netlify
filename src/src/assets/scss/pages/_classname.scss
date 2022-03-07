@@ -1,0 +1,126 @@
+.classrooms-student {
+    .classrooms {
+        @media (max-width:1300px) {
+            grid-template-columns: repeat(3, minmax(min-content, 1fr));
+            gap: 20px 25px;
+        }
+    }
+}
+
+.addstudent-btn {
+    padding: 0.6rem 0.8rem !important;
+}
+.invite--student-link {
+    margin-top: 9rem;
+    display: flex;
+    justify-content: flex-end;
+    .invite--student-wrapper {
+        max-width: 300px;
+        width: 100%;
+        @extend %card_shadow;
+        padding: 1.8rem 1.3rem;
+        border-radius: 7px;
+        .invite--student-title {
+            margin-bottom: 3rem;
+            h3 {
+                font-weight: 700;
+                font-size: 24px;
+                color: $text-color;
+            }
+        }
+        form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px 10px;
+            .input-wrapper {
+                label {
+                    font-size: 18px;
+                    font-weight: 500;
+                    color: $text-color;
+                }
+                input {
+                    width: 100%;
+                    background-color: #F4F4F4;
+                    border: none;
+                    padding: 0.3rem;
+                    margin-top: 0.2rem;
+                }
+            }
+            .submit-input-wrapper {
+                grid-column: span 2;
+                display: flex;
+                gap: 10px;
+                align-items: flex-end;
+                .submit-btn-link {
+                    button {
+                        background: #FFFFFF;
+                        border: 1px solid #EF5B2C;
+                        border-radius: 7px;
+                        padding: 0.25rem 1rem;
+                        display: flex;
+                        align-items: center;
+                        cursor: pointer;
+                        img {
+                            width: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// lesson performance page 
+
+.page--sub-title{
+    display: flex;
+    justify-content: space-between;
+    .codeBtn{
+        padding: 0.7rem 1rem;
+        background-color: #EF5B2C;
+        border-radius: 7px;
+        font-size: 1rem;
+        color: #FFFFFF;
+        border: none;
+        cursor: pointer;
+        &:hover{
+            background-color: #da4d23;
+        }
+    }
+}
+
+.lesson--performance-container {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 3rem;
+    @media (max-width:767px) {
+        grid-template-columns: repeat(1,1fr);
+    }
+    .lesson--students-header {
+        display: flex;
+        justify-content: space-between;
+    }
+    .lesson--students {
+        .classrooms {
+            grid-template-columns: repeat(2,1fr);
+            margin-top: 1.2rem;
+            gap: 20px 20px;
+            @media (max-width:1150px) {
+                grid-template-columns: repeat(1, minmax(min-content, 1fr));
+            }
+        }
+        .dropdown--item{
+           @media (max-width:767px) {
+            right: 0 !important;
+            left: auto !important;
+           }
+        }
+    }
+    .lesson--performances {
+        .classrooms {
+            grid-template-columns: repeat(1,1fr);
+            margin-top: 1.5rem;
+           
+        }
+    }
+}

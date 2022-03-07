@@ -1,0 +1,63 @@
+.lesson--game{
+    .game{
+        position: relative;
+        z-index: 9;
+        &--title{
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        &--group{
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        &--item{
+            padding: 1.5rem;
+            background-color: #fff;
+            box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            min-width: 240px;
+            min-height: 230px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            position: relative;
+            &:hover{
+                transform: scale(1.05);
+            }
+            &--title{
+                font-size: 1.2rem;
+                text-align: center;
+                margin-bottom: 2rem;
+                font-weight: 400;
+            }
+            // &:nth-child(2){
+            //     background-color: #B4B4B4;
+            // }
+        }
+        &--value{
+            &--option{
+                display: flex;
+                justify-content: space-evenly;
+                position: absolute;
+                bottom: 10%;
+                left: 0;
+                right: 0;
+                margin: 0 auto;
+            }
+            &--item{
+                background-color: #fff;
+                min-width: 50px;
+                padding: 0.5rem 1rem;
+                border-radius: 40px;
+                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+                justify-content: flex-start;
+            }
+        }
+    }
+}
