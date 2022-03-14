@@ -33,7 +33,7 @@ const StudentReport = (props) => {
     const params = useParams();
     const history = useHistory()
     const { StudentName, classsName, classCode } = location.state ? location.state : {}
-    const { lessons, week_number } = useSelector(state => state.app)
+    const { lessons, week_number ,course_code } = useSelector(state => state.app)
     const [avgScore, setAvgScore] = useState("0");
     const [updatedDate, setUpdatedDate] = useState(new Date())
 
@@ -53,7 +53,7 @@ const StudentReport = (props) => {
     const studentcurrentRank = async () => {
         setLoading(true);
         await dispatch(currentRankAction({
-            class_code: classCode,
+            course_code: course_code,
             week_number: week_number
         }))
             .then(
@@ -80,7 +80,7 @@ const StudentReport = (props) => {
     const weeklyStudentRank = async () => {
         setLoading(true);
         await dispatch(weeklyRankAction({
-            class_code: classCode,
+            course_code: course_code,
             student_id: params.id,
             week_number
         }))
