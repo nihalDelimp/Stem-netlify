@@ -44,7 +44,7 @@ const Menu = () => {
                     </Link>
                 </li>
             )}
-            {role === "SITE_ADMIN" || role === "SCHOOL_ADMIN" || role === "TEACHER" ?
+            {role === "SCHOOL_ADMIN" || role === "TEACHER" ?
                 (<li className="menu--item">
                     <Link to="/classroom" className={`menu--link ${location.pathname === "/classroom" ? "active" : ""}`}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

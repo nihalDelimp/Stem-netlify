@@ -57,6 +57,7 @@ const CreateSchoolAdmin = (props) => {
                                         getAllSchoolAdmin();
                                     },
                                     error => {
+                                        toast.error(error.response.data.message)
                                         setSubmitting(false);
                                         setLoading(false);
                                     }
