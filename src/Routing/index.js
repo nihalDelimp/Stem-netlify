@@ -178,7 +178,7 @@ const Routing = () => {
             <PrivateRoute
                 exact
                 path="/classroom/:id"
-                component={AllAdmission(
+                component={TeacherAndSchoolAdmin(
                     role === "TEACHER"
                         ? LessonPerformance
                         : role === "SCHOOL_ADMIN"
