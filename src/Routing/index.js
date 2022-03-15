@@ -99,7 +99,7 @@ const Routing = () => {
                 layout={PrivateLayout} />
             <PrivateRoute
                 exact
-                path="/add-class"
+                path="/add-new-class"
                 component={SchoolAdmin(ClassroomForSchoolAdmin)}
                 layout={PrivateLayout} />
             <PrivateRoute

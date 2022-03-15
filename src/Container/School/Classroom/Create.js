@@ -4,6 +4,7 @@ import Select from 'react-select'
 import { createClassroom, getTeacherList } from '../../../Redux/action/SchoolAdmin'
 import IsLoadingHOC from '../../../Components/IsLoadingHOC'
 import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 
 const CreateRoom = ( props ) => {
     const { setLoading } = props
@@ -98,10 +99,18 @@ const CreateRoom = ( props ) => {
         <>
             <div className="grid">
                 <div className="grid---">
-                    <div className="page--title-sub">
-                     <h2>Courses</h2>
-                        <h2>Create new classroom</h2>
-                    </div>
+                <div className="page--sub-title">
+                            <ul>
+                                <li>
+                                    <Link to="/classroom" style={{ color: "#000", textDecoration: "none" }}>
+                                        <span>Courses</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <span>Create new classroom</span>
+                                </li>
+                            </ul>
+                        </div>
                 </div>
             </div>
             <div className="grid create-classrom-form-grid">
