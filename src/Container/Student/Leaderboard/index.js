@@ -150,7 +150,7 @@ const Leaderboard = (props) => {
                                                     {/* <span>{item?.quiz_game_money}</span> */}
                                                 </div>
                                                 <div className='winner-budget'>
-                                                    <span>Revenue: </span>
+                                                    <span>Valuation: </span>
                                                     <span></span>
                                                 </div>
                                                 <div className='winner-price'>
