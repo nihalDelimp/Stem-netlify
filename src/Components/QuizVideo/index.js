@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { getModuleData } from '../../Redux/action/App'
 import { getLessonDocument } from '../../Redux/action/Student'
-import FileViewer from 'react-file-viewer';
+// import FileViewer from 'react-file-viewer';
 import IsLoadingHOC from '../IsLoadingHOC'
 
 const QuizVideo = (props) => {
@@ -28,16 +28,16 @@ const QuizVideo = (props) => {
         }
     }
     const onError = e => {
-        console.log(e, "error in file-viewer");
+        console.log("error in file-viewer", e);
     };
 
 
+
+
     const getFileExtention = docURL => {
-        const urlObject = docURL.split("/")
+        const ext = docURL.split(".").pop()
 
-        const fileName = urlObject[4].split(".")
-
-        return fileName[1]
+        return ext
     }
 
 
@@ -82,7 +82,6 @@ const QuizVideo = (props) => {
     return (
         <div>
             <div className="quiz-video" style={{ display: "flex", justifyContent: "center", height: "85%" }}>
-
                 {documentData && documentData.length > 0 ?
                     (documentData.map((_, index) => (
                         currentStepIndex === index && (
@@ -90,7 +89,7 @@ const QuizVideo = (props) => {
                                 {
                                     getFileExtention(documentData[index].file_details) === "mp4" && (
                                         <video width="95%" height="100%" controls key={index} controlsList="nodownload" >
-                                            <source src={documentData[index].file_details} type="video/mp4" />
+                                            <source src={`${process.env.REACT_APP_COURSEURL_VD}/${documentData[index].file_details}`} type="video/mp4" />
                                             Your browser does not support the video tag.
                                         </video>
                                     )
@@ -98,13 +97,11 @@ const QuizVideo = (props) => {
                                 {
                                     getFileExtention(documentData[index].file_details) === "jpeg"
                                         || getFileExtention(documentData[index].file_details) === "png"
-
-
                                         || getFileExtention(documentData[index].file_details) === "jpg" ? (
                                         <img
                                             width="95%"
                                             height="100%"
-                                            src={documentData[index].file_details}
+                                            src={`${process.env.REACT_APP_COURSEURL_MD}/${documentData[index].file_details}`}
                                             alt={getFileExtention(documentData[index].file_details)} />
                                     ) : null
                                 }
@@ -129,82 +126,32 @@ const QuizVideo = (props) => {
                                 } */}
 
                                 {
-                                    getFileExtention(documentData[index].file_details) === "docx" && (
-                                        <div style={{
-                                            width: "95%",
-                                            height: "100%",
-                                            textAlign: "center"
-                                        }} >
-                                            <FileViewer
-                                                fileType={"docx"}
-                                                filePath={documentData[index].file_details}
-                                                onError={onError}
-                                            />
-                                        </div>
-                                    )
+                                    getFileExtention(documentData[index].file_details) === "pdf" ||
+                                        getFileExtention(documentData[index].file_details) === "docx" ||
+                                        getFileExtention(documentData[index].file_details) === "csv" ||
+                                        getFileExtention(documentData[index].file_details) === " xlsx"
+                                        ?
+                                        (
+                                            <div
+                                                style={{
+                                                    width: "92%",
+                                                    height: "100%",
+                                                    textAlign: "center"
+                                                }} >
+                                                <iframe
+                                                    width="92%"
+                                                    height="100%"
+                                                    title="file"
+                                                    frameborder="0"
+                                                    sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation"
+                                                    src={`https://docs.google.com/gview?url=${process.env.REACT_APP_COURSEURL_MD}/${documentData[index].file_details} &embedded=true`}
+                                                />
+                                                <div style={{ width: "80px", height: "80px", position: "absolute", opacity: "0", right: "0px", top: "0px" }}></div>
+                                            </div>
+                                        ) :
+                                        null
                                 }
-
-                                {
-                                    getFileExtention(documentData[index].file_details) === "csv" && (
-                                        <div style={{
-                                            width: "95%",
-                                            height: "100%",
-                                            textAlign: "center"
-                                        }} >
-                                            <FileViewer
-                                                fileType={"csv"}
-                                                filePath={documentData[index].file_details}
-                                                onError={onError}
-                                            />
-                                        </div>
-                                    )
-                                }
-
-                               { getFileExtention(documentData[index].file_details) === "xlsx" && (
-                                <div style={{
-                                    width: "95%",
-                                    height: "100%",
-                                    textAlign: "center"
-                                }} >
-                                    <FileViewer
-                                        fileType={"xlsx"}
-                                        filePath={documentData[index].file_details}
-                                        onError={onError}
-                                    />
-                                </div>
-                                )
-                                }
-                                
-                                {
-                                    getFileExtention(documentData[index].file_details) === "pdf" && (
-                                        <div style={{
-                                            width: "95%",
-                                            height: "100%",
-                                            textAlign: "center"
-                                        }} >
-                                            <FileViewer
-                                                fileType={"pdf"}
-                                                filePath={documentData[index].file_details}
-                                                onError={onError}
-                                            />
-                                        </div>
-                                    )}
-                                {
-                                    getFileExtention(documentData[index].file_details) === "txt" ||
-                                        getFileExtention(documentData[index].file_details) === "doc" ?
-                                        <iframe
-                                            src={"https://docs.google.com/gview?url=" + documentData[index].file_details + "&embedded=true"}
-                                            width="100%"
-                                            height="100%"
-                                            id="myId"
-                                            display="initial"
-                                            title="file"
-                                            frameBorder='0'
-                                            allowtransparency='true'
-                                            target='blank'
-                                            position="relative" />
-                                        : null
-                                }
+                               
                             </Fragment>
                         ))
                     )) :

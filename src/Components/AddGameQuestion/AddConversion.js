@@ -19,6 +19,7 @@ import {useLocation} from 'react-router'
 const AddConversion = (props) => {
     const { setLoading } = props;
     const [bg, setBg] = useState('')
+    const [upbg, setUpBg] = useState('')
     const [fileUrl, setFileUrl] = useState('')
     const [slidefileID, setSlideFileID] = useState('')
     const [lessonDesc, setLessonDesc] = useState('')
@@ -274,32 +275,32 @@ const AddConversion = (props) => {
                         <div className="conversion--background">
                             <div className="conversion--background--inner">
                                 <form className="file--upload"
-                                    style={bg ? { backgroundImage: `url(${bg})`, border: "none" } : null}
+                                   style={bg ? { backgroundImage: `url(${process.env.REACT_APP_LESSONSURL}/${bg})`, border: "none" } : null ||
+                                        upbg ? { backgroundImage: `url(${upbg})`, border: "none" } : null
+                                }
                                 >
                                     <input
                                         type="file"
                                         accept="image/png, image/jpeg, image/jpg"
                                         onChange={e => {
                                             if (e.target.files.length === 0) {
-                                                setBg([])
                                                 setFileUrl([])
                                             } else {
-                                                setBg(URL.createObjectURL(e.target.files[0]));
-                                                setFileUrl(e.target.files[0])
-                                               
-                                                
+                                                setBg('')
+                                                setUpBg(URL.createObjectURL(e.target.files[0]));
+                                                setFileUrl(e.target.files[0]) 
                                             }
                                         }}
                                     />
-                                    {!bg && (
+                                    {!bg && !upbg ? (
                                         <div className="add-video-icon">
                                             <img src={require("../../assets/images/plus.svg").default} alt="" />
-                                            <span>{bg?.length !== 0
-                                                ? trimFileName(!bg ? "Add Background" : bg.name)
-                                                : "Add Background"
-                                            }</span>
+                                            <span>
+                                                Add Background
+                                            </span>
                                         </div>
-                                    )}
+                                    )
+                                :null}
                                 </form>
                             </div>
                         </div>

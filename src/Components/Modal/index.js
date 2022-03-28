@@ -225,7 +225,7 @@ const Modal = (props) => {
                         : activeStep === "lesson-game"
                             ? {
                                 backgroundImage: `url(${lessonSlideDetails
-                                    ? lessonSlideDetails.file_details
+                                    ?  process.env.REACT_APP_LESSONSURL+'/'+lessonSlideDetails.file_details
                                     : initialBg})`
                             }
                             : activeStep === "leaderboard"
