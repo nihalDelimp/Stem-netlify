@@ -143,6 +143,7 @@ const QuizVideo = (props) => {
                                                     height="100%"
                                                     title="file"
                                                     frameborder="0"
+                                                    loading='eager'
                                                     sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation"
                                                     src={`https://docs.google.com/gview?url=${process.env.REACT_APP_COURSEURL_MD}/${documentData[index].file_details} &embedded=true`}
                                                 />
