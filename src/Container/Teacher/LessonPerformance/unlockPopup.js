@@ -58,7 +58,7 @@ const UnlockPopUp = ( props ) => {
                         id="exampleCheck1"
                         onChange={handlerChecked}
                     />
-                    <label className="form-check-label" htmlFor="exampleCheck1">If you wnat to activate this, the rest all will be deactivate ?</label>
+                    <label className="form-check-label" htmlFor="exampleCheck1">If you want to activate this, the rest all will be deactivate.. ?</label>
                 </div>
                 <div className="btn--group">
                     <button className="create"  onClick={unlockLessonHandle}  disabled={!checked}>Confirm</button>
