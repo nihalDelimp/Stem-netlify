@@ -52,12 +52,14 @@ const QuizVideo = (props) => {
                     const videoData = []
                     const txtData = []
                     response.data && response.data.map((item, index) => {
-                        if (item.file_type === "mp4" || "MP4" ) {
+                        if (item.file_type == "mp4") {
+                            videoData.push(item)
+                        }
+                        else if (item.file_type == "MP4"){
                             videoData.push(item)
                         }
                         else {
                             txtData.push(item)
-
                         }
                         const updatedDocs = [...videoData, ...txtData]
                         setDocumentData(updatedDocs)
@@ -87,12 +89,15 @@ const QuizVideo = (props) => {
                         currentStepIndex === index && (
                             <Fragment key={index + 1}>
                                 {
-                                    getFileExtention(documentData[index].file_details) === "mp4" || "MP4" && (
+                                    getFileExtention(documentData[index].file_details) === "mp4" ||
+                                    getFileExtention(documentData[index].file_details) === "MP4" ?
+                                       (
                                         <video width="95%" height="100%" controls key={index} controlsList="nodownload" >
                                             <source src={`${process.env.REACT_APP_COURSEURL_VD}/${documentData[index].file_details}`} type="video/mp4" />
                                             Your browser does not support the video tag.
                                         </video>
-                                    )
+                                    ): null
+
                                 }
                                 {
                                     getFileExtention(documentData[index].file_details) === "jpeg"

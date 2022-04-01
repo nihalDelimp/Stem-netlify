@@ -18,7 +18,7 @@ const Step2 = (props) => {
         const videodocs1 = []
         const textdocs1 = []
         course_documents.map((item, index) => {
-            if (item.file_type == "mp4") {
+            if (item.file_type == "mp4" ||  item.file_type == "MP4") {
                 if (videodocs1.length == 0) {
                     setFirstDoc(item)
                     videodocs1.push(item)
