@@ -52,7 +52,7 @@ const LessonAdd = (props) => {
                             setLoading(false)
                         },
                         error => {
-                            toast.error(error.message)
+                            toast.error(error.response.data.message)
                             setLoading(false)
                         }
                     )
