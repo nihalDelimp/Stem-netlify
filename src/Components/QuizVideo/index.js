@@ -52,7 +52,7 @@ const QuizVideo = (props) => {
                     const videoData = []
                     const txtData = []
                     response.data && response.data.map((item, index) => {
-                        if (item.file_type === "mp4") {
+                        if (item.file_type === "mp4" || "MP4" ) {
                             videoData.push(item)
                         }
                         else {
@@ -87,7 +87,7 @@ const QuizVideo = (props) => {
                         currentStepIndex === index && (
                             <Fragment key={index + 1}>
                                 {
-                                    getFileExtention(documentData[index].file_details) === "mp4" && (
+                                    getFileExtention(documentData[index].file_details) === "mp4" || "MP4" && (
                                         <video width="95%" height="100%" controls key={index} controlsList="nodownload" >
                                             <source src={`${process.env.REACT_APP_COURSEURL_VD}/${documentData[index].file_details}`} type="video/mp4" />
                                             Your browser does not support the video tag.
@@ -144,7 +144,7 @@ const QuizVideo = (props) => {
                                                     title="file"
                                                     frameborder="0"
                                                     loading='eager'
-                                                    sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation"
+                                                    sandbox= "allow-forms  allow-same-origin allow-scripts allow-top-navigation"
                                                     src={`https://docs.google.com/gview?url=${process.env.REACT_APP_COURSEURL_MD}/${documentData[index].file_details} &embedded=true`}
                                                 />
                                                 <div style={{ width: "80px", height: "80px", position: "absolute", opacity: "0", right: "0px", top: "0px" }}></div>
