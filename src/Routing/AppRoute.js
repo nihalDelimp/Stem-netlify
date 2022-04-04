@@ -8,26 +8,15 @@ const AppRoute = ( {
     layout: Layout,
     ...rest } ) => {
 
- const token = useSelector( state => state.auth.token )
 
     return (
         <Route
             {...rest}
             render={( props ) => (
-                token ? 
-                 (
-                    <Redirect
-                        to={{
-                            pathname: '/',
-                            state: { from: props.location },
-                        }}
-                    />
-                )
-                :
-               ( <Layout>
+                <Layout>
                     <Component {...props} />
                 </Layout>
-               )
+               
             )}
         />
     )
