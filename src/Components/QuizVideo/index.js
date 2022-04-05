@@ -14,6 +14,8 @@ const QuizVideo = (props) => {
     const [currentVideo, setCurrentVideo] = useState(0)
     const [documentData, setDocumentData] = useState([])
 
+    const VD_file_types  = ["mp4" ,"MP4" ,"mkv" ,"MKV"]
+
     const handlerContinue = () => {
         if (currentStepIndex < documentData.length - 1) {
             setCurrentVideo(currentVideo + 1)
@@ -49,13 +51,11 @@ const QuizVideo = (props) => {
         }))
             .then(
                 response => {
+                    const VD_file_types  = ["mp4" ,"MP4" ,"mkv" ,"MKV"]
                     const videoData = []
                     const txtData = []
                     response.data && response.data.map((item, index) => {
-                        if (item.file_type == "mp4") {
-                            videoData.push(item)
-                        }
-                        else if (item.file_type == "MP4"){
+                        if ( VD_file_types.includes(item.file_type)) {
                             videoData.push(item)
                         }
                         else {
@@ -90,7 +90,10 @@ const QuizVideo = (props) => {
                             <Fragment key={index + 1}>
                                 {
                                     getFileExtention(documentData[index].file_details) === "mp4" ||
-                                    getFileExtention(documentData[index].file_details) === "MP4" ?
+                                    getFileExtention(documentData[index].file_details) === "MP4" ||
+                                    getFileExtention(documentData[index].file_details) === "mkv" ||
+                                    getFileExtention(documentData[index].file_details) === "MKV" 
+                                     ?
                                        (
                                         <video width="95%" height="100%" controls key={index} controlsList="nodownload" >
                                             <source src={`${process.env.REACT_APP_COURSEURL_VD}/${documentData[index].file_details}`} type="video/mp4" />

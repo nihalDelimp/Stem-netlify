@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useEffect} from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { SubmitButton } from '../Buttons'
 import { Input } from '../Inputs'
@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import { signup } from '../../Redux/action/Auth'
 import { toast } from 'react-toastify'
 import IsLoadingHOC from '../IsLoadingHOC'
+import { useSelector } from 'react-redux';
+
 
 
 
@@ -14,6 +16,15 @@ const Signup = ( props ) => {
     const { signup, setLoading } = props;
     const history = useHistory()
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const token = useSelector( state => state.auth.token )
+
+
+    useEffect(() => {
+        if(token){
+            history.push("/")
+        }
+    
+    }) 
 
     const formik = useFormik( {
         initialValues: {

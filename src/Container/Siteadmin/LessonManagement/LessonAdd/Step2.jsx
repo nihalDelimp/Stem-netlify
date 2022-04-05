@@ -15,10 +15,11 @@ const Step2 = (props) => {
     const [fourthdoc, setFourthDoc] = useState([])
 
     const setImageDocURL = (course_documents) => {
+        var VD_file_types  = ["mp4" ,"MP4" ,"mkv" ,"MKV"]
         const videodocs1 = []
         const textdocs1 = []
         course_documents.map((item, index) => {
-            if (item.file_type == "mp4" ||  item.file_type == "MP4") {
+            if (VD_file_types.includes(item.file_type)) {
                 if (videodocs1.length == 0) {
                     setFirstDoc(item)
                     videodocs1.push(item)
