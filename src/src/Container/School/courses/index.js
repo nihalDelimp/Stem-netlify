@@ -61,7 +61,7 @@ const SchoolAdminCourses = (props) => {
                         <div className="grid--">
                             <div className="addclass--ct">
                                 <div className="addclass--room-button">
-                                    <Link to = "add-class"  style={{ color: "#000", textDecoration: "none" }} >
+                                    <Link to = "add-new-class"  style={{ color: "#000", textDecoration: "none" }} >
                                     <button className="addclasroom--btn" >
                                         <span>Create New Class</span> <span className="button--icon">
                                             <img src={plusIcon} alt="" /></span>

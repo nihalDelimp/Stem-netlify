@@ -54,16 +54,24 @@ const CreateStudent = (props) => {
     return (
         <div className="popup" onClick={() => setCreatePopUp(false)}>
             <div className="popup--card" onClick={(e) => e.stopPropagation()}>
-                <h3>Create New  Student</h3>
+                <h3>Create New Student</h3>
                 <Formik
                     initialValues={{
+                        name : "" ,
                         email: "",
                         class_code: params.id,
                     }}
                     onSubmit={async (values, { setSubmitting }) => {
                         setSubmitting(true);
-                        const { email, class_code } = values;
-                        if (!email) {
+                        const { name , email, class_code } = values;
+
+                        if (!name) {
+                            toast.error("Email address is required")
+                            setSubmitting(false);
+                            return;
+                        }
+
+                       else if (!email) {
                             toast.error("Email address is required")
                             setSubmitting(false);
                           
@@ -104,6 +112,14 @@ const CreateStudent = (props) => {
                 >
                     {({ values, handleChange, handleSubmit, isSubmitting }) => (
                         <form action="" className="form" onSubmit={handleSubmit}>
+                             <div className="form--item">
+                                <label htmlFor="name" >Name</label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={values.name}
+                                    onChange={handleChange} />
+                            </div>
                             <div className="form--item">
                                 <label htmlFor="name" >Email</label>
                                 <input

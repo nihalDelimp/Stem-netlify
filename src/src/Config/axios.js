@@ -1,9 +1,4 @@
-//  https://localhost:4000
-//  https://api.delimp:world/
-
 import axios from "axios";
-
-
 import { store } from '../Redux/store';
 
 export const authAxios = () => {

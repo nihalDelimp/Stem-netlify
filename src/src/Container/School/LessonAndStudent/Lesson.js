@@ -23,13 +23,14 @@ const LessonList = (props) => {
             .then(
                 response => {
                     setLessons(response.data);
+                    setLoading(false)
                     dispatch({ type: "SET_TEACHER_LESSONS", payload: response.data})
+                    dispatch({ type: "SET_COURSE_CODE", payload: response.data[0].course_code})
                     response.data && response.data.map(item =>{
                         if(item.lesson_locked === false){
                             dispatch({ type: "SET_ACTIVE_WEEK_NUMBER", payload: item.week_number })
                         }
                     })
-                    setLoading(false)
                 },
                 () =>
                     setLoading(false)

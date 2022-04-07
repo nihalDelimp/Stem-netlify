@@ -99,7 +99,7 @@ const Routing = () => {
                 layout={PrivateLayout} />
             <PrivateRoute
                 exact
-                path="/add-class"
+                path="/add-new-class"
                 component={SchoolAdmin(ClassroomForSchoolAdmin)}
                 layout={PrivateLayout} />
             <PrivateRoute
@@ -170,7 +170,7 @@ const Routing = () => {
             <PrivateRoute
                 exact
                 path="/classroom"
-                component={AllAdmission(
+                component={TeacherAndSchoolAdmin(
                     role === "SCHOOL_ADMIN"
                         ? SchoolAdminCourses
                         : Classrooms)}
@@ -178,7 +178,7 @@ const Routing = () => {
             <PrivateRoute
                 exact
                 path="/classroom/:id"
-                component={AllAdmission(
+                component={TeacherAndSchoolAdmin(
                     role === "TEACHER"
                         ? LessonPerformance
                         : role === "SCHOOL_ADMIN"

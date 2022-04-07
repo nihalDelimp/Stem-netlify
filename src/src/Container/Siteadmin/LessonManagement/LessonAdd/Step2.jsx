@@ -14,11 +14,20 @@ const Step2 = (props) => {
     const [thirddoc, setThirdDoc] = useState([])
     const [fourthdoc, setFourthDoc] = useState([])
 
+    const video_file_types = ["mp4", "MP4"]
+    const text_file_types = ["jpeg", "png", "jpg", "pdf"]
+
+    const getFileExtention = docURL => {
+        const ext = docURL.split(".").pop()
+        return ext
+    }
+
     const setImageDocURL = (course_documents) => {
+        var VD_file_types = ["mp4", "MP4"]
         const videodocs1 = []
         const textdocs1 = []
         course_documents.map((item, index) => {
-            if (item.file_type == "mp4") {
+            if (VD_file_types.includes(item.file_type)) {
                 if (videodocs1.length == 0) {
                     setFirstDoc(item)
                     videodocs1.push(item)
@@ -36,7 +45,8 @@ const Step2 = (props) => {
                     setFourthDoc(item)
                 }
             }
-        })}
+        })
+    }
 
 
     useEffect(() => {
@@ -54,9 +64,11 @@ const Step2 = (props) => {
         setFourthDoc([])
     }
 
-    const handlerFileChange = async (filedata, id) => {
-        if (filedata.type == "text/plain") {
-            window.alert("File type not supported..!")
+
+
+    const videoFileChange = async (filedata, id) => {
+        if(!video_file_types.includes(getFileExtention(filedata.name))){
+            toast.error("Video file type not supported")
         }
         else {
             var formData = new FormData();
@@ -70,13 +82,39 @@ const Step2 = (props) => {
                         getCourseData();
                     },
                     error => {
-                        toast.error(error.message)
+                        toast.error(error.response.data.message)
                         setLoading(false)
                     }
                 )
                 .catch(
-                    error => console.log(error) )
-        }}
+                    error => console.log(error))
+        }
+    }
+
+    const textFileChange = async (filedata, id) => {
+        if(!text_file_types.includes(getFileExtention(filedata.name))){
+            toast.error("Text file type not supported")
+        }
+        else {
+            var formData = new FormData();
+            formData.append('file_details', filedata);
+            setLoading(true)
+            await dispatch(updatevideodocs(formData, id))
+                .then(
+                    response => {
+                        toast.success(response.message)
+                        setLoading(false)
+                        getCourseData();
+                    },
+                    error => {
+                        toast.error(error.response.data.message)
+                        setLoading(false)
+                    }
+                )
+                .catch(
+                    error => console.log(error))
+        }
+}
 
     return (
         <div className="upload-video-text">
@@ -97,7 +135,7 @@ const Step2 = (props) => {
                                         clearStoreFile()
                                     } else {
                                         firstdoc.id ?
-                                            handlerFileChange(e.target.files[0], firstdoc.id)
+                                            videoFileChange(e.target.files[0], firstdoc.id)
                                             :
                                             setFirstDoc(e.target.files[0])
                                         dispatch({ type: "SAVE_ADDED_FIRST_DOC", payload: e.target.files[0] })
@@ -126,7 +164,7 @@ const Step2 = (props) => {
                                         clearStoreFile()
                                     } else {
                                         seconddoc.id ?
-                                            handlerFileChange(e.target.files[0], seconddoc.id)
+                                            videoFileChange(e.target.files[0], seconddoc.id)
                                             :
                                             setSecondDoc(e.target.files[0])
                                         dispatch({ type: "SAVE_ADDED_SECOND_DOC", payload: e.target.files[0] })
@@ -155,16 +193,11 @@ const Step2 = (props) => {
                                         clearStoreFile();
                                     } else {
                                         if (thirddoc.id) {
-                                            handlerFileChange(e.target.files[0], thirddoc.id)
+                                            textFileChange(e.target.files[0], thirddoc.id)
                                         }
                                         else {
-                                            if (e.target.files[0].type === "text/plain") {
-                                                window.alert("File type not supported..!")
-                                            }
-                                            else {
-                                                setThirdDoc(e.target.files[0])
-                                                dispatch({ type: "SAVE_ADDED_THIRD_DOC", payload: e.target.files[0] })
-                                            }
+                                            setThirdDoc(e.target.files[0])
+                                            dispatch({ type: "SAVE_ADDED_THIRD_DOC", payload: e.target.files[0] })
                                         }
                                     }
                                 }}
@@ -191,16 +224,11 @@ const Step2 = (props) => {
                                         clearStoreFile();
                                     } else {
                                         if (fourthdoc.id) {
-                                            handlerFileChange(e.target.files[0], fourthdoc.id)
+                                            textFileChange(e.target.files[0], fourthdoc.id)
                                         }
                                         else {
-                                            if (e.target.files[0].type === "text/plain") {
-                                                window.alert("File type not supported..!")
-                                            }
-                                            else {
-                                                setFourthDoc(e.target.files[0])
-                                                dispatch({ type: "SAVE_ADDED_FOURTH_DOC", payload: e.target.files[0] })
-                                            }
+                                            setFourthDoc(e.target.files[0])
+                                            dispatch({ type: "SAVE_ADDED_FOURTH_DOC", payload: e.target.files[0] })
                                         }
                                     }
                                 }}

@@ -13,7 +13,7 @@ import {
 import { toast } from 'react-toastify'
 import IsLoadingHOC from '../IsLoadingHOC'
 import { closeModal } from '../../Redux/action/App'
-import {useLocation} from 'react-router'
+import { useLocation } from 'react-router'
 
 
 const AddConversion = (props) => {
@@ -29,19 +29,26 @@ const AddConversion = (props) => {
     const dispatch = useDispatch()
     const location = useLocation()
     const state = useSelector(state => state)
-    const { week, classCode, course_code , id } = location.state ?  location.state : {} ;
+    const { week, classCode, course_code, id } = location.state ? location.state : {};
     const { coursedetails } = useSelector(state => state.course)
     const { courseId } = coursedetails ? coursedetails : {}
+
+    const img_file_types = ["jpeg", "png", "jpg"]
+
+    const getFileExtention = docURL => {
+        const ext = docURL.split(".").pop()
+        return ext
+    }
 
 
     useEffect(() => {
         lesson_conversation_list();
         getLessonConversationImageUrl();
-        if(!location.state){
-            dispatch( closeModal( {
+        if (!location.state) {
+            dispatch(closeModal({
                 isModalOpen: false,
-            } ) )
-         }
+            }))
+        }
     }, [])
 
 
@@ -155,57 +162,69 @@ const AddConversion = (props) => {
         })
     }
 
-    const updateImage = async () =>{
-        if(fileUrl){
-        setLoading(true)
-        var formData = new FormData();
-        formData.append('question_index', state.app.current.questionIndex);
-        formData.append('course_id', id || courseId);
-        formData.append('week_number', week);
-        formData.append('file_details', fileUrl);
-        await dispatch(updateLessonConversationImage(slidefileID ,formData))
-            .then(
-                response => {
-                    setLoading(false)
-                    toast.success(response.message)
-                    props.onClick()
-                    
-                },
-                error => {
-                    setLoading(false)
-                    toast.error(error.response.data.message)
-                }
-            )
-            .catch(err => console.log(err))
+    const updateImage = async () => {
+        if (fileUrl) {
+            if (!img_file_types.includes(getFileExtention(fileUrl.name))) {
+                toast.error("File type not supported.")
+            }
+            else{
+            setLoading(true)
+            var formData = new FormData();
+            formData.append('question_index', state.app.current.questionIndex);
+            formData.append('course_id', id || courseId);
+            formData.append('week_number', week);
+            formData.append('file_details', fileUrl);
+            await dispatch(updateLessonConversationImage(slidefileID, formData))
+                .then(
+                    response => {
+                        setLoading(false)
+                        toast.success(response.message)
+                        props.onClick()
+                    },
+                    error => {
+                        setLoading(false)
+                        toast.error(error.response.data.message)
+                    }
+                )
+                .catch(err => console.log(err))
+            }
         }
-        else{
+        else {
             props.onClick()
-
         }
 
     }
 
-    const createImage = async () =>{
-        setLoading(true)
-        var formData = new FormData();
-        formData.append('question_index', state.app.current.questionIndex);
-        formData.append('course_id', id || courseId);
-        formData.append('week_number', week);
-        formData.append('file_details', fileUrl);
-        await dispatch(createLessonConversationImage(formData))
-            .then(
-                response => {
-                    setLoading(false)
-                    toast.success(response.message)
-                    props.onClick()
-                },
-                error => {
-                    setLoading(false)
-                    toast.error(error.response.data.message)
-                }
-            )
-            .catch(err => console.log(err))
-        
+    const createImage = async () => {
+        if (fileUrl) {
+            if (!img_file_types.includes(getFileExtention(fileUrl.name))) {
+                toast.error("File type not supported.")
+            }
+            else {
+                setLoading(true)
+                var formData = new FormData();
+                formData.append('question_index', state.app.current.questionIndex);
+                formData.append('course_id', id || courseId);
+                formData.append('week_number', week);
+                formData.append('file_details', fileUrl);
+                await dispatch(createLessonConversationImage(formData))
+                    .then(
+                        response => {
+                            setLoading(false)
+                            toast.success(response.message)
+                            props.onClick()
+                        },
+                        error => {
+                            setLoading(false)
+                            toast.error(error.response.data.message)
+                        }
+                    )
+                    .catch(err => console.log(err))
+            }
+        }
+        else {
+            toast.error("File is not found..!")
+        }
     }
 
 
@@ -236,7 +255,7 @@ const AddConversion = (props) => {
                                                                 <path fill="#3e3e3e"
                                                                     d="M15.728 9.686l-1.414-1.414L5 17.586V19h1.414l9.314-9.314zm1.414-1.414l1.414-1.414-1.414-1.414-1.414 1.414 1.414 1.414zM7.242 21H3v-4.243L16.435 3.322a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414L7.243 21z"
 
-                                                                /> 
+                                                                />
                                                             </svg>
                                                         </button>
 
@@ -275,9 +294,9 @@ const AddConversion = (props) => {
                         <div className="conversion--background">
                             <div className="conversion--background--inner">
                                 <form className="file--upload"
-                                   style={bg ? { backgroundImage: `url(${process.env.REACT_APP_LESSONSURL}/${bg})`, border: "none" } : null ||
+                                    style={bg ? { backgroundImage: `url(${process.env.REACT_APP_LESSONSURL}/${bg})`, border: "none" } : null ||
                                         upbg ? { backgroundImage: `url(${upbg})`, border: "none" } : null
-                                }
+                                    }
                                 >
                                     <input
                                         type="file"
@@ -288,7 +307,7 @@ const AddConversion = (props) => {
                                             } else {
                                                 setBg('')
                                                 setUpBg(URL.createObjectURL(e.target.files[0]));
-                                                setFileUrl(e.target.files[0]) 
+                                                setFileUrl(e.target.files[0])
                                             }
                                         }}
                                     />
@@ -300,7 +319,7 @@ const AddConversion = (props) => {
                                             </span>
                                         </div>
                                     )
-                                :null}
+                                        : null}
                                 </form>
                             </div>
                         </div>
@@ -309,18 +328,18 @@ const AddConversion = (props) => {
             </div>
             <div className="proceed-btn-container">
                 <div className="proceed-btn-group">
-                   { slidefileID ? (<button  style={{  opacity:  lessonConversation.length == 0 && "0.5" }} className="btn-common btn-proceed" onClick={() => {
-                       lessonConversation.length == 0 ?
-                       toast.error("Please add any  conversation") :
-                       updateImage()
-                    }}>Proceed</button>) :
-                    (<button style={{  opacity:  lessonConversation.length == 0 && "0.5" }} className="btn-common btn-proceed" onClick={() => {
+                    {slidefileID ? (<button style={{ opacity: lessonConversation.length == 0 && "0.5" }} className="btn-common btn-proceed" onClick={() => {
                         lessonConversation.length == 0 ?
-                       toast.error("Please add any conversation") :
-                        createImage()
-                    }}>Proceed</button>)
+                            toast.error("Please add any  conversation") :
+                            updateImage()
+                    }}>Proceed</button>) :
+                        (<button style={{ opacity: lessonConversation.length == 0 && "0.5" }} className="btn-common btn-proceed" onClick={() => {
+                            lessonConversation.length == 0 ?
+                                toast.error("Please add any conversation") :
+                                createImage()
+                        }}>Proceed</button>)
 
-                }
+                    }
                     <button
                         className="btn-common btn-cancel"
                         onClick={() => {
