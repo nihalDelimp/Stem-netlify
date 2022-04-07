@@ -24,6 +24,15 @@ const LessonAdd = (props) => {
     const { app, course } = useSelector(state => state)
     const { firstDocs, secondDocs, thirdDocs, fourthDocs } = course ? course : {}
 
+
+    const video_file_types = ["mp4", "MP4"]
+    const text_file_types = ["jpeg", "png", "jpg" , "pdf"]
+    
+    const getFileExtention = docURL => {
+        const ext = docURL.split(".").pop()
+        return ext
+    }
+
     const submitHandler = async () => {
         if (course_documents && course_documents.length > 0) {
             setLoading(true)
@@ -35,31 +44,46 @@ const LessonAdd = (props) => {
         }
         else {
             if (firstDocs && secondDocs && thirdDocs && fourthDocs) {
-                setLoading(true)
-                var formData = new FormData();
-                formData.append('file_details', firstDocs);
-                formData.append('file_details', secondDocs);
-                formData.append('file_details', thirdDocs);
-                formData.append('file_details', fourthDocs);
-                formData.append('course_code', course_code);
-                formData.append('week_number', week);
-                await dispatch(createCourseDocs(formData))
-                    .then(
-                        response => {
-
-                            toast.success(response.message)
-                            history.push(`/courses/${course_code}`)
-                            setLoading(false)
-                        },
-                        error => {
-                            toast.error(error.response.data.message)
-                            setLoading(false)
-                        }
-                    )
-                    .catch(
-                        error => console.log(error)
-                    )
-            } else {
+               
+                if(!video_file_types.includes(getFileExtention(firstDocs.name))){
+                    toast.error("First video file not supported")
+                }
+                else if (!video_file_types.includes(getFileExtention(secondDocs.name))){
+                    toast.error("Second video file not supported")
+                }
+                else if (!text_file_types.includes(getFileExtention(thirdDocs.name))){
+                    toast.error("First text file not supported")
+                }
+                else if (!text_file_types.includes(getFileExtention(fourthDocs.name))){
+                    toast.error("Second text file not supported")
+                }
+                else{
+                    setLoading(true)
+                    var formData = new FormData();
+                    formData.append('file_details', firstDocs);
+                    formData.append('file_details', secondDocs);
+                    formData.append('file_details', thirdDocs);
+                    formData.append('file_details', fourthDocs);
+                    formData.append('course_code', course_code);
+                    formData.append('week_number', week);
+                    await dispatch(createCourseDocs(formData))
+                        .then(
+                            response => {
+                                toast.success(response.message)
+                                history.push(`/courses/${course_code}`)
+                                setLoading(false)
+                            },
+                            error => {
+                                toast.error(error.response.data.message)
+                                setLoading(false)
+                            }
+                        )
+                        .catch(
+                            error => console.log(error)
+                        )
+                }
+            }
+             else {
                 toast.error("Please upload all file documents")
             }
         }

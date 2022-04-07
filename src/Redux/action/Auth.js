@@ -45,13 +45,13 @@ export const signup = data => async _dispatch => {
 
 export const forgotPassword = data => async _dispatch => {
     return new Promise( async ( resolve, reject ) => {
-        await withoutAuthAxios().post( "url", data )
+        await withoutAuthAxios().post( "/auth/forgot-password", data )
             .then(
                 response => {
                     resolve( response.data )
                 },
                 error => {
-                    reject( error.response )
+                    reject(error.response)
                 }
             )
             .catch(

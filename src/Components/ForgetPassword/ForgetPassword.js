@@ -33,12 +33,12 @@ const ForgetPassword = ( props ) => {
                                 response => {
                                     setSubmitting( false );
                                         toast.success( response.message )
-                                        history.push( "/change-password")
+                                        history.push( "/login")
                                         setLoading( false )
                                 },
-                                erroe => {
-                                    toast.error( erroe.response.data.message );
-                                    setSubmitting( false );
+                                error => {
+                                    toast.error(error.data.message);
+                                    setSubmitting( false )
                                     setLoading( false )
                                 }
                             )
@@ -46,7 +46,7 @@ const ForgetPassword = ( props ) => {
                                 error => {
                                 console.log( error )
                                 setLoading( false )
-                                history.push( "/change-password")
+                              
                                 }
                             )
                         }
