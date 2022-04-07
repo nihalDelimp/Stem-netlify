@@ -129,25 +129,18 @@ const QuizVideo = (props) => {
 
                                 {
                                     DOC_file_types.includes(getFileExtention(documentData[index].file_details)) &&
-                                        (
-                                            <div
-                                                style={{
-                                                    width: "100%",
-                                                    height: "100%",
-                                                    textAlign: "center"
-                                                }} >
-                                                <ifram
-                                                    width="100%"
-                                                    height="100%"
-                                                    title="file"
-                                                    frameBorder="0"
-                                                    loading='eager'
-                                                    allow="accelerometer clipboard-write encrypted-media gyroscope  picture-in-picture full"
-                                                    sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation"
-                                                    src={`https://docs.google.com/gview?url=${process.env.REACT_APP_COURSEURL_MD}/${documentData[index].file_details}&embedded=true`}
-                                                />
-                                            </div>
-                                        ) 
+                                     
+                                    <div style={{
+                                        width: "95%",
+                                        height: "100%",
+                                        textAlign: "center"
+                                    }} >
+                                        <FileViewer
+                                            fileType="pdf"
+                                            filePath={`${process.env.REACT_APP_COURSEURL_MD}/${documentData[index].file_details}`}
+                                            onError={onError}
+                                        />
+                                    </div>
                                         
                                 }
 

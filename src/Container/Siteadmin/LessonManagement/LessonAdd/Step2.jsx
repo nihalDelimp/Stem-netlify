@@ -68,7 +68,7 @@ const Step2 = (props) => {
 
     const videoFileChange = async (filedata, id) => {
         if(!video_file_types.includes(getFileExtention(filedata.name))){
-            toast.error("Video file type not supported")
+            toast.error("This file is not supported for this field")
         }
         else {
             var formData = new FormData();
@@ -93,7 +93,7 @@ const Step2 = (props) => {
 
     const textFileChange = async (filedata, id) => {
         if(!text_file_types.includes(getFileExtention(filedata.name))){
-            toast.error("Text file type not supported")
+            toast.error("This file is not supported for this field")
         }
         else {
             var formData = new FormData();

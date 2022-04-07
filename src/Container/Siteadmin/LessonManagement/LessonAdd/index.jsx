@@ -46,16 +46,16 @@ const LessonAdd = (props) => {
             if (firstDocs && secondDocs && thirdDocs && fourthDocs) {
                
                 if(!video_file_types.includes(getFileExtention(firstDocs.name))){
-                    toast.error("First video file not supported")
+                    toast.error("First field file not supported")
                 }
                 else if (!video_file_types.includes(getFileExtention(secondDocs.name))){
-                    toast.error("Second video file not supported")
+                    toast.error("Second field file not supported")
                 }
                 else if (!text_file_types.includes(getFileExtention(thirdDocs.name))){
-                    toast.error("First text file not supported")
+                    toast.error("First text field file not supported")
                 }
                 else if (!text_file_types.includes(getFileExtention(fourthDocs.name))){
-                    toast.error("Second text file not supported")
+                    toast.error("Second text field file not supported")
                 }
                 else{
                     setLoading(true)
