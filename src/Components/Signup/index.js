@@ -19,13 +19,6 @@ const Signup = ( props ) => {
     const token = useSelector( state => state.auth.token )
 
 
-    useEffect(() => {
-        if(token){
-            history.push("/")
-        }
-    
-    }) 
-
     const formik = useFormik( {
         initialValues: {
             class_code: "",
