@@ -3,22 +3,21 @@ import { connect, useDispatch } from "react-redux"
 import { getModuleData } from '../../Redux/action/App'
 import { getAllQuizQuestion, quizOptionSubmitted } from '../../Redux/action/Student'
 import IsLoadingHOC from '../IsLoadingHOC'
+import IsloggedinHOC from '../IsLoggedinHOC'
+
 
 
 const Quiz = (props) => {
-
     const { getModuleData, current, data, setLoading } = props;
     const { currentStepIndex, totalStepIndex, weekNumber, courseId, moduleId } = current;
     const { quizQuestion } = data
-
     const dispatch = useDispatch();
-
     const [quizData, setQuizData] = useState([]);
+
 
     useEffect(() => {
         getQuizData()
     }, [])
-
 
 
     const submitHandler = (option_id, question_id) => {
@@ -123,4 +122,4 @@ const mapStateToProps = state => {
     return { current, data };
 }
 
-export default connect(mapStateToProps, { getModuleData })(IsLoadingHOC(Quiz))
+export default connect(mapStateToProps, { getModuleData })(IsLoadingHOC(IsloggedinHOC(Quiz)));

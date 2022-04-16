@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { getModuleData } from '../../Redux/action/App'
 import { lastWeekSummaryAction } from "../../Redux/action/Student"
 import IsLoadingHOC from '../IsLoadingHOC'
+import IsloggedinHOC from '../IsLoggedinHOC'
 import NumberFormat from 'react-number-format';
 
 const Leaderboard = (props) => {
@@ -71,4 +72,4 @@ const Leaderboard = (props) => {
     )
 }
 
-export default IsLoadingHOC(Leaderboard)
+export default IsLoadingHOC(IsloggedinHOC(Leaderboard));

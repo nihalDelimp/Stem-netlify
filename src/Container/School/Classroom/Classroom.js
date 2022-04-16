@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-
 import { Link } from 'react-router-dom'
 import IsLoadingHOC from '../../../Components/IsLoadingHOC'
+import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
 import { getClassroomList } from '../../../Redux/action/SchoolAdmin'
 import CreateRoom from './Create'
 import DeleteClassroom from "./Delete";
+
+
 const CreateNewClassroom = (props) => {
     const { setLoading } = props
     const [currentTab, setCurrentTab] = useState(1)
@@ -13,7 +15,6 @@ const CreateNewClassroom = (props) => {
     const [classrooms, setClassrooms] = useState([])
     const [deleteData, setDeleteData] = useState({})
     const [deletePopUp, setDeletePopUp] = useState(false)
-
 
 
     const ClassromTab = (index) => {
@@ -206,4 +207,4 @@ const CreateNewClassroom = (props) => {
     )
 }
 
-export default IsLoadingHOC(CreateNewClassroom);
+export default IsLoadingHOC(IsloggedinHOC(CreateNewClassroom));

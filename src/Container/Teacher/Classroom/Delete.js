@@ -2,13 +2,13 @@ import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 import IsLoadingHOC from "../../../Components/IsLoadingHOC"
+import IsloggedinHOC from "../../../Components/IsLoggedinHOC"
 import { deleteSiteAdminClassroom } from "../../../Redux/action/SiteAdmin"
 import { deleteTeacherClassroom } from "../../../Redux/action/Teacher"
 
 
 const DeleteClassroom = ( props ) => {
     const { user_type } = useSelector( state => state.auth.user )
-
     const { setLoading, deleteData, getClassroom } = props
     const { classCode, id } = deleteData
     const { setDeletePopUp } = props
@@ -71,4 +71,4 @@ const DeleteClassroom = ( props ) => {
     )
 }
 
-export default IsLoadingHOC( DeleteClassroom )
+export default IsLoadingHOC(IsloggedinHOC(DeleteClassroom));

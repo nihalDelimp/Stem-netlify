@@ -3,6 +3,7 @@ import { Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../../Components/IsLoadingHOC";
+import IsloggedinHOC from "../../../Components/IsLoggedinHOC";
 import { updateSchoolAction, getSchoolDetailAction } from '../../../Redux/action/SiteAdmin'
 
 const EditSchool = (props) => {
@@ -125,4 +126,4 @@ const EditSchool = (props) => {
         </div >
     )
 }
-export default IsLoadingHOC(EditSchool)
+export default IsLoadingHOC(IsloggedinHOC(EditSchool));

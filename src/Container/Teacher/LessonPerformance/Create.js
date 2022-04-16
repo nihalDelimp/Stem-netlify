@@ -3,6 +3,7 @@ import { Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../../Components/IsLoadingHOC";
+import IsloggedinHOC from '../../../Components/IsLoggedinHOC';
 import { createStudent } from "../../../Redux/action/Teacher";
 import {useParams } from 'react-router-dom'
 import { getClassroomStudents } from '../../../Redux/action/Teacher'
@@ -153,4 +154,4 @@ const CreateStudent = (props) => {
     )
 }
 
-export default IsLoadingHOC(CreateStudent)
+export default IsLoadingHOC(IsloggedinHOC(CreateStudent));

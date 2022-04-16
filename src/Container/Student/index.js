@@ -7,14 +7,12 @@ import IsLoadingHOC from '../../Components/IsLoadingHOC'
 import Modal from '../../Components/Modal'
 import { getModuleData } from '../../Redux/action/App'
 import { getAllLesson, getCharacters, getIntro } from '../../Redux/action/Student'
-import { useJwt } from "react-jwt";
 import { IsloggedinHOC } from '../../Components/IsLoggedinHOC'
 import PopupModel from './popupModel'
 import lock_icon from "../../assets/images/lock_icon2.png"
 
 
 const Dashboard = (props) => {
-
     const { getModuleData, name, setLoading } = props
     const modal = useSelector(state => state.app)
     const role = useSelector(state => state.auth.user.user_type)

@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { Link, useHistory, useParams ,useLocation } from 'react-router-dom'
+import { Link, useParams ,useLocation } from 'react-router-dom'
 import ArrowDownImg from "../../../assets/images/arrow_down.svg"
 import StudentsList from './Students'
 import LessonList from "./Lesson";
 import IsLoadingHOC from '../../../Components/IsLoadingHOC'
+import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
 import ClassRoomCode from '../../../Components/ClassRoomCode'
 
 
-const LessonAndStudent = (props) => {
-    const { setLoading } = props
-    const dispatch = useDispatch()
-    const history = useHistory();
+const LessonAndStudent = () => {
     const location = useLocation()
     const params = useParams()
     const [isActive, setIsActive] = useState(false)
     const [dropdownState, setdropdownState] = useState(1);
     const [isOpen, setIsOpen] = useState(false)
-    const [createPopUp, setCreatePopUp] = useState(false)
-
     const {user_id , classroom} = location.state ? location.state : {}
 
   
@@ -116,4 +111,4 @@ const LessonAndStudent = (props) => {
     )
 }
 
-export default IsLoadingHOC(LessonAndStudent);
+export default IsLoadingHOC(IsloggedinHOC(LessonAndStudent));

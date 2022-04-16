@@ -4,6 +4,8 @@ import { closeModal, getModuleData } from '../../Redux/action/App'
 import { useHistory } from "react-router"
 import { getAllLessonConversation, quizGameOptionSubmitted, getStudentUpdatedScore } from '../../Redux/action/Student'
 import IsLoadingHOC from '../IsLoadingHOC'
+import IsloggedinHOC from '../IsLoggedinHOC'
+
 
 const LessonGames = (props) => {
     const {
@@ -28,7 +30,6 @@ const LessonGames = (props) => {
         moduleId,
     } = current
     const { lessonSlide, lessonConvOption, LessonQuestionDetail } = data
-
 
     // const [IsOptionOpen, setIsOptionOpen] = useState( false )
     const [IsLessonOver, setIsLessonOver] = useState("")
@@ -236,6 +237,6 @@ const mapStateToProps = state => {
     return { current, data }
 }
 
-export default connect(mapStateToProps, { getModuleData, closeModal })(IsLoadingHOC(LessonGames))
+export default connect(mapStateToProps, { getModuleData, closeModal })(IsLoadingHOC(IsloggedinHOC(LessonGames)))
 
 

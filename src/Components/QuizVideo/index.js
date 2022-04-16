@@ -4,6 +4,8 @@ import { getModuleData } from '../../Redux/action/App'
 import { getLessonDocument } from '../../Redux/action/Student'
 import FileViewer from 'react-file-viewer';
 import IsLoadingHOC from '../IsLoadingHOC'
+import IsloggedinHOC from '../IsLoggedinHOC'
+
 
 const QuizVideo = (props) => {
 
@@ -17,7 +19,6 @@ const QuizVideo = (props) => {
     const VD_file_types = ["mp4", "MP4"]
     const IMG_file_types = ["jpeg", "png", "jpg"]
     const DOC_file_types = ["pdf"]
-
 
     const handlerContinue = () => {
         if (currentStepIndex < documentData.length - 1) {
@@ -129,11 +130,10 @@ const QuizVideo = (props) => {
 
                                 {
                                     DOC_file_types.includes(getFileExtention(documentData[index].file_details)) &&
-                                     
                                     <div style={{
                                         width: "95%",
                                         height: "100%",
-                                        textAlign: "center"
+                                        textAlign: "center",
                                     }} >
                                         <FileViewer
                                             fileType="pdf"
@@ -141,23 +141,28 @@ const QuizVideo = (props) => {
                                             onError={onError}
                                         />
                                     </div>
+                                    
+                                    // (
+                                        //     <div
+                                        //         style={{
+                                        //             width: "100%",
+                                        //             height: "100%",
+                                        //             textAlign: "center"
+                                        //         }} >
+                                        //         <iframe
+                                        //             width="100%"
+                                        //             height="100%"
+                                        //             title="file"
+                                        //             frameBorder="0"
+                                        //             loading='eager'
+                                        //             allow="accelerometer clipboard-write encrypted-media gyroscope  picture-in-picture full"
+                                        //             sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation"
+                                        //             src={`https://docs.google.com/gview?url=${process.env.REACT_APP_COURSEURL_MD}/${documentData[index].file_details}&embedded=true`}
+                                        //         />
+                                        //     </div>
+                                        // ) 
                                         
                                 }
-
-                                {/* {
-                                    getFileExtention(documentData[index].file_details) == "pdf" &&
-                                        ( 
-                                            <div style={{
-                                                width : "250px",
-                                                height : "200px"
-                                                 }} >
-                                            <FileViewer
-                                                fileType="pdf"
-                                                filePath={`${process.env.REACT_APP_COURSEURL_MD}/${documentData[index].file_details}`}
-                                                onError={onError} />
-                                                </div>
-                                        )  
-                                } */}
                             </Fragment>
                         ))
                     )) :
@@ -185,4 +190,4 @@ const QuizVideo = (props) => {
     )
 }
 
-export default connect(null, { getModuleData })(IsLoadingHOC(QuizVideo))
+export default connect(null, { getModuleData })(IsLoadingHOC(IsloggedinHOC(QuizVideo)));

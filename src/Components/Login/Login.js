@@ -17,6 +17,13 @@ const Login = ( props ) => {
     const token = useSelector( state => state.auth.token )
 
 
+// useEffect(() => {
+//     if(token){
+//         history.push("/")
+//     }
+
+// })
+
     return (
         <div className="card card--form">
             <div className="card--body">

@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import { closeModal } from '../../Redux/action/App'
 import { createGameQuestions, getGameQuestionsDetails, updateGameQuizQuestions } from '../../Redux/action/coursePlatform'
 import IsLoadingHOC from '../IsLoadingHOC'
+import IsloggedinHOC from '../IsLoggedinHOC'
 import { useLocation } from 'react-router'
 
 const GameQuestion = (props) => {
@@ -252,4 +253,4 @@ const GameQuestion = (props) => {
     )
 }
 
-export default IsLoadingHOC(GameQuestion)
+export default IsLoadingHOC(IsloggedinHOC(GameQuestion));

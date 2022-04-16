@@ -5,8 +5,12 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { sendinvite } from '../../../Redux/action/SchoolAdmin'
+import IsLoadingHOC from '../../../Components/IsLoadingHOC'
+import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
 
-const AddTeacher = () => {
+
+const AddTeacher = (props) => {
+    const { setLoading } = props;
     const [displayName, setDisplsayName] = useState("");
     const [contactEmail, setContactEmail] = useState("");
     const [userType, setUserType] = useState("");
@@ -29,6 +33,7 @@ const AddTeacher = () => {
             toast.error("Contact email address invalid")
         }
         else {
+            setLoading(true)
             await dispatch(sendinvite({
                 email: contactEmail,
                 name: displayName,
@@ -38,10 +43,12 @@ const AddTeacher = () => {
             ))
                 .then(
                     response => {
+                        setLoading(false)
                         toast.success("Mail sent successfully")
                         history.push('/')
                     },
                     error => {
+                        setLoading(false)
                         toast.error(error.response.data.message);
                     }
                 )
@@ -206,4 +213,4 @@ const AddTeacher = () => {
         </>
     )
 }
-export default AddTeacher;
+export default IsLoadingHOC(IsloggedinHOC(AddTeacher));

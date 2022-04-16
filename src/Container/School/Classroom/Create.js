@@ -3,6 +3,7 @@ import { useDispatch ,useSelector } from 'react-redux'
 import Select from 'react-select'
 import { createClassroom, getTeacherList } from '../../../Redux/action/SchoolAdmin'
 import IsLoadingHOC from '../../../Components/IsLoadingHOC'
+import IsloggedinHOC from '../../../Components/IsLoggedinHOC'
 import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 
@@ -189,4 +190,4 @@ const CreateRoom = ( props ) => {
     )
 }
 
-export default IsLoadingHOC( CreateRoom )
+export default IsLoadingHOC(IsloggedinHOC(CreateRoom));

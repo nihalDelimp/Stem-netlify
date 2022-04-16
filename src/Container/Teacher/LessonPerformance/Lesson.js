@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import IsLoadingHOC from "../../../Components/IsLoadingHOC";
+import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
 import {getPDClassroomLessons } from "../../../Redux/action/Teacher";
 import { toast } from "react-toastify";
 import UnlockPopUp from './unlockPopup';
@@ -102,4 +103,4 @@ const LessonList = (props) => {
     )
 }
 
-export default IsLoadingHOC(LessonList)
+export default IsLoadingHOC(IsloggedinHOC(LessonList))

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { closeModal } from '../../Redux/action/App'
 import { createQuizQuestions, getWeeklyQuestionDetails, updateQuizQuestions } from '../../Redux/action/coursePlatform'
-
+import IsloggedinHOC from '../IsLoggedinHOC'
 import IsLoadingHOC from '../IsLoadingHOC'
 import { useLocation } from 'react-router'
 
@@ -262,4 +262,4 @@ const AddQuizQuestions = (props) => {
         </div>
     )
 }
-export default IsLoadingHOC(AddQuizQuestions)
+export default IsLoadingHOC(IsloggedinHOC(AddQuizQuestions))

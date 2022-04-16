@@ -4,6 +4,7 @@ import { getModuleData } from '../../Redux/action/App'
 import { useHistory } from 'react-router'
 import { getStudentCharacter } from '../../Redux/action/Student'
 import IsLoadingHOC from '../IsLoadingHOC'
+import IsloggedinHOC from '../IsLoggedinHOC'
 
 const Intro = ( props ) => {
     const { getModuleData, characterDetail, data, current } = props;
@@ -80,4 +81,4 @@ const mapStateToProps = state => {
 export default connect( mapStateToProps, {
     getModuleData,
     getStudentCharacter
-} )( IsLoadingHOC( Intro ) )
+} )(IsLoadingHOC(IsloggedinHOC(Intro )))

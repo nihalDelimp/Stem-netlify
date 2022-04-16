@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { trimFileName } from '../../../../Helper'
 import { updatevideodocs } from '../../../../Redux/action/coursePlatform'
 import IsLoadingHOC from '../../../../Components/IsLoadingHOC'
+import IsloggedinHOC from '../../../../Components/IsLoggedinHOC'
 import { toast } from 'react-toastify'
 
 
@@ -248,4 +249,4 @@ const Step2 = (props) => {
     )
 }
 
-export default IsLoadingHOC(Step2)
+export default IsLoadingHOC(IsloggedinHOC(Step2));

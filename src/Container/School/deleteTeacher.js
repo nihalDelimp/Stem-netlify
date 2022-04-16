@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useDispatch} from "react-redux"
 import { toast } from "react-toastify"
 import IsLoadingHOC from "../../Components/IsLoadingHOC"
+import IsloggedinHOC from "../../Components/IsLoggedinHOC"
 import {  deleteTeacherAction } from '../../Redux/action/SchoolAdmin'
 
 
@@ -65,4 +66,4 @@ const DeleteTeacher = ( props ) => {
     )
 }
 
-export default IsLoadingHOC( DeleteTeacher )
+export default IsLoadingHOC(IsloggedinHOC(DeleteTeacher));

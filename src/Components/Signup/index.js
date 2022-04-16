@@ -10,14 +10,19 @@ import IsLoadingHOC from '../IsLoadingHOC'
 import { useSelector } from 'react-redux';
 
 
-
-
 const Signup = ( props ) => {
     const { signup, setLoading } = props;
     const history = useHistory()
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const token = useSelector( state => state.auth.token )
 
+
+    // useEffect(() => {
+    //     if(token){
+    //         history.push("/")
+    //     }
+    
+    // }) 
 
     const formik = useFormik( {
         initialValues: {

@@ -1,4 +1,5 @@
 import React from "react";
+import IsloggedinHOC from "../../Components/IsLoggedinHOC";
 
 
 const PopupModel = ( props ) => {
@@ -18,4 +19,4 @@ const PopupModel = ( props ) => {
     )
 }
 
-export default PopupModel 
+export default IsloggedinHOC(PopupModel); 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch ,useSelector } from 'react-redux'
 import { Link, useParams} from 'react-router-dom'
 import IsLoadingHOC from '../../../../Components/IsLoadingHOC';
+import { IsloggedinHOC } from '../../../../Components/IsLoggedinHOC'
 import { getAllCourseAvailable } from "../../../../Redux/action/coursePlatform";
 import DeleteLesson from './delete'
 
@@ -132,4 +133,4 @@ const LessonsListNew = (props) => {
     )
 }
 
-export default IsLoadingHOC(LessonsListNew)
+export default IsLoadingHOC(IsloggedinHOC(LessonsListNew));

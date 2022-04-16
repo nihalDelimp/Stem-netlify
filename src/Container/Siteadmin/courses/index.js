@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getCourseList } from "../../../Redux/action/coursePlatform";
 import IsLoadingHOC from '../../../Components/IsLoadingHOC';
+import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
 import CreateCourse from './Create';
 import DeleteCourse from './Delete';
 import EditCourse from './EditCourse';
@@ -163,4 +164,4 @@ const Courses = (props) => {
     )
 }
 
-export default IsLoadingHOC(Courses);
+export default IsLoadingHOC(IsloggedinHOC(Courses));

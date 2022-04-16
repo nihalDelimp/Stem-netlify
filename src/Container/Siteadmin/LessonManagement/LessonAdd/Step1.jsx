@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import IsLoadingHOC from '../../../../Components/IsLoadingHOC';
+import IsloggedinHOC from '../../../../Components/IsLoggedinHOC';
 
 const Step1 = (props) => {
 
@@ -160,4 +161,4 @@ const Step1 = (props) => {
     )
 }
 
-export default connect(null, { createWeeklyCourses, updateWeeklyCourses })(IsLoadingHOC(Step1))
+export default connect(null, { createWeeklyCourses, updateWeeklyCourses })(IsLoadingHOC(IsloggedinHOC(Step1)))

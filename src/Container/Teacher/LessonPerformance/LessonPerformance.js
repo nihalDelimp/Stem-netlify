@@ -10,6 +10,8 @@ import IsLoadingHOC from '../../../Components/IsLoadingHOC'
 import { toast } from 'react-toastify'
 import ClassRoomCode from '../../../Components/ClassRoomCode'
 import CreateStudent from './Create'
+import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
+
 
 
 
@@ -198,4 +200,4 @@ const LessonPerformance = (props) => {
     )
 }
 
-export default IsLoadingHOC(LessonPerformance);
+export default IsLoadingHOC(IsloggedinHOC(LessonPerformance));

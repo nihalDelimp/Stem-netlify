@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 import { useParams } from "react-router-dom"
 import IsLoadingHOC from "../../../Components/IsLoadingHOC"
+import IsloggedinHOC from "../../../Components/IsLoggedinHOC"
 import {  unlockedLesson } from '../../../Redux/action/Teacher'
 
 
@@ -69,4 +70,4 @@ const UnlockPopUp = ( props ) => {
     )
 }
 
-export default IsLoadingHOC( UnlockPopUp )
+export default IsLoadingHOC(IsloggedinHOC(UnlockPopUp));

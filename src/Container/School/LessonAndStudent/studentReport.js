@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentRankAction, studentReportDetails, weeklyRankAction } from "../../../Redux/action/SchoolAdmin";
 import IsLoadingHOC from '../../../Components/IsLoadingHOC';
+import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
 import { Link, useLocation, useParams, useHistory } from 'react-router-dom';
 import firstImage from "../../../assets/images/1.png"
 import secondImage from "../../../assets/images/2.png"
@@ -434,4 +435,4 @@ const StudentReport = (props) => {
     )
 }
 
-export default IsLoadingHOC(StudentReport);
+export default IsLoadingHOC(IsloggedinHOC(StudentReport));

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch ,useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../../Components/IsLoadingHOC";
+import IsloggedinHOC from '../../../Components/IsLoggedinHOC';
 import { getClassListAction ,assignCourseToClass } from "../../../Redux/action/SchoolAdmin";
 import { default as ReactSelect } from "react-select";
 
@@ -14,11 +15,7 @@ const AssignPopup = (props) => {
     const [options, setOptions] = useState([])
     const school_code = useSelector(state =>state.course.school_code)
 
-    const colourOptions = [
-        { value: "ocean1", label: "Ocean" },
-        { value: "blue", label: "Blue" },
-    ];
-
+   
    
     const getAllSchoolClass = async () => {
         setLoading(true)
@@ -137,4 +134,4 @@ const AssignPopup = (props) => {
         </div >
     )
 }
-export default IsLoadingHOC(AssignPopup)
+export default IsLoadingHOC(IsloggedinHOC(AssignPopup))

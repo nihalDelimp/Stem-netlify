@@ -9,6 +9,8 @@ import { useHistory ,useLocation } from 'react-router'
 import { createCourseDocs, getWeekLession } from '../../../../Redux/action/coursePlatform'
 import { toast } from 'react-toastify'
 import IsLoadingHOC from '../../../../Components/IsLoadingHOC'
+import { IsloggedinHOC } from '../../../../Components/IsLoggedinHOC'
+
 
 const LessonAdd = (props) => {
     const { setLoading } = props;
@@ -207,4 +209,4 @@ const LessonAdd = (props) => {
     )
 }
 
-export default IsLoadingHOC(LessonAdd)
+export default IsLoadingHOC(IsloggedinHOC(LessonAdd));

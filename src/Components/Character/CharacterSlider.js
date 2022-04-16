@@ -3,15 +3,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { connect, useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-
-
+import IsloggedinHOC from '../IsLoggedinHOC'
 
 
 const CharacterSlider = ( props ) => {
-
     const { characters, handleSelecte } = props
     const dispatch = useDispatch()
-
     const NextArrow = ( props ) => {
         const { className, onClick } = props;
         return (
@@ -84,4 +81,4 @@ const mapStateToProps = state => {
 }
 
 
-export default connect( mapStateToProps, {} )( CharacterSlider )
+export default connect( mapStateToProps, {} )(IsloggedinHOC(CharacterSlider))

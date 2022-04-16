@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux'
 import { Link, useParams, useLocation } from 'react-router-dom'
 import { getSchoolTeacherClassroom } from '../../../Redux/action/SchoolAdmin'
 import DeleteClassroom from '../Classroom/Delete'
+import IsLoadingHOC from '../../../Components/IsLoadingHOC'
+import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
 
 
 const SchoolTeacher = () => {
@@ -156,4 +158,4 @@ const SchoolTeacher = () => {
     )
 }
 
-export default SchoolTeacher
+export default IsLoadingHOC(IsloggedinHOC(SchoolTeacher));

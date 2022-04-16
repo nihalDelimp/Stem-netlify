@@ -4,6 +4,8 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { useHistory , useLocation , useParams } from 'react-router-dom'
 import {getSchoolAdminDetail } from '../../../Redux/action/SiteAdmin'
 import IsLoadingHOC from '../../../Components/IsLoadingHOC'
+import  IsloggedinHOC  from '../../../Components/IsLoggedinHOC'
+
 import { useDispatch } from 'react-redux'
 
 
@@ -114,4 +116,4 @@ const SchoolAdminDetails = (props) => {
         </>
     )
 }
-export default IsLoadingHOC(SchoolAdminDetails);
+export default IsLoadingHOC(IsloggedinHOC(SchoolAdminDetails));

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch ,useSelector } from 'react-redux';
 import { getCourseList } from "../../../Redux/action/SchoolAdmin";
 import IsLoadingHOC from '../../../Components/IsLoadingHOC';
+import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
 import AssignPopup from './AssignPopup';
 
 
@@ -130,4 +131,4 @@ const SchoolAdminCourses = (props) => {
     )
 }
 
-export default IsLoadingHOC(SchoolAdminCourses);
+export default IsLoadingHOC(IsloggedinHOC(SchoolAdminCourses));

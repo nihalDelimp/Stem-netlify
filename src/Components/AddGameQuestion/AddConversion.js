@@ -12,6 +12,7 @@ import {
 } from '../../Redux/action/coursePlatform'
 import { toast } from 'react-toastify'
 import IsLoadingHOC from '../IsLoadingHOC'
+import IsloggedinHOC from '../IsLoggedinHOC'
 import { closeModal } from '../../Redux/action/App'
 import { useLocation } from 'react-router'
 
@@ -354,4 +355,4 @@ const AddConversion = (props) => {
     )
 }
 
-export default connect(null)(IsLoadingHOC(AddConversion))
+export default connect(null)(IsLoadingHOC(IsloggedinHOC(AddConversion)))

@@ -3,6 +3,7 @@ import { Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../../Components/IsLoadingHOC";
+import IsloggedinHOC from "../../../Components/IsLoggedinHOC";
 import { updateSchoolAdminAction , getSchoolAdminDetail } from '../../../Redux/action/SiteAdmin'
 import { useParams } from "react-router-dom"
 
@@ -134,4 +135,4 @@ const UpdateSchoolAdmin = (props) => {
             </div >
         </div >
     )}
-export default IsLoadingHOC(UpdateSchoolAdmin)
+export default IsLoadingHOC(IsloggedinHOC(UpdateSchoolAdmin));

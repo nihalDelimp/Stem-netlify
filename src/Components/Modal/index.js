@@ -18,6 +18,7 @@ import LessonGames from "../LessonGames"
 import QuizVideo from "../QuizVideo"
 import { getStudentCharacter } from "../../Redux/action/Student"
 import IsLoadingHOC from "../IsLoadingHOC"
+import IsloggedinHOC from "../IsLoggedinHOC"
 import Leaderboard from "../Leaderboard"
 import NumberFormat from 'react-number-format';
 
@@ -336,4 +337,4 @@ export default connect(mapStateToProps, {
     closeModal,
     getModuleData,
     getStudentCharacter
-})(IsLoadingHOC(Modal))
+})(IsLoadingHOC(IsloggedinHOC(Modal)))

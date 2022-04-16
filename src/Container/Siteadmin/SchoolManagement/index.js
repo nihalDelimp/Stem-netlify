@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import { getSchoolListAction } from '../../../Redux/action/SiteAdmin'
 import IsLoadingHOC from '../../../Components/IsLoadingHOC'
+import { IsloggedinHOC } from '../../../Components/IsLoggedinHOC'
 import CreateSchool from './Create'
 import EditSchool from './EditSchool'
 import DeleteClassroom from './Delete'
@@ -151,4 +152,4 @@ const AllSchools = (props) => {
     )
 }
 
-export default IsLoadingHOC(AllSchools);
+export default IsLoadingHOC(IsloggedinHOC(AllSchools));

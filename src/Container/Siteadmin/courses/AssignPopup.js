@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../../Components/IsLoadingHOC";
+import IsloggedinHOC from '../../../Components/IsLoggedinHOC';
 import { getSchoolListAction } from "../../../Redux/action/SiteAdmin";
 import { getAssignedCourse, assignCourseToSchool } from "../../../Redux/action/coursePlatform";
 import { default as ReactSelect } from "react-select";
@@ -126,4 +127,4 @@ const AssignPopup = (props) => {
         </div >
     )
 }
-export default IsLoadingHOC(AssignPopup)
+export default IsLoadingHOC(IsloggedinHOC(AssignPopup));

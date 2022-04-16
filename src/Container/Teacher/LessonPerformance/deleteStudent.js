@@ -3,17 +3,18 @@ import { useDispatch, useSelector } from "react-redux"
 import { toast } from "react-toastify"
 import { useParams } from "react-router-dom"
 import IsLoadingHOC from "../../../Components/IsLoadingHOC"
+import IsloggedinHOC from "../../../Components/IsLoggedinHOC"
 import {  deleteClassroomStudent } from '../../../Redux/action/Teacher'
 
 
 const DeleteStudent = ( props ) => {
-
     const { setLoading, deleteData, getStudents } = props
     const { classCode, id } = deleteData
     const { setDeletePopUp } = props
     const [checked, setChecked] = useState( false )
     const dispatch = useDispatch()
     const params = useParams()
+    
     const handlerChecked = event => {
         if ( event.target.checked ) {
             setChecked( true )
@@ -71,4 +72,4 @@ const DeleteStudent = ( props ) => {
     )
 }
 
-export default IsLoadingHOC( DeleteStudent )
+export default IsLoadingHOC(IsloggedinHOC(DeleteStudent));
