@@ -10,7 +10,6 @@ export const IsloggedinHOC = ( WrappedComponent ) => {
         const dispatch = useDispatch();
         const token = useSelector( state => state.auth.token )
         const { isExpired } = useJwt( token );
-        console.log("isExpiredINHOC" ,isExpired )
         if ( isExpired ) {
           dispatch(LogOut());
             return (

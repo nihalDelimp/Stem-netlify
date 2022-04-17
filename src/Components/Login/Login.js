@@ -8,21 +8,24 @@ import { toast } from "react-toastify"
 import { Input } from '../Inputs';
 import IsLoadingHOC from '../IsLoadingHOC';
 import { useSelector } from 'react-redux';
+import { useJwt } from 'react-jwt';
 
 const Login = ( props ) => {
     const { login, setLoading } = props
     const history = useHistory()
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
     const token = useSelector( state => state.auth.token )
+    const { isExpired } =   useJwt( token );
 
 
-// useEffect(() => {
-//     if(token){
-//         history.push("/")
-//     }
 
-// })
+useEffect(() => {
+    if(token){
+        if(!isExpired){
+         history.push("/")
+        }
+    }
+},[])
 
     return (
         <div className="card card--form">
